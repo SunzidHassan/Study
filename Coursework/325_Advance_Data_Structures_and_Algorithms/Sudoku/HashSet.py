@@ -106,7 +106,7 @@ class HashSet:
     def __iter__(self):
         for i in range(len(self.items)):
             if(self.items[i] != None) and (type(self.item[i] != HashSet.__Placeholder)):
-                yield.self.items[i] # yield is like return, but it doesn't halt the for loop
+                yield self.items[i] # yield is like return, but it doesn't halt the for loop
 
     # HashSet A = {}
 
