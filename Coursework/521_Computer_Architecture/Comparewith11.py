@@ -4,11 +4,10 @@ from bcpu import *
 ifeqal11then = """
 #: inx = r1 # r1 for input
 #: outy = r2 # r2 for output
-#: var = r3 # r3 for var
 
 Set(outy, 0) # outy = 0
-Sub(r1, r1, var)
 # if inx == 11: # (if inx != 11 goto endif)
+Subi(r1, r1, 11)
 Addi(ar, pc, ?endif) # ar = address of endif
 Movex(pc, ar, inx) # if inx != 11, go to endif
     Set(outy, 1) # else, change outy to 1
@@ -19,7 +18,6 @@ Move(outy, outy) #print(outy)
 # testing
 print("\nRunning the program")
 setr(r1, 11) # input
-setr(r3, 11)
 start(ifeqal11then)
 printr(r2)
 
@@ -27,11 +25,10 @@ printr(r2)
 ifneqal11then = """
 #: inx = r1 # r1 for input
 #: outy = r2 # r2 for output
-#: var = r3 # r3 for var
 
 Set(outy, 0) # outy = 0
-Sub(r1, r1, var)
 # if inx != 11: # (if inx == 11 goto endif)
+Subi(r1, r1, 11)
 Addi(ar, pc, ?endif) # ar = address of endif
 Movez(pc, ar, inx) # if inx == 11, go to endif
     Set(outy, 1) # else, change outy to 1
@@ -42,7 +39,6 @@ Move(outy, outy) #print(outy)
 # testing
 print("\nRunning the program")
 setr(r1, 11) # input
-setr(r3, 11)
 start(ifneqal11then)
 printr(r2)
 
@@ -50,11 +46,10 @@ printr(r2)
 ifgt11then = """
 #: inx = r1 # r1 for input
 #: outy = r2 # r2 for output
-#: var = r3 # r3 for var
 
 Set(outy, 0) # outy = 0
-Sub(r1, r1, var)
 # if inx > 11: # (if inx <= 11 goto endif)
+Subi(r1, r1, 12)
 Addi(ar, pc, ?endif) # ar = address of endif
 Moven(pc, ar, inx) # if inx <= 11, go to endif
     Set(outy, 1) # else, change outy to 1
@@ -65,7 +60,6 @@ Move(outy, outy) #print(outy)
 # testing
 print("\nRunning the program")
 setr(r1, 11) # input
-setr(r3, 12)
 start(ifgt11then)
 printr(r2)
 
@@ -74,11 +68,10 @@ printr(r2)
 ifless11then = """
 #: inx = r1 # r1 for input
 #: outy = r2 # r2 for output
-#: var = r3 # r3 for var
 
 Set(outy, 0) # outy = 0
-Sub(r1, r1, var)
 # if inx < 11: # (if inx >= 11 goto endif)
+Subi(r1, r1, 11)
 Addi(ar, pc, ?endif) # ar = address of endif
 Movep(pc, ar, inx) # if inx >= 11, go to endif
     Set(outy, 1) # else, change outy to 1
@@ -89,7 +82,6 @@ Move(outy, outy) #print(outy)
 # testing
 print("\nRunning the program")
 setr(r1, 11) # input
-setr(r3, 11)
 start(ifless11then)
 printr(r2)
 
@@ -97,11 +89,10 @@ printr(r2)
 ifgeq11then = """
 #: inx = r1 # r1 for input
 #: outy = r2 # r2 for output
-#: var = r3 # r3 for var
 
 Set(outy, 0) # outy = 0
-Sub(r1, r1, var)
 # if inx >= 11: # (if inx < 11 goto endif)
+Subi(r1, r1, 11)
 Addi(ar, pc, ?endif) # ar = address of endif
 Moven(pc, ar, inx) # if inx < 11, go to endif
     Set(outy, 1) # else, change outy to 1
@@ -112,7 +103,6 @@ Move(outy, outy) #print(outy)
 # testing
 print("\nRunning the program")
 setr(r1, 10) # input
-setr(r3, 11)
 start(ifgeq11then)
 printr(r2)
 
@@ -120,11 +110,10 @@ printr(r2)
 ifleq11then = """
 #: inx = r1 # r1 for input
 #: outy = r2 # r2 for output
-#: var = r3 # r3 for var
 
 Set(outy, 0) # outy = 0
-Sub(r1, r1, var)
 # if inx <= 11: # (if inx > 11 goto endif)
+Subi(r1, r1, 12)
 Addi(ar, pc, ?endif) # ar = address of endif
 Movep(pc, ar, inx) # if inx > 11, go to endif
     Set(outy, 1) # else, change outy to 1
