@@ -124,7 +124,7 @@
 from multiprocessing import Manager, Pool
 from os import getpid, getppid
 
-_VER = '5.2.5'
+_VER = '5.3.0'
 
 # register address (reserved const)
 R0 = r0 = 0
@@ -145,7 +145,7 @@ R14 = r14 = 14
 PC = Pc = pc = 15  # program counter
 
 # Registers
-R_ = [-999 for _ in range(2 ** 4)] # ***sim unknown undefined value (Cannot assume be 0) ***
+R_ = [0 for _ in range(2 ** 4)] # ***sim unknown undefined value (Cannot assume be 0) ***
 R_[pc] = 0 # sim startup clear pc
 
 # Data storage
