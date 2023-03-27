@@ -1,138 +1,204 @@
 class HashSet:
-    def __init__(self, contents = []): # a = HashSet() - __init__ will be invoked
-        self.items = [None] * 10 # we'll start with list of arbitary 10 elements - it can be changed later based on load factor
-        self.numItems = 0 # initially 0, it'll increase as we add elements
+    """A class to represent a set abstract data type."""   
+    def __init__(self, contents=[]):
+        """
+        Constructs all the necessary attributes for the person object.
+        Takes a list as a parameter & sets up items and numItems instance variables.
+        """
+        self.items = [None] * 10
+        self.numItems = 0
 
+        # adds items form a given list to a items instance variable 
         for item in contents:
-            self.add(item)  # we'll define add function later - hashing, linear probing, rehashing... in modular parts
-
-
-    def __add(item, items): #helper/private function - this add function will be a private/intenral function - won't be used outside of the class
-        idx = hash(item) % len(items) # get a non-ridiculous hash > now we'll have to detect collision and do linear probing
-
-        loc = -1 # check for collision case, not a storage location
-
-        # in the while loop we'll update location by linear probing
-        while items[idx] != None: #initially it'll be None, if there is already data there we'll have to do linear probing
-            if items[idx] == item: #if it's duplicate, discard
-                return False
-            
-            if (loc < 0) and (type(items[idx]) == HashSet.__Placeholder):
-                loc = idx
-
-            idx = (idx + 1) % len(items) # continue the while loop
-        
-        if loc < 0:
-            loc = idx
-
-        items[loc] = item
-
-        return True
+            self.add(item)
     
-    # in order to keep constant time, we need to keep quarter of the list empty. if the length of list changes, the indeces will change, and we'll have to rehash the indices
-
-    def __rehash(oldList, newList): # we'll take the old and new list
-        for x in oldList: # for every elements in our old list
-            if (x != None) and (type(x) != HashSet.__Placeholder):
-                HashSet.__add(x, newList)
-        return newList
-    
-    def add(self, item):
-        if HashSet.__add(item, self.items): # check if an unique element was added to the lsit. If it returns false, we just move on, otherwise we check load factor
-            self.numItems += 1
-            load = self.numItems / len(self.items)
-            if load >= 0.75:
-                self.items = HashSet.__rehash(self.items, [None]*2*len(self.items)) # returns new empty list twice the length of old list
-
-    # Removing or discarding elements - we can add None before a None, but not in the middle of a chain - and add placeholder instead
-    # iterate over items to find value, check if it's the next element is None, replace with None or Placeholder
-
-
     class __Placeholder:
-        def __init__(self): # defining constructors for objects
+        """
+        A class to represent a Placeholder type.
+        Used for removing items that are not at the end of a chain.
+        """
+        def __init__(self):
             pass
 
         def __eq__(self, other):
             return False
         
-    def __remove(item, items): # since it's a private function, we won't have to call self
-        # where is the item located - hashing and linear probing
+    def __add(item, items):
+        """
+        Helper function responsible for:
+        - calculating an index (hashing and %);
+        - performing linear probing (collision resolution).
+        """       
+        # modulo (%) is required to keep hashes within list size range
         idx = hash(item) % len(items)
 
-        while items[idx] != None: # if items under that hash is not None
-            if items[idx] == item: # if item equals to  item
-                nextIdx = (idx + 1) % len(items)
+        loc = -1
 
-                if items[nextIdx] == None: # if the next element is None, then we're at the end of the list
-                    items[idx] = None # set to None
+        # linear probing loop
+        while items[idx] != None:
+            if items[idx] == item:
+                return False
+            
+            if (loc < 0) and (type(items[idx]) == HashSet.__Placeholder):
+                loc = idx
+
+            idx = (idx + 1) % len(items)
+
+        if loc < 0:
+            loc = idx
+            
+        items[loc] = item
+
+        return True
+
+    def __rehash(oldList, newList):
+        """
+        Helper function responsible for rehashing values.
+        Used when list size is changed due to a load factor reaching threshold.
+        """ 
+        for x in oldList:
+            if (x != None) and (type(x) != HashSet.__Placeholder):
+                HashSet.__add(x, newList)
+                
+        return newList
+    
+    def __remove(item, items):
+        """
+        Helper function responsible for removing items from a chain.
+        """       
+        idx = hash(item) % len(items)
+
+        # loop to go through the items in the chain starting at hashed index
+        while items[idx] != None:
+            if items[idx] == item:
+                nextIdx = (idx + 1) % len(items)
+                # substitute item with None if at the end of a chain
+                if items[nextIdx] == None:
+                    items[idx] = None
+                # substitute item with Placeholder if not at the end of a chain
                 else:
                     items[idx] = HashSet.__Placeholder()
                 return True
-            idx = (idx+1) %len(items)
-        return False
-    
-    def remove(self, item):
-        if HashSet.__remove(item, self.items): # check if we have removed item from the list self.items is True
-            self.numItems -= 1
 
-            load = max(self.numItems, 10) / len(self.items) # we'll not shrink list beyond 10
-            
-            if load <= 0.25:
-                self.items = HashSet.__rehash(self.items, [None] * len(self.items)//2)
-
-        else: # __remove returned False as the value is not in the list
-            raise KeyError("Item: {} not in HashSet".format(item))
-
-    def discard(self, item): # without the key error
-        if HashSet.__remove(item, self.items): # check if we have removed item from the list self.items is True
-            self.numItems -= 1
-
-            load = max(self.numItems, 10) / len(self.items) # we'll not shrink list beyond 10
-            
-            if load <= 0.25:
-                self.items = HashSet.__rehash(self.items, [None] * len(self.items)//2)
-
-    # for item in HashSet #we'll overwrite the in with a magic function
-    def __contains__(self, item): # we'll check if an item is in the HashSet - hash it, iterate over chain - return T/F. It's a magic function so it will be invoked auto. But it's not private function (it takes self), and can be called outside function.
-        idx = hash(item) %  len(self.item)
-
-        while self.items[idx] != None:
-            if self.items[idx] == None:
-                return None
-            idx = (idx + 1) % len(self.items)
-        return False
-
-    # for item in HashSet (ignoring None and Placeholders)
-    def __iter__(self):
-        for i in range(len(self.items)):
-            if(self.items[i] != None) and (type(self.item[i] != HashSet.__Placeholder)):
-                yield self.items[i] # yield is like return, but it doesn't halt the for loop
-
-    # HashSet A = {}
-
-    def difference_update(self, other): # A = A - B / A.difference_update(B) -> A= = self, B = other
-        for item in other: # based on the iter and contains
-            self.discard(item)
+            idx = (idx + 1) % len(items)
         
-    def difference(self, other): # C = A - B / C = A.difference(B) -> A = self, B = other
-        result = HashSet(self)
-        result.difference_update(other)
-        return result
-
-    def issuperset(self, other): # if every element of other contained in other
-        for item in other:
-            if item not in self:
-                return False
-        return True
+        return False
     
-    def clear(self): # delete all elements of cell
+    def __contains__(self, item):
+        """
+        Magic function responsible for checking if an item belongs to a set
+        Invoked when "item in set" is executed.
+        Returns True if an item is in a set and False otherwise.
+        """
+        idx = hash(item) % len(self.items)
+        
+        # loop to go through the items in the chain starting at hashed index
+        while self.items[idx] != None:
+            if self.items[idx] == item:
+                return True
+            
+            idx = (idx + 1) % len(self.items)
+
+        return False
+
+    def __iter__(self):
+        """
+        Magic function responsible for iterating over items in set
+        Invoked when "for item in set" is executed.
+        """
+        for i in range(len(self.items)):
+            # only yield items that are not None or Placeholders
+            if (self.items[i] != None) and (type(self.items[i]) != HashSet.__Placeholder):
+                yield self.items[i]
+                
+    def __len__(self):
+        """
+        Magic function responsible for returning the length of a set
+        Invoked when "len(set)" is executed
+        """
+        return self.numItems
+    
+    def add(self, item):
+        """
+        Function responsible for adding items into a set.
+        Doubles items list size when load factor >= 75%.
+        """
+        if HashSet.__add(item, self.items):
+            self.numItems += 1
+            load = self.numItems / len(self.items)
+            # double items list size of load factor >= 75%
+            if load >= 0.75:
+                self.items = HashSet.__rehash(self.items, [None]*2*len(self.items))
+
+    def remove(self, item):
+        """
+        Function responsible for removing items from a set.
+        Halves items list size when load factor <= 25%.
+        In addition, raises an exception when item is not in a set.
+        """
+        if HashSet.__remove(item, self.items):
+            self.numItems -= 1
+            load = max(self.numItems, 10) / len(self.items)
+            # halve items list size of load factor <= 25%
+            if load <= 0.25:
+                self.items = HashSet.__rehash(self.items, [None]*int(len(self.items)/2))
+        else:
+            raise KeyError("Item not in HashSet")
+
+    def discard(self, item):
+        """
+        Function responsible for removing items from a set.
+        Halves items list size when load factor <= 25%.
+        Does not raise an exception when item is not in a set.
+        """
+        if HashSet.__remove(item, self.items):
+            self.numItems -= 1
+            load = max(self.numItems, 10) / len(self.items)
+            if load <= 0.25:
+                self.items = HashSet.__rehash(self.items, [None]*int(len(self.items)/2))
+                
+    def clear(self):
+        """
+        Function responsible for removing all elements of a set.
+        Resets numItems instance variable to 0.
+        Resets items instance variable with an empty list.
+        """
         self.numItems = 0
         self.items = [None] * 10
 
     def update(self, other):
+        """
+        Function responsible for adding the items from one set to another set.
+        """        
         for item in other:
             self.add(item)
+            
+    def difference_update(self, other):
+        """
+        Function responsible for subtracting from one set the elements of another set.
+        A = A - B
+        """  
+        for item in other:
+            self.discard(item)
 
-    # len(HashSet())
-    def __len__(self):
-        return self.numItems
+    def difference(self, other):
+        """
+        Function responsible for subtracting from one set the elements of another set.
+        C = A - B
+        """
+        result = HashSet(self)
+        result.difference_update(other)
+        
+        return result
+
+    def issuperset(self, other):
+        """
+        Function responsible for checking if one set is superset of another set
+        Returns True if a set is a superset of another set and False otherwise.
+        """
+        for item in other:
+            if item not in self:
+                return False
+            
+        return True
+    
