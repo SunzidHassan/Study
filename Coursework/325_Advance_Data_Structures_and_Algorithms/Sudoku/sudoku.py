@@ -1,7 +1,7 @@
 # Provide your information as the values of these variables:
-myName = 'first_name, last_name'
+myName = 'Sunzid, Hassan'
 myTechID = '0000000'
-myTechEmail = 'abc123' #only your email id omit @latech.edu
+myTechEmail = 'sha040' #only your email id omit @latech.edu
 ###########################################################
 
 import sys
