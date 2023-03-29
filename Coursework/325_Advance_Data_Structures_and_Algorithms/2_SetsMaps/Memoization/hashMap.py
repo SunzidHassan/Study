@@ -44,5 +44,3 @@ class HashMap:
     def __iter__(self):
         for x in self.hSet:
             yield x.getKey()
-
-main()
