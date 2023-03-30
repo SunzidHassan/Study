@@ -1,3 +1,6 @@
+import sys
+sys.path.append('Coursework/521_Computer_Architecture/Class5')
+
 from bcpu import *
 
 R1 = 0
