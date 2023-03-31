@@ -5,6 +5,8 @@ myTechEmail = 'sha040' #only your email id omit @latech.edu
 ###########################################################
 
 import sys
+sys.path.append('Coursework/325_Advance_Data_Structures_and_Algorithms/2_SetsMaps/Sudoku')
+
 from hashSet import HashSet
 
 def getColumn(matrix, colIndex):
