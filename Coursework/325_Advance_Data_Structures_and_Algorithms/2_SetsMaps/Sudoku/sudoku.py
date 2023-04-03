@@ -1,12 +1,10 @@
 # Provide your information as the values of these variables:
 myName = 'Sunzid, Hassan'
-myTechID = '0000000'
+myTechID = '10407862'
 myTechEmail = 'sha040' #only your email id omit @latech.edu
 ###########################################################
 
 import sys
-sys.path.append('Coursework/325_Advance_Data_Structures_and_Algorithms/2_SetsMaps/Sudoku')
-
 from hashSet import HashSet
 
 def getColumn(matrix, colIndex):
@@ -44,50 +42,41 @@ def cardinality(x):
   return len(x)
 
 def rule1(group):
-  ### IMPLEMENT THIS FUNCTION ###
-
   changed = False
-  
-  # RULE 1 - You have to look for duplicate sets (i.e. set([1,6])). If you 
-  # have same number of duplicate sets in a group (row, column, square) as 
-  # the cardinality of the duplicate set size, then they must each get one 
-  # value from the duplicate set. In this case the values of the duplicate 
-  # set may be removed from all the other sets in the group. 
-
-  
-  # go through all the elements of the group which are alredy sorted from
-  # smallest to largest cardinality
-
-  # get the cardinality of the set       
-
-  # if there are cardinality sets with cardinality elements then the other
-  # sets can't have any of these values in them since these sets will have
-  # to each have one of the cardinality values 
-
-  # go through the sets and for each set different from the given set take
-  # out all the elements that are in given set
-
+  for i in range(len(group)):
+    if cardinality(group[i]) < 9: # if cardinality of the set is less than 9
+      d = 1 # set duplicate counter to 1
+      for j in range(len(group)):
+        if (group[i] != group[j]) and (group[i]).issuperset(group[j]) and (group[j]).issuperset(group[i]):  # check duplicate
+            d += 1 # increase duplicate counter
+      if cardinality(group[i]) == d: # if duplicates = cardinality
+        for k in range(len(group)):
+          if group[k] != group[i]: # if they're not the same set
+            if not(group[i].issuperset(group[k]) and group[k].issuperset(group[i])): # if they're not duplicate
+              if cardinality(group[k]) > 1: # if cardinality of the set to be updated is greater than 1
+                group[k].difference_update(group[i]) # update the set
+                changed = True
+              else:
+                changed = False
   return changed
   
 def rule2(group):
-  ### IMPLEMENT THIS FUNCTION ###
-
   changed = False
-  # RULE 2 - Reduce set size by throwing away elements that appear in other
-  # sets in the group
+  temp = HashSet()
 
-
-  # pick an element of the group
-
-  # for all the other elements of the group remove the elements that appear
-  # in other elements of the group. These can be satisfied by other elements
-  # of the group
-
-  # When done, if there is one value left then it can only be satisfied by
-  # this cell. This is a most constrained rule. If end up with 0 elements,
-  # then not enough information yet to constrain this choice. If didn't
-  # improve the situation at all, let's continue looking at other elements
-  # in the row. 
+  for i in range(len(group)):
+    n = cardinality(group[i]) # cardinality of current set
+    if n > 1:
+      temp.clear()
+      temp.update(group[i]) # record the current set
+      t = 0
+      for j in range(len(group)):
+        if group[j] != group[i]: # if ith and jth element is not the same:
+          temp.difference_update(group[j])
+      t = cardinality(temp) # check cardinality of t
+      if (t > 0) and (t < n): # if cardinality of temp is greater than 0
+        group[i].clear()
+        group[i].update(temp)
 
   return changed
 
@@ -127,7 +116,7 @@ def printMatrix(matrix):
     sys.stdout.write("\n")
 
 def main():
-  file = open(sys.argv[1], "r")
+  file = open("test-3.txt", "r")
   matrix = []
 
   for line in file:

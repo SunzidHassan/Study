@@ -20,7 +20,7 @@ class HashSet:
         def __init__(self):
             pass
 
-        def __eq__(self, other):
+        def __eq__(self, other): #does not equal to any element (other)
             return False
         
     def __add(item, items):
