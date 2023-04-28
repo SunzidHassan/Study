@@ -1,3 +1,4 @@
+import queue
 import sys
 
 class Graph:
@@ -81,46 +82,67 @@ class Graph:
                     q.put(next_node)
                     visited.add(next_node)
 
-    # used idea from: <https://www.geeksforgeeks.org/kruskals-minimum-spanning-tree-algorithm-greedy-algo-2/>
-    # used idea from: <https://www.pythonpool.com/kruskals-algorithm-python/>
-    # used idea from: <https://stackabuse.com/courses/graphs-in-python-theory-and-implementation/lessons/minimum-spanning-trees-kruskals-algorithm/>
-    
     def kruskals(self):
         vertices_sets = set()
-        edgesDict = dict()
-        MST = set()
-        
-        ### WRITE YOUR CODE HERE ###
-        # Create set for each vertex
-        verticesSets = [set([v.id]) for v in self.verList.values()]
+        # Create set S(v) = {v} for each vertex v in G
+        vertices_sets = [set([v.id]) for v in self.verList.values()]
 
-        # Create a dictionary to hold edges and weights
+
+    # Create a dictionary to hold the edges and their weights
+        edges_dict = {}
         for vertex in self.verList.values():
             for nbr in vertex.connectedTo.keys():
-                edgesDict[(vertex.id, nbr.id)] = vertex.connectedTo[nbr]
-                
-        # Sort the edges by weight
-        sortedEdges = sorted(edgesDict.items(), key=lambda item: item[1])
+                if vertex.id < nbr.id:
+                    edges_dict[(vertex.id, nbr.id)] = vertex.connectedTo[nbr]
+                else:
+                    edges_dict[(nbr.id, vertex.id)] = vertex.connectedTo[nbr]
 
-        for edge in sortedEdges:
+        # Sort the edges by weight in ascending order
+        sorted_edges = sorted(edges_dict.items(), key=lambda x: x[1])
+
+        # Create a set to hold the edges in the minimum spanning tree
+        MST = set()
+
+        # For each edge (u, v) in sorted_edges
+        for edge in sorted_edges:
             (u, v), weight = edge
-            setU = None
-            setV = None
-            for verticesSet in verticesSets:
-                for item in verticesSet:
-                    if u == item:
-                        setU = verticesSet
-                    if v == item:
-                        setV = verticesSet
 
-            # If S(u) != S(v), merge sets together and add edge to MST
-            if setU != setV:
+            # Find the sets that contain u and v
+            set_u = None
+            set_v = None
+            for vertices_set in vertices_sets:
+                for item in vertices_set:
+                    if type(item) == set:
+                        if u in item or u == item:
+                            set_u = vertices_set
+                        if v in item or v == item:
+                            set_v = vertices_set
+                    else:
+                        if u == item:
+                            set_u = vertices_set
+                        if v == item:
+                            set_v = vertices_set
+
+
+            # If S(u) != S(v), merge the sets together and add the edge to the MST
+            if set_u != set_v:
+                # Add edge (u, v) and weight w to T
                 MST.add(((u, v), weight))
-                mergedSet = setU.union(setV)
-                verticesSets.remove(setU)
-                verticesSets.remove(setV)
-                verticesSets.append(mergedSet)
+
+                # Merge S(u) and S(v) into one set
+                merged_set = set_u.union(set_v)
+                # Remove S(u) and S(v) from vertices_sets
+                vertices_sets.remove(set_u)
+                vertices_sets.remove(set_v)
+                # Add the merged set to vertices_sets
+                vertices_sets.append(merged_set)
+
+        # Convert the set of edges in the MST to a list and return it
+        # Convert the sets in MST to tuples
+        MST = set([(tuple(edge[0]), edge[1]) for edge in MST])        
+        
         return MST
+
 
 def main():
     
@@ -128,17 +150,18 @@ def main():
     graph = Graph()
 
     # get graph vertices & edges from input file and add them to the graph
-    file = open(sys.argv[1], "r")
+    file = open("test.txt", "r")
     for line in file:
         values = line.split()
         graph.addEdge(int(values[0]), int(values[1]), int(values[2]))
         graph.addEdge(int(values[1]), int(values[0]), int(values[2]))   
-
-    # print adjacency list representation of the graph
+    
     print()
+    print("Graph Adjacency List: ")
     ### WRITE YOUR CODE HERE ###
     for k, v in graph.verList.items():
-        print(k, v)
+        print(k, v) # v is an instance of vertex class, print will use __str__
+    
     
     # create graph MST
     MST = graph.kruskals()
