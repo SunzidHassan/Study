@@ -1,0 +1,43 @@
+body{
+	background: purple;
+	color: yellow;
+	t-align: center;
+}
+div{
+	background-image: url("water.jpg");
+	min-height: 100px;
+	min-width: 100px;
+	background-attachment: fixed;
+	background-position: left;
+}
+a:link{
+	text-decoration: none;
+	color: white;
+}
+a:visited{
+	text-decoration: none;
+	color: cyan;
+}
+a:hover{
+	text-decoration: none;
+	color: green;
+}
+a:active{
+	text-decoration: none;
+	color: red;
+}
+table, th, td{
+	1px solid black;
+}
+p{
+	border: 5px solid red;
+	font-family: calibri;
+	font-weight: normal;
+	font-size: 40px;
+	color: black;
+	text-transform: capitalize;
+	text-align: center;
+	text-indent: 0px;
+	line-height: 2;
+	letter-spacing: 2px;
+}

@@ -1,0 +1,12 @@
+CSS reset is used to make sure all broswers act in same way
+
+Modernizer is used to make different versions compatible
+
+HTML5 Boilerplate:
+It's a readymade plate that already has CSS reset, modernizer included.
+
+Font awesome:
+The image needed in different purpose is already built in font awsome. Image like phone is used as font in this.
+
+Bootstrap:
+It's a library of CSS and JavaScript. The items required in a page is already included in it. It depends on JQuery.

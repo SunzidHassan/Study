@@ -1,0 +1,44 @@
+body{background: black}
+
+#full_page{
+	width: 800px;
+	background: White;
+	margin: 0 auto;
+}
+#header{
+	height: 100px;
+	background: green;
+	color: white;
+}
+#menuebar{
+	height: 50px;
+	background: yellow;
+	color: blue;
+}
+#left_sidebar{
+	height: 400px;
+	width: 200px;
+	background: green;
+	color: white;
+	float: left;
+}
+#content_area{
+	height: 400px;
+	width: 400px;
+	background: blue;
+	color: white;
+	float: left;
+}
+#right_sidebar{
+	height: 400px;
+	width: 200px;
+	background: green;
+	color: white;
+	float: left;
+}
+#footer{
+	height: 50px;
+	background: yellow;
+	color: blue;
+	clear: both;
+}

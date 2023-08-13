@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaScript example</title>
+	<script>
+		function myCapitalizer(){
+			var x = document.getElementById("fname");
+			x.value = x.value.toUpperCase();
+		}
+		
+		function myAlert(){
+			alert("You pressed a key inside the input field");
+		}
+	</script>
+</head>
+<body>
+<h2>This is example of of event which capitalizes</h2>
+Enter Your Name: <input type="text" id="fname" onchange="myCapitalizer()">
+<p>When you leave the input field, a function is triggered which transforms the input text to upper case</p>
+
+<h2>This is an example of alert</h2>
+<input type="text" onkeydown="myAlert()">
+
+<h2>This is example of array</h2>
+<p id="demo"></p>
+<script type="text/javascript">
+	var cars = ["Saab", "Volvo"];
+	document.getElementById("demo").innerHTML = cars[0];	
+</script>
+
+<h2>Example of object</h2>
+
+<p id="demo"></p>
+<script type="text/javascript">
+	var person = {firstName:"John", lastName:"Doe", age:50, eyeColor:"blue"};
+	document.getElementById("demo").innerHTML = person.firstName + " is " + person.age + " years old";
+</script>
+
+<h2>Inserting new object in class with new</h2>
+
+<p id="demo2"></p>
+
+<script type="text/javascript">
+	function person(first, last, age, eye){
+		this.firstName = first;
+		this.lastName = last;
+		this.age = age;
+		this.eyeColor = eye;
+	}
+
+	var myFather = new person("John", "Doe", 50, "blue");
+	var myMother = new person("Sally", "Rally", 48, "green");
+
+	document.getElementById("demo2").innerHTML="My father is " + myFather.age + ". My mother is " + myMother.age;
+</script>
+
+</body>
+</html>
