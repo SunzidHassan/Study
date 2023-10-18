@@ -31,20 +31,21 @@ namespace HD_Warren__403Final_
 			//your method calls here
 
 
-			p.ModBIter(15, 10);
-			p.ModDIter(15, 10);
-			p.ModOIter(15, 10);
-			p.ModRIter(15, 10);
-			/////////////////////////////////////////
-			
+			p.IterModB(15, 10);
+            p.IterModD(15, 10);
+            p.IterModO(15, 10);
+            p.IterModR(15, 10);
+            p.IterModB(15, 10);
+            /////////////////////////////////////////
 
-		}
 
-		//modR()
-		//performs modulo using recursion
-		//receives: lefthand and righthand operands
-		//returns: remainder
-		uint modR(uint lh, uint rh)
+        }
+
+        //modR()
+        //performs modulo using recursion
+        //receives: lefthand and righthand operands
+        //returns: remainder
+        uint modR(uint lh, uint rh)
 		{
 			//when lh or rh is zero
 			//or when the modulus is actually 0
@@ -157,49 +158,56 @@ namespace HD_Warren__403Final_
 			return lh % rh;
 		}
 
-		uint ModRIter(uint lh, uint rh)
+		uint IterModR(uint lh, uint rh)
 		{
 			uint result = 0;
-
-			for(int i = 0; i < 10000; i++)
+			int i = 0;
+			while(i < 999999)
 			{
 				result = modR(lh, rh);
+				i++;
 			}
 			return result;
 		}
 
-        uint ModDIter(uint lh, uint rh)
+        uint IterModD(uint lh, uint rh)
         {
             uint result = 0;
-
-            for (int i = 0; i < 10000; i++)
+            int i = 0;
+            while (i < 999999)
             {
                 result = modD(lh, rh);
+                i++;
             }
-            return result;
+			return result;
         }
 
-        uint ModBIter(uint lh, uint rh)
+
+        uint IterModB(uint lh, uint rh)
         {
             uint result = 0;
-
-            for (int i = 0; i < 10000; i++)
+            int i = 0;
+            while (i < 999999)
             {
                 result = modB(lh, rh);
+                i++;
             }
-            return result;
+			return result;
         }
 
-        uint ModOIter(uint lh, uint rh)
+
+        uint IterModO(uint lh, uint rh)
         {
             uint result = 0;
-
-            for (int i = 0; i < 10000; i++)
+            int i = 0;
+            while (i < 999999)
             {
                 result = modO(lh, rh);
+                i++;
             }
-            return result;
+			return result;
         }
+
 
     }
 
