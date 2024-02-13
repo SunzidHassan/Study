@@ -1,0 +1,14 @@
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\bin\Debug\net6.0\HD_Warren_(403Final).exe
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\bin\Debug\net6.0\HD_Warren_(403Final).deps.json
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\bin\Debug\net6.0\HD_Warren_(403Final).runtimeconfig.json
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\bin\Debug\net6.0\HD_Warren_(403Final).dll
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\bin\Debug\net6.0\HD_Warren_(403Final).pdb
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\obj\Debug\net6.0\HD_Warren_(403Final).GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\obj\Debug\net6.0\HD_Warren_(403Final).AssemblyInfoInputs.cache
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\obj\Debug\net6.0\HD_Warren_(403Final).AssemblyInfo.cs
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\obj\Debug\net6.0\HD_Warren_(403Final).csproj.CoreCompileInputs.cache
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\obj\Debug\net6.0\HD_Warren_(403Final).dll
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\obj\Debug\net6.0\refint\HD_Warren_(403Final).dll
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\obj\Debug\net6.0\HD_Warren_(403Final).pdb
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\obj\Debug\net6.0\HD_Warren_(403Final).genruntimeconfig.cache
+C:\Users\sunzi\OneDrive\Documents\Professional\Study\LaTech\532_Software_Engineering\Assignments\5. Profiling\403_E3\HD_Warren_(403Final)\obj\Debug\net6.0\ref\HD_Warren_(403Final).dll

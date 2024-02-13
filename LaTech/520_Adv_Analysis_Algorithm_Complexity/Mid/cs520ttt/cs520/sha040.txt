@@ -1,9 +1,0 @@
-Hassan, Sunzid, 10407862, sha040
-total: 50
-Q1 = 20
-Q2 = 15
-Q3 = 15
-
-Checksums:   
-0
-5372
