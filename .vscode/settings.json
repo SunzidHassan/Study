@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./LaTech/CS520_Adv_Analysis_Algorithm_Complexity"
+    ]
+}
