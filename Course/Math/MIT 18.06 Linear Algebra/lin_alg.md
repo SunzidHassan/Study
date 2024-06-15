@@ -1,5 +1,6 @@
 ### 1.6 Transposes, Permutations, Vector Spaces
 
+Vector spaces and their subspaces is introduced in this lecture.
 
 #### Permutations
 Permutations execute row exchanges.
