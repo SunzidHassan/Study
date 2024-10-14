@@ -1,170 +1,108 @@
-## Chapter 5: MOSFET
-### 5.1 Device Structure and Physical Operation
-#### 5.1.1 Device Structure
+## Chapter 7: Amplifiers
 
-Built on a p-type substrate of thickness $1-10$ mm.
-Two heavily doped n-type region are source and drain.
-A layer of SiO2 insulator covers surface of the substrate. Metal is deposited on top as gate electrode.
-Metal contacts are made to the source, drain, body.
+### Formulas
+Amplifier gain, $v_{DS}=V_{DD}-i_DR_D$  
+$\Rightarrow v_{DS}=V_{DD}-k_n\frac{1}{2}(v_{GS}-V_T)^2R_D$
 
-- In normal operation, the pn junctions are kept reverse biased.
-- Drain is positive voltage relative to the source. Current flows from drain to source in the channel region (with length $L$ and width $W$) if voltage is applied to the gate.
-- The two pn junctions can be cut off by connecting the body terminal to the source terminal. The body has no effect. The three terminals are Gate, Source, Drain.
-
-#### 5.1.2 Operation with Zero Gate Voltage
-- If $V_G=0$, and $v_{DS}$ is applied, diodes are reversed biased and $I_{DS}=0$, because of high channel resistance $~10^{12}\Omega$.
-
-#### 5.1.3 Create a Channel for Current Flow
-- Ground Drain, Source, apply sufficient positive voltage, **threshold voltage**, $v_{GS}\geq V_t$ to gate.
-- Holes of Body are repelled down, and free electrones from Drain and Source are accumulated under gate.
-- If $v_{DS}$ is applied, current flows from Drain to Source.
-- This is NMOS transistor.
-- The gate and the channel form a parallel-plate capacitor - positive charge in gate plate, negative in chennel. An electric field develops in vertical direction, hence field effect transistor.
-- When $v_{DS}=0$, $V$ along channel is $0$, $v{oxide}=v_{GS}$
-- Overdrive or effective voltage, $v_{ov}\equiv v_{GS}-V_t$, where $V_t$ is controlled to be $0.3-1.0$ V.
-- Magnitude of electron charge in the channel $|Q|=C_{OX}(WL)v_{OV}$
-
-- Oxide capacitance, $C_{OX}=\frac{\epsilon_{OX}}{t_{OX}}$, where $\epsilon_{OX}=3.45\times 10^{-11}$ F/m is permittivity of the silicon dioxide, and $t_{OX}$ is oxide thickness.
-
-- 
-
-#### 5.1.4 Applying a small $v_{DS}$
-- electron flows from source to drain (hence naming), current, $i_D$ from drain to source.
-- Since $v_{DS}$ is small, voltage between gate and various points in channel remains constant and equal to value at the source end, $v_{GS}$, and effective voltage between gate and various points in channel remains $v_{OV}$, and channel charge $Q$ is $\frac{|Q|}{L}=C_{OX}Wv_{OV}$
-
-- The voltage $v_{DS}$ establishes an electric field $E$ across the length of the channel, $|E|=\frac{v_{DS}}{L}$
-
-This electric field causes the channel electrons to drift toward the drain with a electron drift velocity $\mu_n|E|=\mu_n\frac{v_{DS}}{L}$, where $\mu_n$ is the mobility of the electrons at the surface of the channel.
-
-For small $v_{DS}$, the channel behaves as a linear resistance whose value is controlled by $v_{OV}$, which in turn is determined by $v_{GS}$.
-
-$i_D=$ electron dift velocity $\times$ charge per unit channel length  
-
-$i_D=\mu_n|E|\times\frac{|Q|}{L}$
-
-$i_D=[\mu_n\times\frac{v_{DS}}{L}]\times[C_{ox}Wv_{OV}]$
-
-$i_D=\left[\left(\mu_nC_{ox}\right)\left(\frac{W}{L}\right)v_{OV}\right]v_{DS}$  
-or  
-$i_D=\left[\left(\mu_nC_{ox}\right)\left(\frac{W}{L}\right)(v_{GS}-V_T)\right]v_{DS}$  
-
-Conductance of the channel, $g_{DS}=\left(\mu_nC_{ox}\right)\left(\frac{W}{L}\right)v_{OV}$  
-or  
-$g_{DS}=\left(\mu_nC_{ox}\right)\left(\frac{W}{L}\right)(v_{GS}-V_t)$
-
-Here, $\mu_nC_{ox}=k_n'$ is **process transconductance** parameter, and $\frac{W}{L}$ is **aspect ratio**. 
-
-The **MOSFET transconductance parameter**, $k_n=k_n'\frac{W}{L}=\left(\mu_nC_{ox}\right)\left(\frac{W}{L}\right)$ A/V^2
-
-$v_{OV}$ determines the magnitude of electron charge in the channel.
-
-When $v_{DS}$ is small, the MOSFET behaves as a linear resistance $r_{DS}$ whose values is controlled by $v_{GS}$.  
-$r_{DS}=\frac{1}{g_{DS}}$  
-$r_{DS}=\frac{1}{\left(\mu_nC_{ox}\right)\left(\frac{W}{L}\right)v_{OV}}$  
-$r_{DS}=\frac{1}{\left(\mu_nC_{ox}\right)\left(\frac{W}{L}\right)(v_{GS}-V_t)}$  
-
-**Enhancement mode ($v_{GS}\ge V_t$)**: is required for a MOSFET to operate.
+$\Rightarrow V_{GS}|_{B}=V_t+\frac{\sqrt{2k_nR_DV_{DD}+1}-1}{k_nR_D}$ or  
+$\Rightarrow V_{OV}|_{B}=\frac{\sqrt{2k_nR_DV_{DD}+1}-1}{k_nR_D}$ and  
+$V_{DS}|_{B}=V_{OV}|_{B}$
 
 
-#### 5.1.5 Operation as $v_{DS}$ is Increased
-Assuming $v_{GS}$ is contant and $\geq V_t\Rightarrow v_{OV}$ is constant.
+### 7.1 Basic Principles
+#### 7.1.1 The Basis for Amplifier Operation
 
-$v_{DS}$ controls channel depth. As $v_{DS}$ increases, channel becomes more tapered.
+A voltage-controlled current source is created by operating a MOSFET or BJT in the active region.
 
-As we move from source to drain along channel, voltage changes from $0$ to $v_{DS}$
+For an NMOS transistor operated in saturated/pinch-off region, $v_{DS}\ge v_{OV}$, where $v_{GS}=V_{tn}+v_{OV}$. Then $v_{GS}$ controls $i_D$ according to square-law relationship.
 
-Voltage between the gate and points along the channel decreases from $v_{GS}=V_t+v_{OV}$ to $v_{GD}=v_{GS}-v_{DS}$. Channel is deepest at source end (proportional to $v_{OV}$), and shallowest at Drain end (proportional to $v_{OV}-v_{DS}$)
+$i_D=\frac{1}{2}k_n\left(v_{GS}-V_{tn}\right)^2$
 
-Instead of $v_{OV}$, the channel is proportional to $\frac{1}{2}[v_{OV}+(v_{OV}-v_{DS})]=v_{OV}-\frac{1}{2}v_{DS}$
+For an npn BJT is operated in the active region, CBJ reverse bias condition is ensured by keeping $v_{CE}\ge0.3$ V. Usually $v_{BE}\simeq 0.7$ V, $v_{BC}\le0.4$ V is maintianed to prevent CBJ from conducting.
 
-Thus,
-$i_D=k_p'\left(\frac{W}{L}\right)\left(v_{OV}-\frac{1}{2}v_{DS}\right)v_{DS}$  
-or  
-$i_D=k_p'\left(\frac{W}{L}\right)\left((v_{GS}-V_t)v_{DS}-\frac{1}{2}v_{DS}^2\right)$
+$v_{BE}$ controls $ $i_C$ according to the exponential relationship.
 
+$i_C=I_Se^{v_{BE}/V_T}$
 
-#### 5.1.6 Operation for $v_{DS}\gt v_{OV}$: Channel pinch-off and current saturation
+#### 7.1.2 Obtaining a Voltage Amplifier
+Transistor is a transconductance amplifier: input signal is a voltage and output signal is a current. To convert it to a voltage amplifier, we can pass the output current through a resistor and take the voltage across the resistor as the output. Doing this for a MOSFET, we have $v_{GS}$ as the input voltage, R_D (known as a **load resistance**) converts the drain current $i_D$ to a voltage ($i_DR_D$), and $V_{DD}$ is the supply voltage that powers up the amplifier, and together with $R_D$, establishes operation in the active region.
 
-When $v_{DS}\gt v_{OV}$, channel depth at drain end reduces to zero.
-Increasing $v_{DS}$ doesn't increase current flow.
+![Figure 7.2](/home/sunzid/Study/LaTech/ELEN353_Adv_Microelectronics/Figs/Fig7_2.png)
 
-$i_D=k_p'\left(\frac{W}{L}\right)\left(\frac{1}{2}v_{OV}^2\right)$  
-or  
-$i_D=k_p'\left(\frac{W}{L}\right)\frac{1}{2}(v_{GS}-V_t)^2$  
+For MOSFET, the output voltage $v_{DS}=V_{DD}-i_DR_D$
 
-Further increase in $v_{DS}$appears as a voltage drop across the depleton region. Thus, both the current through the channel and the voltage drop across remain constant.
+And for BJT, the output voltage $v_{CE}=V_{CC}-i_CR_C$
 
-#### Example 5.1
-$L_{min}=0.18$ $\mu m$
+#### 7.1.3 The Voltage-Transfer Characteristics (VTC)
 
-$t_{OX}=4$ nm
+Voltage-transfer characteristic (VTC) is a plot of the out/in voltage. $v_{DS}/v_{GS}$ in case of MOSFET common source amp.
 
-$\mu_n=450$ $\frac{cm^2}{V}s$
+Expression of $AB$ saturated region,
 
-$V_t=0.5$ V
+For MOSFET in saturation,
+$i_D=k_n\frac{1}{2}v_{OV}^2$  
+$i_D=k_n\frac{1}{2}(v_{GS}-V_T)^2$  
 
-**(a)** Find $C_{OX}$ and $k_n'$
+Amplifier gain, $v_{DS}=V_{DD}-i_DR_D$  
+$\Rightarrow v_{DS}=V_{DD}-k_n\frac{1}{2}(v_{GS}-V_T)^2R_D$
 
-**(b)** For a MOSFET with $W/L=1.8/0.18$ $\mu m/\mu m$, calcuate values of $v_{OV}$, $v_{GS}$, $v_{DSmin}$ needed to operate the transistor in the saturation region with a current $i_{D}=100$ $\mu A$
+At point B, $v_{GS}=V_{GS}|_{B}$ and $v_{DS}=V_{DS}|_{B}=V_{GS}|_{B}-V_t$
 
-**(C)** For the device in (b), find the values of $v_{OV}$ and $v_{GS}$ required to cause the device to operate as a 1000-$\Omega$ resistor for very small $v_{DS}$
+$\Rightarrow V_{GS}|_{B}=V_t+\frac{\sqrt{2k_nR_DV_{DD}+1}-1}{k_nR_D}$ or  
+$\Rightarrow V_{OV}|_{B}=\frac{\sqrt{2k_nR_DV_{DD}+1}-1}{k_nR_D}$ and  
+$V_{DS}|_{B}=V_{OV}|_{B}$
+
+Similarly, in BJT active region, the output voltage $v_{CE}$ is related to the input voltage $v_{BE}$ by:
+
+$v_{CE}=V_{CC}-R_CI_Se^{v_{BE}/V_T}$
+
+#### Exercise
+##### 7.1
+The amplifier in Fig. 7.2(a) with  
+$V_{DD}=1.8$ V  
+$R_D=17.5$ $k\Omega$  
+$V_t=0.4$ V  
+$k_n=4$ $mA/V^2$  
+$\lambda=0$  
+Determine coordinates of the end points of the active-region segment of the VTC. Also determine $V_{DS}|_C$ assuming $V_{GS}|_C=V_{DD}$
 
 **Solution:**
 
-**(a)**
+At point A, $v_{GS}|_A=V_t=0.4$ V and  
+$V_{DS}|_{A}=V_{DD}=1.8$ V
+  
+At point B,  
+$\Rightarrow V_{GS}|_{B}=V_t+\frac{\sqrt{2k_nR_DV_{DD}+1}-1}{k_nR_D}=0.613$ V and  
+$V_{DS}|_{B}=V_{GS}|_{B}-V_t=0.213$ V
 
-$C_{OX}=\frac{\epsilon_{OX}}{t_{OX}}$
+$V_{GS}|_C=V_{DD}$
 
-$=\frac{3.45\times 10^{-11} F/m}{4\times 10^{-9} m}$
-
-$=8.63\times 10^{-3}F/m^2$
-
-$=8.63\times 10^{-15}F/\mu m^2$
-
-$=8.63fF/\mu m^2$
-
-$k_n'=\mu_nC_{ox}$
-
-$=450\times\frac{10^{12}}{10^{4}}\frac{\mu m^2}{V}s(8.63\times10^{-15}F/\mu m^2)$
-
-$=450\times10^{8}\frac{\mu m^2}{V}s(8.63\times10^{-15}F/\mu m^2)$
-
-$=388\times10^{-6}\frac{Fs}{V}$
-
-$=388\frac{\mu A}{V^2}$
+#### 7.1.4 Obtaining Linear Amplification by Biasing the Transistor
 
 
-**(b)**
+#### Problems
 
-For operation in the saturation region,
-
-$i_D=\frac{1}{2}k_n'\frac{W}{L}v_{OV}^2$
-
-$\Rightarrow100\mu A=\frac{1}{2}(388\frac{\mu A}{V^2})\frac{1.8\mu m}{0.18\mu m}v_{OV}^2$
-
-$\Rightarrow\frac{200\mu A}{388\frac{\mu A}{V^2}}=v_{OV}^2$
-
-$\Rightarrow v_{OV}=0.23$ V
-
-$v_{GS}=V_t+v_{OV}=0.23+0.5=0.73$ V
-
-$v_{DSmin}=v_{OV}=0.23$ V
-
-**(c)**
-
-For the MOSFET in triode region with very small $v_{DS}$
-
-$r_{DS}=\frac{1}{k_n'\frac{W}{L}v_{OV}}$
-
-$v_{OV}=\frac{1}{k_n'\frac{W}{L}r_{DS}}$
-
-$v_{OV}=\frac{1}{388\times10^{-6}\frac{A}{V^2}\times10\times1000\Omega}$
-
-$v_{OV}=\frac{1}{388\times10^{-6}\frac{A}{V^2}\times10\times1000\Omega}$
-
-$v_{OV}=0.26$ V
-
-$v_{GS}=v_{OV}+V_t=0.76$ V
+##### 7.2
 
 
-#### 5.1.7 The p-Channel MOSFET
+
+##### 7.6
+
+
+
+##### 7.8
+
+
+
+##### 7.10
+
+
+
+##### 7.15
+
+
+##### 7.33
+
+
+
+##### 7.53
