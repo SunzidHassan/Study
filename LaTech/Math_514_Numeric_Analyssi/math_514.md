@@ -142,3 +142,40 @@ $x_2=-2.88889-\frac{f(-2.88889)}{f'(-2.88889)}=-2.87945$
 $x_3=-2.87945-\frac{f(-2.87945)}{f'(-2.87945)}=-2.87938$
 
 $|x_3-x_2|\lt10^{-4}$, $x_5=-2.87938$ is a zero of the function $f(x)$.
+
+
+### 3.1
+
+#### Lagrange Interpolating Polynomials
+The problem of determining the polynomial of degree one that passes through the distainct points $(x_0,y_0)$ and $(x_1,y_1)$ is same as approximating a function $f$ for which $f(x_0)=y_0$ and $f(x_1)=y_1$
+
+$L_0(x)=\frac{x-x_1}{x_0-x_1}$ and
+
+$L_1(x)=\frac{x-x_0}{x_1-x_0}$
+
+$P(x)=L_0(x)f(x_0)+L_1(x)f(x_1)=\frac{x-x_1}{x_0-x_1}f(x_0)+L_1(x)=\frac{x-x_0}{x_1-x_0}f(x_1)$
+
+Where, $L_0(x)f(x_0)=1$, $L_0(x)f(x_1)=0$, $L_1(x)f(x_0)=0$, and $L_1(x)f(x_1)=1$, which implies that
+
+$P(x_0)=1.f(x_0)+0.f(x_1)=f(x_0)=y_0$
+
+and
+
+$P(x_1)=0.f(x_0)+1.f(x_1)=f(x_1)=y_1$
+
+
+#### 1a
+$f(x)=cosx$  
+$f(0)=1$  
+$f(0.6)=0.8258$  
+
+$L_0(x)=\frac{x-x_1}{x_0-x_1}=\frac{x-0.6}{0-0.6}=\frac{x-0.6}{-0.6}$ 
+and
+
+$L_1(x)=\frac{x-x_0}{x_1-x_0}=\frac{x-0}{0.6-0}=\frac{x}{0.6}$
+
+$P(x)=L_0(x)f(x_0)+L_1(x)f(x_1)=\frac{x-0.6}{-0.6}\times1+\frac{x}{0.6}\times0.8258$
+
+$P(0.45)=\frac{0.45-0.6}{-0.6}\times1+\frac{0.45}{0.6}\times0.8258=0.869$
+
+Absolute error=$|f(0.45)-P_1(0.45)|=0.0314$
