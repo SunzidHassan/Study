@@ -179,3 +179,51 @@ $P(x)=L_0(x)f(x_0)+L_1(x)f(x_1)=\frac{x-0.6}{-0.6}\times1+\frac{x}{0.6}\times0.8
 $P(0.45)=\frac{0.45-0.6}{-0.6}\times1+\frac{0.45}{0.6}\times0.8258=0.869$
 
 Absolute error=$|f(0.45)-P_1(0.45)|=0.0314$
+
+
+
+### 4.3
+#### Exercise
+##### 5(a) Approximate integral using the Simpson's rule
+$\int_{0.5}^1{x^4}dx$
+
+Simpson's rule: $\int_{x_0}^{x_2}{(x)}dx=\frac{h}{3}[f(x_0)+4f(x_1)+f(x_2)]$
+,
+
+where $h=\frac{x_2-x_0}{n}$.
+
+For $n=2$, $h=\frac{1-0.5}{2}=0.25$
+
+$\int_{0.5}^1{x^4}dx=\frac{0.25}{3}[f(0.5)+4f(0.75)+f(1)]=\frac{0.25}{3}[(0.5)^4+4(0.75)^4+(1)^4]=0.1940104$
+
+### 4.4
+#### Exercise
+##### 1(a) Use Composite Trapezoidal rule with indicated values of n to approximate integral: $\int_{1}^{2}x\ln{x}dx$
+
+$h=\frac{b-a}{n}=\frac{2-1}{4}=1/4$
+
+Composite Trapezoid rule:  
+
+$\int_{a}^{b}f(x)=\frac{h}{2}\left[f(a)+2\sum_{j=1}^{j=n-1}{f(x_j)}+f(b)\right]=\frac{1}{8}\left[f(1)+2\sum_{j=1}^{j=3}{f(x_j)}+f(2)\right]=\frac{1}{8}\left[\ln{1}+2[1.25\ln{1.25}+1.5\ln{1.5}+1.75\ln{1.75}]+\ln{2}\right]=0.639900$
+
+
+### 4.5
+#### Exercise
+##### 1(a) Use Romberg integration to compute $R_{3,3}$ for the integral: $\int_{1}^{1.5}{x^2\ln{x}dx}$
+
+The Composite Trapezoid rule:
+
+$R_{1,1}=\frac{1.5-1}{2^1}\left[1^2\ln{1}+1.5^2\ln{1.5}\right]=0.228074$  
+$R_{2,1}=\frac{1.5-1}{2^2}\left[1^2\ln{1}+2\times1.25^2\ln{1.25}+1.5^2\ln{1.5}\right]=0.201202$  
+$R_{3,1}=\frac{1.5-1}{2^3}\left[1^2\ln{1}+2\times[1.125^2\ln{1.125}+1.25^2\ln{1.25}+1.375^2\ln{1.375}]+1.5^2\ln{1.5}\right]=0.194494$  
+$R_{4,1}=\frac{1.5-1}{2^4}\left[1^2\ln{1}+2\times[1.0625^2\ln{1.0625}+1.125^2\ln{1.125}+1.25^2\ln{1.25}+1.375^2\ln{1.375}+1.4375^2\ln{1.4375}]+1.5^2\ln{1.5}\right]=0.192818$  
+
+The $O(h^4)$ approximations are
+$R_{2,2}=R_{2,1}+\frac{1}{4^1-1}(R_{2,1}-R_{1,1})=0.192245$  
+$R_{3,2}=R_{3,1}+\frac{1}{4^1-1}(R_{3,1}-R_{2,1})=0.192258$  
+$R_{4,2}=R_{4,1}+\frac{1}{4^1-1}(R_{4,1}-R_{3,1})=0.192259$  
+
+The $O(h^6)$ approximations are
+$R_{3,3}=R_{3,2}+\frac{1}{4^2-1}(R_{3,2}-R_{2,2})=0.1922593$  
+
+
