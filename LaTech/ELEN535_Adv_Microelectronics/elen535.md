@@ -509,3 +509,4 @@ $A_v=-\frac{I_CR_{Cth}}{V_T}$
 $\Rightarrow A_v=-\frac{0.2m5k}{25m}=-40$ V/V  
 
 
+## Bioelectronics
