@@ -510,3 +510,81 @@ $\Rightarrow A_v=-\frac{0.2m5k}{25m}=-40$ V/V
 
 
 ## Bioelectronics
+### OFET
+MOSFET: inorganic (Si) with covalent bond.
+Organic FET: organic polymers/small molecules with Van der Waals bonds. It's weak, molecules in gases, organic liquids, solids and polymers.
+
+Weak bond allows low-temp fabrication of OFETs - allowing fabrication on flexible polymers, textiles, biodegradable papers.
+
+Example: organic PV, OLED, OFET.
+
+#### Device geometry
+- electrically active layers assembled on a substrate
+    - organic semiconductor
+    - gate dielectric
+    - electrodes (gate, source, drain).
+- arrangement architecture
+    - coplanar - source, drain and conducting channel on the same plane: bottom gate, bottom contacts (BGBC) and top gate, top contacts (TGTC)
+    - staggered - conducting channel is offset from source and drain: bottom gate, top contacts (BGTC) and top gate, bottom contacts (TGBC)
+- BGBC:
+    - good for quick testing of new semiconductor material or processing method, as the gate electrode, dielectric and SD are prefabricated, and semiconductor material is deposited at last.
+    - good semiconductor-dielectric interface, no additional steps required after semiconductor deposition.
+    - disadvantage: exposed semiconductor can degrade quickly.
+- top-gate electrode structures, TGBC and TGTC, can reduce semiconducter degradation as dielectric acts as insulation layer. But the dielectric must preserve the semiconductor integrity.
+
+#### Device parameters
+- Two potential controls OFET operation: $V_{GS}$ at gate electrode, $V_{DS}$ at drain electrode. Source is grounded.
+- Default channel is P-type.
+- If $V_{GS}$ is applied, charge accumulates under the semiconductor-dielectric interface. If $V_{DS}$ is applied, accumulated charge moves from S to D resulting in $I_D$.
+- Threshold voltage, $V_{TH}$: a small negative $V_{GS}$ required for fill charge traps at the semiconductor-dielectric interface.
+- Charge traps are defects (crystal defects, impurities, interfacial roughness) in the semiconductor that can capture charge carriers.
+- Field effect mobility $\mu$: how quickly charge carriers move in response to electric field. Si $\mu=100-1000cm^2/Vs$, a-Si $\mu=1cm^2/Vs$
+- $I_{on}/I_{off}$ is saturation current (large $V_{GS}$) over leakage current ($V_{GS}$=0).
+
+...
+
+#### Metrics for high-performance OFETs
+- High field effect mobility
+- Maximised ($\gt10^6$) on/off current
+- Close to zero threshold voltage
+- Low value (1V/dec) subthreshold swing S, indicates faster switching speeds.
+
+#### OFET Materials
+1. Small molecules: oligomers of conjugated monomers.
+2. Polymers: long chains/complex structures of conjugated monomers.
+- p-type, n-type, ambipolar.
+
+Doping:
+- p-type: F4-TCNQ
+- n-type: Na, K
+
+...
+
+#### Deposition methods for organic semiconductors
+1. Single crystal growth
+* Single crystal from vapor: high purity  
+    * Vaccum sublimation: of semiconductor powder
+    * Physical vapor transport (PVT)
+High device performance, but not realizable for mass production.
+2. Thermal deposition: sublimation under vaccum.
+* High uniformity and good reproducibility.
+3. Solution decomposition
+* Low cost, large area fabrication at ambient temperatuer and pressure
+    * Spin coating: depositing a small pool of semiconductor solution onto the center of the substrate and spinning the substrate at high speeds.
+        * Spin parameters: solvent type, surface tension, viscosity, concentration, spin (speed, acceleration).
+    * Drop Casting: solution dropped on substrate, solvent is evaporated.
+        * Less wastage, but ununiform coverage, low control over thickness.
+    * Spray coating: high throughput. Inert gas: small droplets > aerosols > spray.
+    * Inkjet printing: low cost, high mobility.
+    * Solution shearing: moving a shearing blade containing an organic semiconductor solution above a temperature controlled substrate. Solvant evaporates, forming thin film.
+    * Laser printing: low cost, scalable, simultaneous patterning and coating.
+
+#### Dielectrics
+* SiO2 common. Passivation used for reducing surface state/charge traps.
+
+Dielectric properties:
+* reduced roughness
+* Dielectric constant and thickness: high-k: low performance, low-k: require high voltage.
+
+#### Contacts
+- 
