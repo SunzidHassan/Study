@@ -42,6 +42,16 @@ XXX XXXX
 
 ## 2024
 ### Robotics
+Sent email: 0/300
+
+Nov 13: 5  
+Nov 14: 10  
+Nov 15: 20  
+Nov 16: 30  
+Nov 17: 60  
+Nov 18: 60  
+Nov 19: 60  
+Nov 20: 60  
 
 #### MIT
 ##### Embodied AI
@@ -55,3 +65,65 @@ Vision: In Interactive Robotics Group (IRG), our work converges to a single goal
 Recent research of interest: I recenty read your paper on ALGAE, that combined language-models with inverse reinforcement learning for learning reward function from concise demonstrations
 
 ###### Pulkit Agarwal
+
+
+
+#### Carnegie Mellon University
+
+#### University of Maryland - College Park
+
+#### Massachusetts Institute of Technology
+
+#### Univ. of Illinois at Urbana-Champaign
+
+#### Georgia Institute of Technology
+
+#### Univ. of California - San Diego
+
+#### Univ. of California - Berkeley
+
+#### Stanford University
+
+#### Northeastern University
+
+#### University of Pennsylvania
+
+#### Cornell University
+
+#### University of Southern California
+
+#### Purdue University
+
+#### Rutgers University
+
+#### University of Washington
+
+#### Arizona State University
+
+#### Duke University
+
+#### Univ. of California - Los Angeles
+
+#### University of Massachusetts Amherst
+
+#### Johns Hopkins University
+
+#### Rice University
+
+#### Brown University
+
+#### University of Texas at Austin
+
+#### University of Michigan
+
+#### Texas A&M University
+
+#### Pennsylvania State University
+
+#### University of Minnesota
+
+#### Princeton University
+
+#### Columbia University
+
+#### Stony Brook University

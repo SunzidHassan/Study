@@ -31,6 +31,8 @@ $v_{BE}(t)=V_{BE}+v_{be}(t)$
 
 **7.1.5**
 
+*MOSFET Case:*
+
 $A_v=\frac{dv_{DS}}{dv_{GS}}$  
 $\Rightarrow A_v=-k_nV_{OV}R_D$
 
@@ -39,6 +41,62 @@ $A_v=-\frac{I_DR_D}{V_{OV}/2}$
 $\Rightarrow A_v=-\frac{V_{DD}-V_{DS}}{V_{OV}/2}$  
 
 Max gain at point B, $A_{vmax}=-\frac{V_{DD}-V_{OV}}{V_{OV}/2}$
+
+*BJT Case:*
+
+$A_v=\frac{dv_{CE}}{dv_{BE}}$
+
+$A_v=-\frac{I_CR_C}{V_T}=-\frac{V_{CC}-V_{CE}}{V_T}$
+
+$A_{vmax}=-\frac{V_{CC}-0.3}{V_T}$
+
+$\Delta v_{BE}=V_T\ln{(i_c/I_c)}$
+
+**7.2.1**
+
+$v_{GS}=V_{GS}+v_{gs}$
+
+If the small signal condition is satisfied ( $v_{gs}\lt\lt2V_{OV}$), $i_D=I_D+i_d$, where $i_d=k_n(V_{GS}-V_t)v_{gs}$
+
+MOSFET transconductance, $g_m$ relates $i_d$ and $v_{gs}$.
+
+$g_m=\frac{i_d}{v_{gs}}=k_n(V_{GS}-V_t)=k_nV_{OV}$
+
+$g_m=\frac{\delta i_d}{\delta v_{GS}}$
+
+**The Voltage Gain**
+
+$v_{DS}=V_{DD}-(I_D+i_d)R_D=V_{DS}-R_Di_d$
+
+The signal component of drain voltage, $v_{ds}=-i_dR_D=-g_mv_{gs}R_D$
+
+$A_v=\frac{v_{ds}}{v_{gs}}=-g_mR_D$
+
+For operation in the active region, $v_{DS}$ will have to be within $V_{DD}$ and $v_{GS}-V_t$
+
+**Separating the DC Analysis and the Signal Analysis**
+
+Given $v_{DS}=V_{DS}+v_{ds}$ and $i_D=I_D+i_d$, once we establish stable dc point, we can seperate dc and signal to perform signal analysis.
+
+**Small-Signal Equivalent-Circuit Models**
+
+Current against signal $v_{gs}$ is $i_d=g_mv_{gs}$ at drain.
+
+Drain current depends on $v_{DS}$, which is modeled by resistance $r_o$ between drain and source, where $r_o=\frac{|V_A|}{I_D}$, where early voltage $V_A=1/\lambda$ is a MOSFET parameter, and $I_D=k_n\frac{1}{2}V_{OV}^2$
+
+$A_v=\frac{v_{ds}}{v_{gs}}=-g_m(R_D||r_o)$
+
+**The Transconductance $g_m$**
+
+$g_m=k_n'(W/L)(V_{GS}-V_t)$
+
+$=k_n'(W/L)V_{OV}$
+
+$=\sqrt{2k_n'}\sqrt{W/L}\sqrt{I_D}$
+
+$=\frac{I_D}{V_{OV}/2}$
+
+
 
 ### 7.1 Basic Principles
 #### 7.1.1 The Basis for Amplifier Operation
@@ -108,14 +166,17 @@ $V_{DS}|_{A}=V_{DD}=1.8$ V
   
 At point B,  
 $V_{GS}|_{B}=V_t+\frac{\sqrt{2k_nR_DV_{DD}+1}-1}{k_nR_D}=0.613$ V and  
-$V_{DS}|_{B}=V_{GS}|_{B}-V_t=0.213$ V
+$V_{DS}|_{B}=V_{DS}=V_{GS}|_{B}-V_t=0.213$ V
 
 $V_{GS}|_C=V_{DD}$, the MOSFET is in Triode.
 
 $V_{DS}|_{C}=V_{DD}-i_DR_D$  
-$\Rightarrow V_{DS}=1.8-(0.5\times4m\times17.5k)\times(v_{DS}v_{OV}-0.5\times V_{DS}^2)$  
-$\Rightarrow V_{DS}=1.8-35\times(1.4v_{DS}-0.5\times V_{DS}^2)$  
-$\Rightarrow V_{DS}=1.8-35\times v_{DS}(1.4-0.5V_{DS})$  
+$\Rightarrow V_{DS}|_{C}=V_{DD}-kn(V_{OV}V_{DS}-0.5V_{DS}^2)R_D$  
+$\Rightarrow V_{DS}=1.8-(4m\times17.5k)\times(V_{DS}1.4-0.5\times V_{DS}^2)$  
+$\Rightarrow V_{DS}+70\times(1.4V_{DS}-0.5\times V_{DS}^2)=1.8$  
+$\Rightarrow V_{DS}+98V_{DS}-35V_{DS}^2=1.8$  
+
+... 
 
 #### 7.1.4 Obtaining Linear Amplification by Biasing the Transistor
 
@@ -126,7 +187,7 @@ $V_{DS}=V_{DD}-k_nR_D\frac{1}{2}(v_{GS}-V_T)^2$
 Point Q or the **bias point**, or the **dc operating point**, or the **quiescent point**.
 
 Next, the signal to be amplified, $v_{gs}$, a function of time $t$, is superimposed on the bias voltage $V_{GS}$, and thus, the total instanteneous value of $v_{GS}$ becomes, 
-$v_{GS}(t)=V_{GS}+v_{gs}(t)$, and $v_{DS}(t)=V_{DD}-k_nR_D\frac{1}{2}(v_{GS}(t)-V_T)^2$
+$v_{GS}(t)=V_{GS}+v_{gs}(t)$, and $v_{DS}(t)=V_{DD}-k_n\frac{1}{2}(v_{GS}(t)-V_T)^2R_D$
 
 If the amplitude of the signal $v_{gs}$ is increased, it'll go outside the almost-linear segment of AB, and can leave AB. Then negative peaks of $v_{gs}$ can enter cutoff region, and $v_{ds}$ will be 'clipped off'. Similarly, positive peaks of $v_{ds}$ will enter triode, and $v_{ds}$ will be flattened.
 
@@ -206,7 +267,7 @@ For each design, specify $V_{GS}$, $I_D$, $R_D$, and $V_{DS}$.
 
 (a)
 
-$V_{OV}=0.6$
+$V_{GS}=0.6$
 
 $V_{OV}=V_{GS}-V_t=0.2$ V
 
@@ -310,7 +371,7 @@ $\Rightarrow v_{BE}=\frac{v_{CE}}{A_v}=5.3m$ V.
 ### 7.1
 #### 7.1.6
 
-#### 7.1.7 Deciding Q point
+#### 7.1.7 Deciding Bias Point Q Location
 As close to point B as possible, while allowing for required nengative swing (having enough 'legroom').
 Allowing for positive swing (having enough 'headroom').
 
@@ -364,7 +425,7 @@ Given $v_{DS}=V_{DS}+v_{ds}$ and $i_D=I_D+i_d$, once we establish stable dc poin
 
 From signal point of view, FET accepts a signal $v_{gs}$, and provides current $i_d=g_mv_{gs}$ at drain. Fig 7.13(a) is the small signal equivalent circuit.
 
-- the signal current of an idean constant dc current source will always be zero
+- the signal current of an ideal constant dc current source will always be zero
 - thus, an ideal constant dc current source can be replaced by an open circuit in the small-signal equivalent circuit of the amp.
 
 Drain current depends on $v_{DS}$, which is modeled by resistance $r_o$ between drain and source, where $r_o=\frac{|V_A|}{I_D}$, where early voltage $V_A=1/\lambda$ is a MOSFET parameter, and $I_D=k_n\frac{1}{2}V_{OV}^2$
@@ -384,6 +445,9 @@ $=\frac{I_D}{V_{OV}/2}$
 Three different relationship for determining $g_m$, three design parameters-$(W/L)$, $V_{OV}$, $I_D$
 
 - 
+
+### Exercise
+7.4-7.9
 
 ### Example
 #### 7.3
@@ -507,6 +571,34 @@ $R_{Cth}=(\frac{1}{10}+\frac{1}{10})^{-1}=5$ $K\Omega$
 
 $A_v=-\frac{I_CR_{Cth}}{V_T}$  
 $\Rightarrow A_v=-\frac{0.2m5k}{25m}=-40$ V/V  
+
+
+##### 7.33
+![P7.33](LaTech/ELEN535_Adv_Microelectronics/Figs/P7.33.png)
+
+(a)  
+$V_t=1$ V  
+$k_n=4$ mA/V**2  
+Verify that the bias circuit establishes:
+
+$V_{GS}=1.5$ V  
+$I_D=0.5$ mA  
+$V_D=+7$ V  
+Assume these values, and verify that they are consistent with the circuit components.
+
+(b)  
+Find $g_m$ and $r_o$ if $V_A=100$ V.  
+
+(c)  
+Draw a complete small-signal equivalent circuit for the amplifier.
+
+(d)  
+Find $R_{in}$, $v_{gs}/v_{sig}$, $v_o/v_{gs}$, and $v_o/v_{sig}$
+
+**Solution:**
+
+
+##### 7.53
 
 
 ## Bioelectronics
