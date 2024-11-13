@@ -84,7 +84,7 @@ Current against signal $v_{gs}$ is $i_d=g_mv_{gs}$ at drain.
 
 Drain current depends on $v_{DS}$, which is modeled by resistance $r_o$ between drain and source, where $r_o=\frac{|V_A|}{I_D}$, where early voltage $V_A=1/\lambda$ is a MOSFET parameter, and $I_D=k_n\frac{1}{2}V_{OV}^2$
 
-$A_v=\frac{v_{ds}}{v_{gs}}=-g_m(R_D||r_o)$
+$A_v=\frac{v_o}{v_i}=\frac{v_o}{v_{gs}}=\frac{v_{ds}}{v_{gs}}=-g_m(R_D||r_o)=-g_mR_L'$
 
 **The Transconductance $g_m$**
 
@@ -96,7 +96,25 @@ $=\sqrt{2k_n'}\sqrt{W/L}\sqrt{I_D}$
 
 $=\frac{I_D}{V_{OV}/2}$
 
+$v_o=(i_i-g_mv_{gs})R_L'$
 
+$i_i=\frac{v_{gs}-v_o}{R_G}$
+
+$A_V\approx-g_mR_L'$
+
+$R_{in}=\frac{R_G}{1+g_mR_L'}$
+
+$\frac{v_{GS}}{v_{sig}}=\frac{R_{in}}{R_{sig}+R_{in}}$
+
+For saturation,
+$v_{DS}\ge v_{GS}-V_t$ or  
+$v_{DSmin}=v_{GSmax}-V_t$
+
+$v_{DSmin}=V_{DS}-|A_v|v_i$
+
+$V_{DS}-|A_v|v_i=V_{GS}+v_i-V_t$
+
+If $V_{DS}=V_{GS}$, $v_i=\frac{V_t}{|A_v|+1}$
 
 ### 7.1 Basic Principles
 #### 7.1.1 The Basis for Amplifier Operation
@@ -477,9 +495,30 @@ $R_L'=R_L||R_D||r_o=10||10||47=4.52k$ $\Omega$
 
 $A_v=-g_mR_L'=-3.3$ V/V
 
-#### Problems
+### Exercise
+#### 7.10
 
-##### 7.2
+#### 7.2.2 The BJT Case
+![Fig 7.21](LaTech/ELEN535_Adv_Microelectronics/Figs/Fig7.21.png)
+
+**DC Bias point**
+DC bias point by setting signal $v_{be}=0$, which reduces the circuit.
+
+$I_C=I_Se^{V_{BE}/V_T}$  
+$I_E=I_C/\alpha$  
+$I_B=I_C/\beta$  
+$V_{CE}=V_{CC}-I_CR_C$  
+For active model operation, $V_{CE}$ should be greater than $(V_{BE}-0.4)$ by an amount that allows for negative signal swing at the collector.
+
+$v_{BE}=V_{BE}+v_{be}$  
+Collector current, $i_C=I_Se^{(V_{BE}+v_{be})/V_T}=I_Se^{V_{BE}/V_T}e^{v_{be}/V_T}$  
+
+$i_c=I_Ce^{v_{be}/V_T}$
+
+
+### End of Chapter Problems
+
+#### 7.2
 $V_{DD}=3$ V  
 $k_n=5$ $mA/V^2$  
 $V_{DS}=0.3$ V  
@@ -502,7 +541,7 @@ $I_D=k_n\frac{1}{2}V_{OV}^2=10m\times0.5\times0.3^2=0.45m$ A
 $R_D=\frac{V_{DD}-V_{DS}}{I_D}=6k$ $\Omega$
 
 
-##### 7.6
+#### 7.6
 $R_D=20$ $k\Omega$  
 $V_{RD}=2$ V  
 $V_{GS}=0.75$ V  
@@ -520,7 +559,7 @@ $\Rightarrow \frac{W}{L}=\frac{I_D}{k_n'\frac{1}{2}(v_{GS}-V_t)^2}$
 $\Rightarrow \frac{W}{L}=\frac{2/20k}{400\mu\frac{1}{2}(0.75-0.5)^2}=8$  
 
 
-##### 7.8
+#### 7.8
 $v_{DS}=\pm0.2$ V  
 $V_{DD}=2$ V  
 $v_{OV}=2$ V  
@@ -547,7 +586,7 @@ $I_D=k_n'(\frac{W}{L})\frac{1}{2}v_{ov}^2$
 $\frac{W}{L}=\frac{I_D}{k_n'\frac{1}{2}v_{ov}^2}$  
 $\frac{W}{L}=\frac{100\mu}{400\mu\frac{1}{2}0.2^2}=12.5$  
 
-##### 7.10
+#### 7.10
 
 $A_v=-\frac{V_{CC}-V_{CE}}{V_T}$  
 $\Rightarrow A_v=-\frac{3-0.5}{25m}=-100$ V/V  
@@ -561,7 +600,7 @@ $A_{vmax}=\frac{v_o}{v_i}$
 $\Rightarrow v_i=\frac{v_o}{A_vmax}$  
 $\Rightarrow v_i=\frac{0.3}{-108}=2.778$ mV  
 
-##### 7.15
+#### 7.15
 $I_C=0.2$ mA  
 $V_{CC}=3$ V  
 $R_C=10$ $k\Omega$  
@@ -573,7 +612,7 @@ $A_v=-\frac{I_CR_{Cth}}{V_T}$
 $\Rightarrow A_v=-\frac{0.2m5k}{25m}=-40$ V/V  
 
 
-##### 7.33
+#### 7.33
 ![P7.33](LaTech/ELEN535_Adv_Microelectronics/Figs/P7.33.png)
 
 (a)  
@@ -598,13 +637,13 @@ Find $R_{in}$, $v_{gs}/v_{sig}$, $v_o/v_{gs}$, and $v_o/v_{sig}$
 **Solution:**
 
 
-##### 7.53
+#### 7.53
 
 
 ## Bioelectronics
 ### OFET
 MOSFET: inorganic (Si) with covalent bond.
-Organic FET: organic polymers/small molecules with Van der Waals bonds. It's weak, molecules in gases, organic liquids, solids and polymers.
+Organic FET: organic polymers/small molecules with Van der Waals bonds.
 
 Weak bond allows low-temp fabrication of OFETs - allowing fabrication on flexible polymers, textiles, biodegradable papers.
 
@@ -680,3 +719,158 @@ Dielectric properties:
 
 #### Contacts
 - 
+
+
+### Microfab notes
+
+
+**Advantages of Si**
+Abundant, Well established purification, Physical properties, Easy oxidation for insulation
+
+#### Fab 1: silicon wafers
+- High purity,
+- Grown as single crystal ingot
+- Wafers are sawed from the crystal
+- Mirror polish
+- Properties:  orientation, impurity concentration, inpurity type
+- Doping (p/n type)
+
+
+#### Fab 2: Oxidation
+- Si reacts with O to form $SiO_2$
+- In a clean high temperature room
+- O is introduced as high purity gas (dry oxidation) or steam (wet oxidation)
+- Wet oxidation is fasater, dry has better properties
+- $SiO_2$ is used as mask
+
+#### Fab 3: Photolithography
+Surface patterns of IC components can be defied using Photolithography
+- Wafer surface is coated with photoresist
+- Photomask: a photographic plat with drawn patterns will be used to selectively expose the protoresist to deep UV
+    - The exposed area becomes soluble (for positive photoresist), or insoluble (for negative photoresist).
+- Un/exposed regions are removed using chemical etching, causing mask patterns to be duplicated on the wafer.
+- Patterned photoresist layer can be used as masking layer to protect from wet chemical etching or reactive ion etching.
+- Etching > photoresist is stripped away
+
+#### Fab 4: Etching
+- Chemical or reactive ion etching (RIE)
+- Chemical: HF for $SiO_2$. Causes undercut (isotropic).
+- RIE (gas bombardment) is more exact (anisotropic).
+![mask](LaTech/ELEN535_Adv_Microelectronics/Figs/Fab_mask.png)
+
+#### Fab 5: Doping using Diffusion
+- Adding impurity (creating p/n regions).
+- High temperature diffusion
+- At room temp, impurities are frozen in place.
+- Boron (p-type), Phosphorus and arsenic (n-type).
+- Heavy doping can overwhelme previous light doping: Boron is previous n type for pn junction.
+- Heavy doping for conductive layer.
+
+
+#### Fab 6: Doping using ion implantation
+- Accelerate ion in electric field, strike them in wafer
+- Depth is voltage controlled
+- Quantity is beam current controlled
+- Room temp, high accuracy
+
+#### Fab 7: chemical vapor deposition
+- For solid formation on substrate
+- Can be done in lower temperature.
+- If saline gas and O react above substrate, $SiO_2$ will form over substrate.
+- Only saline will deposite Si layer.
+- Epitaxy: High reaction temperature will deposite crystalline layer - epitaxial layer
+- Polysilicon: for multi-crystal Si or low temp CVD, poly si.
+- Poly Si can be doped heavily to form conductive region that is used as electrical interconnection and MOSFET gates.
+
+#### Fab 8: Metallization
+- Wires to interconnect components
+- Metal is deposited on the entire surface using sputtering, required pattern is then selectively etched.
+- Sputtering: Ar ion gun knocks metal atoms from pure metal disk to substrate.
+- Metal interconnects defined using Photolithography and etching
+- Tungsten contact between metal and substract in $SiO_2$ openings.
+- High dopant concentration is required under the contact.
+
+#### Fab 9: Packaging
+- Good circuits are mounded in packages
+- Gold wire or solder balls are used to interconnect package pins to metalization pattern
+
+
+### Bioelectronics Notes
+**Biocompatibility** is the degree to which a device triggers a harmful effect in its surrounding tissue.
+
+Depends on:
+- The chemical and mechanical properties of the material of the device. 
+- The properties of the tissue the device is placed in.
+- The duration of the tissue-device interaction.
+
+Strategies to avoid mechanical mismatch with skin include:
+- The use of thin film structures by integrating stiff conventional materials in structures that are flexible or stretchable.
+- The development of organic and novel materials like conducting polymers with low mechanical stiffness and high electrical conductivity.
+
+Improve biocompatibility:
+1. Anti-inflammatory/fibrotic compounds.
+2. Non-fouling materials
+3. Soft and flexible devices
+4. Device size (small), geometry, location (outside body)
+5. Biodegradable implants
+
+### OFET
+MOSFET: inorganic (Si) with covalent bond.
+Organic FET: organic polymers/small molecules with Van der Waals bonds.
+Low temperature, flexible.
+
+**Device Geometry:
+**Coplanar: bottom gate bottom contact, top gate top contact.
+Staggered: bottom gate top contact, top gate bottom contact.
+
+BGBC: testing with prefabricated gate electrode, diaelectric, SD prefabricated, semiconductor is deposited at last.
+
+TGBC, TGTC: reduced degradation.
+![OFET Strcttures](LaTech/ELEN535_Adv_Microelectronics/Figs/BE_fig1.png)
+
+**Device parameters:**
+charge traps are defects in the semiconductor that can trap charge carriers.
+
+If $V_{GS}$ is applied, charge accumulates under the semiconductor-dielectric interface. If $V_{DS}$ is applied, accumulated charge moves from S to D resulting in $I_D$.
+
+small amounts of dopants can result in a positive threshold voltage, and the device will be already on at VGS = 0, a positive value of VGS is needed to reach the “off” state.
+
+**Device hysteresis:** in transfer characteristics due to charge trappings.
+
+**Gradual channel approximation** is the foundation of analysis OFET.
+The electric field between S and G electrodes >> than that between S and D electrodes.
+This is by selecting the dielectric thickness d and the channel length L such that L/d is ≥ 10.
+
+**Metrics for high-performance OFETs**
+- High field effect mobility
+- Maximised ($\gt10^6$) on/off current
+- Close to zero threshold voltage
+- Low value (1V/dec) subthreshold swing S, indicates faster switching speeds.
+
+**OFET Materials**
+1. Small molecules: oligomers of conjugated monomers.
+2. Polymers: long chains/complex structures of conjugated monomers.
+- p-type (F4-TCNQ), n-type (Na, K), ambipolar.
+
+**Deposition method**
+1. Single crystal growth
+* Single crystal from vapor: high purity  
+    * Vaccum sublimation: of semiconductor powder
+    * Physical vapor transport (PVT)
+High device performance, but not realizable for mass production.
+2. Thermal deposition: sublimation under vaccum.
+* High uniformity and good reproducibility.
+3. Solution decomposition
+* Low cost, large area fabrication at ambient temperatuer and pressure
+    * Spin coating: depositing a small pool of semiconductor solution onto the center of the substrate and spinning the substrate at high speeds.
+        * Spin parameters: solvent type, surface tension, viscosity, concentration, spin (speed, acceleration).
+    * Drop Casting: solution dropped on substrate, solvent is evaporated.
+        * Less wastage, but ununiform coverage, low control over thickness.
+    * Spray coating: high throughput. Inert gas: small droplets > aerosols > spray.
+    * Inkjet printing: low cost, high mobility.
+    * Solution shearing: moving a shearing blade containing an organic semiconductor solution above a temperature controlled substrate. Solvant evaporates, forming thin film.
+    * Laser printing: low cost, scalable, simultaneous patterning and coating.
+
+**Dielectrics**
+SiO2 common. Passivation used for reducing surface state/charge traps.
+
