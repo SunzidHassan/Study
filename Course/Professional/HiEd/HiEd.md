@@ -77,6 +77,10 @@ Recent research of interest: I recenty read your paper on ALGAE, that combined l
 #### Univ. of Illinois at Urbana-Champaign
 
 #### Georgia Institute of Technology
+Sam Coogan
+Associate Professor
+Email: sam.coogan[at]gatech[dot]edu
+
 
 #### Univ. of California - San Diego
 
