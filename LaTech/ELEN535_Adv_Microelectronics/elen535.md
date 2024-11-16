@@ -106,8 +106,11 @@ $R_{in}=\frac{R_G}{1+g_mR_L'}$
 
 $\frac{v_{GS}}{v_{sig}}=\frac{R_{in}}{R_{sig}+R_{in}}$
 
-For saturation,
-$v_{DS}\ge v_{GS}-V_t$ or  
+$\frac{v_o}{v_{gs}}=-g_m\frac{R_L'}{1+g_mR_s}$
+
+$\frac{v_o}{v_{sig}}=\frac{v_o}{v_{gs}}\times\frac{v_{gs}}{v_{sig}}$
+
+For saturation, 
 $v_{DSmin}=v_{GSmax}-V_t$
 
 $v_{DSmin}=V_{DS}-|A_v|v_i$
@@ -476,24 +479,32 @@ $V_A=50$ V
 **Solutiion**
 
 Eliminate $v_i$ and open-circuit two coupling capacitors for dc operating point.
-Here, $I_G=0$, thus, $V_{GS}=V_{DS}=V_{DD}-I_DR_D$
+Here, $I_G=0$ (high $R_G$?), thus, $V_{GS}=V_{DS}=V_{DD}-I_DR_D$
 
-Since $V_{DS}=V_{GS}$, sat $I_D=k_n\frac{1}{2}V_{OV}^2=1.06m$ A
+$I_D=.5\times kn\times(V_{DD}-I_DR_D-V_T)=1.06m$ A
 
 $V_{GS}=V_{DS}=4.4$ V  
 $V_{OV}=2.9$ V  
 
-Small-signal analysis: fig 7.16(c)
+Small-signal model: fig 7.16(c)
 
 $g_m=k_nV_{OV}=0.725m$ A/V  
 $r_o=\frac{V_A}{I_D}=47k$ $\Omega$
 
-$R_{in}=v_i/i_i$  
-$A_v=v_o/v_i$
-
 $R_L'=R_L||R_D||r_o=10||10||47=4.52k$ $\Omega$
 
-$A_v=-g_mR_L'=-3.3$ V/V
+$A_v\approx-g_mR_L'=-3.3$ V/V
+
+For saturation,
+$v_{DS}\ge v_{GS}-V_t$ or  
+$v_{DSmin}=v_{GSmax}-V_t$
+
+$v_{DSmin}=V_{DS}-|A_v|v_i$
+
+$V_{DS}-|A_v|v_i=V_{GS}+v_i-V_t$
+
+If $V_{DS}=V_{GS}$, $v_i=\frac{V_t}{|A_v|+1}=\frac{1.5}{3.3+1}=0.35$ V  
+
 
 ### Exercise
 #### 7.10
@@ -515,6 +526,25 @@ Collector current, $i_C=I_Se^{(V_{BE}+v_{be})/V_T}=I_Se^{V_{BE}/V_T}e^{v_{be}/V_
 
 $i_c=I_Ce^{v_{be}/V_T}$
 
+### Example
+#### 7.5
+![Example 7.5](LaTech/ELEN535_Adv_Microelectronics/Figs/F7.29.png)
+
+5-step process:  
+1.DC Q point  
+$I_B=\frac{V_{BB}-V_BE}{R_B}=0.023m$ A  
+$I_C=\beta I_B=2.3m$  
+$V_C=V_{CC}-I_CR_C=3.1\gt V_B$ V  
+2.Small signal model parameters:  
+$r_e=\frac{V_T}{I_E}=10.8$ $\Omega$  
+$g_m=\frac{I_C}{V_T}=92m$ A/V  
+$r_\pi=\frac{\beta}{g_m}=1.09$ $\Omega$  
+3.Replacing $V_{BB}$ and $V_{CC}$ with short circuits
+4.Hybrid-pi circuit model
+5.Analysis of hybrid-pi circuit  
+$v_{be}=v_i\frac{r_\pi}{r_\pi+R_{BB}}=0.011v_i$  
+Output $v_o=-g_mv_{be}R_C=-3.04v_i$  
+Voltage gain, $A_v=\frac{v_o}{v_i}=-3.04$ V/V
 
 ### End of Chapter Problems
 
@@ -636,8 +666,64 @@ Find $R_{in}$, $v_{gs}/v_{sig}$, $v_o/v_{gs}$, and $v_o/v_{sig}$
 
 **Solution:**
 
+(a)  
+$\frac{V_G}{5}=\frac{15}{10+5}$  
+$\Rightarrow V_G=5$ V  
+$V_D=V_{DD}-I_DR_D=15-.5\times16k=7$ V (verified)  
+$V_S=0+I_DR_S=.5\times7k=3.5$ V (verified)  
+$V_{GS}=V_G-V_S=1.5$ V (verified)  
+$I_D=.5\times k_n\times V_{OV}^2=.5\times4m\times.5^2=.5m$ A
+
+(b)  
+$g_m=k_nV_{OV}=4m\times.5=2m$ A/V  
+$r_o=\frac{V_A}{I_D}=100/.5m=200k$ $\Omega$
+
+(c)  
+$R_G=10M||5M=3.33M$ $\Omega$  
+$R_L'=r_o||16k||16k=7.6923k$ $\Omega$
+
+(d)  
+$R_{in}=\frac{R_G}{1+g_mR_L'}=203.441k$
+
+$\frac{v_{GS}}{v_{sig}}=\frac{R_{in}}{R_{sig}+R_{in}}=0.94$
+
+$\frac{v_o}{v_{gs}}=-g_m\frac{R_L'}{1+g_mR_s}=1.06$
+
+$\frac{v_o}{v_{sig}}=\frac{v_o}{v_{gs}}\times\frac{v_{gs}}{v_{sig}}=1.006$
+
 
 #### 7.53
+![P 53](LaTech/ELEN535_Adv_Microelectronics/Figs/P7.53.png)
+
+$\alpha=0.99$  
+Draw small-signal equivalent T-model circuit, find model parameters, $R_{in}$, voltage gain ($v_o/v_i$)  
+**Solution**  
+$g_m=\frac{I_C}{V_T}=13.2m$ A/V  
+$r_e=1/g_m=0.7576k$  
+$R_{in|B}=\alpha r_e=75$  
+$R_{in}=R_{sig}||R_{in|B}=37.5$  
+$\frac{v_o}{v_e}=-g_m(R_C||R_L)=-79.2$  
+$\frac{v_e}{v_{sig}}=\frac{R_{in}}{R_{sig}+R_{in}}=0.33$  
+$\frac{v_o}{v_{sig}}=\frac{v_o}{v_{c}}\times\frac{v_e}{v_{sig}}=-26.4$  
+
+### Quiz 3
+![Quiz 3](LaTech/ELEN535_Adv_Microelectronics/Figs/quiz3.png)
+
+First find $I_D$ (M) or $I_C$ (B) for DC. Then find small signal parameters $g_m$, $r_o$. Draw small-signal circuit. Then find $A_v$.
+
+$V_{BEon}=0.7$ V  
+$\beta=100$  
+$V_A=80$ V  
+KCL:  
+$I_B(100k)+0.7+(10I_B)4k-5\Rightarrow I_{BQ}=0.853m$ A  
+$I_{CQ}=\beta I_{BQ}=0.853m$ A  
+$g_m=\frac{I_{CQ}}{V_T}=32.8m$ A/V  
+$r\pi=\frac{\beta V_T}{I_{CQ}}=3.047k$ $\Omega$  
+$r_o=\frac{V_A}{I_{CQ}}=93.787k$  $\Omega$  
+(a) $R_i=R_S+(R_B||r_\pi)=3.375k$ $\Omega$  
+$\frac{v_o}{v_\pi}=-g_m(r_o||R_c)=-125.83$  
+$\frac{v_\pi}{v_s}=\frac{r_\pi||R_B}{(r_B||R_B)+R_S}=0.88=55$  
+(b) $A_v=\frac{v_o}{v_s}=\frac{v_o}{v_\pi}\frac{v_\pi}{v_s}=-107.6$  
 
 
 ## Bioelectronics
