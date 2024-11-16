@@ -20,7 +20,7 @@ Subject: Inquiry from potential graduate applicant.
 
 Dear Dr. XXX,
 
-I’m a Computer Science MS major at Louisiana Tech University, where I have been working at the Automatic Control lab under the supervision of Dr. Lingxiao Wang. My research has focused on combining high-level reasoning capabilities of multimodal LLMs with low-level action learning capabilities of reinforcement learning (see my research projects nad attached CV).
+I’m a Computer Science MS major at Louisiana Tech University, where I have been working at the Automatic Control lab under the supervision of Dr. Lingxiao Wang. My recent research has focused on combining high-level reasoning capabilities of multimodal LLMs with low-level action learning capabilities of reinforcement learning (see my research projects nad attached CV).
 
 I’m planning to apply to PhD programs this Fall, and I’m very interested in the possibility of working in your lab at <INSTITUTION>. I read your recent paper on <PAPER>, and I found your approach of <APPROACH> to be very exciting.
 
