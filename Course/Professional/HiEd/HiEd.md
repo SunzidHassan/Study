@@ -42,16 +42,41 @@ XXX XXXX
 
 ## 2024
 ### Robotics
-Sent email: 0/300
+Sent email: 4/300
 
-Nov 13: 5  
-Nov 14: 10  
-Nov 15: 20  
-Nov 16: 30  
-Nov 17: 60  
-Nov 18: 60  
-Nov 19: 60  
-Nov 20: 60  
+Nov 21: 29*5  
+1. MIT: 5/5
+2. CMU: 0/5
+3. Stanford: 0/5
+4. UCal Berkeley: 0/5
+5. Illinois: 0/5
+6. Washington: 0/5
+7. UTexas Austin: 0/5
+8. UCal San Diego: 0/5
+9. Southern Cal: 0/5
+10. Michigan: 0/5
+11. Cornell: 0/5
+12. UCal Los Angeles: 0/5
+13. Maryland: 0/5
+14. Georgia Tech: 0/5
+15. Harvard: 0/5
+16. Pennsylvania: 0/5
+17. Columbia: 0/5
+18. Princeton: 0/5
+19. CalTech: 0/5
+20. JHU: 0/5
+21. UCal Irvine: 0/5
+22. Duke: 0/5
+23. Brown: 0/5
+24. Massachusetts Amherst: 0/5
+25. Rice: 0/5
+26. Purdue: 0/5
+27. Minnesota: 0/5
+28. Pennsylvania State: 0/5
+29. Arizona State: 0/5
+
+
+Nov 22: 30*5  
 
 #### MIT
 ##### Embodied AI
@@ -71,8 +96,6 @@ Recent research of interest: I recenty read your paper on ALGAE, that combined l
 #### Carnegie Mellon University
 
 #### University of Maryland - College Park
-
-#### Massachusetts Institute of Technology
 
 #### Univ. of Illinois at Urbana-Champaign
 
