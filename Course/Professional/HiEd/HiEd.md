@@ -45,15 +45,15 @@ XXX XXXX
 Sent email: 4/300
 
 Nov 21: 29*5  
-1. MIT: 5/5
-2. CMU: 0/5
-3. Stanford: 0/5
-4. UCal Berkeley: 0/5
-5. Illinois: 0/5
-6. Washington: 0/5
-7. UTexas Austin: 0/5
-8. UCal San Diego: 0/5
-9. Southern Cal: 0/5
+01. MIT: 5/5
+02. CMU: 1/5
+03. Stanford: 0/5
+04. UCal Berkeley: 0/5
+05. Illinois: 0/5
+06. Washington: 0/5
+07. UTexas Austin: 1/5
+08. UCal San Diego: 0/5
+09. Southern Cal: 0/5
 10. Michigan: 0/5
 11. Cornell: 0/5
 12. UCal Los Angeles: 0/5
@@ -64,7 +64,7 @@ Nov 21: 29*5
 17. Columbia: 0/5
 18. Princeton: 0/5
 19. CalTech: 0/5
-20. JHU: 0/5
+20. JHU: 1/5
 21. UCal Irvine: 0/5
 22. Duke: 0/5
 23. Brown: 0/5
