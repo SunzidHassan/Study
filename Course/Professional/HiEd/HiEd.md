@@ -42,6 +42,31 @@ XXX XXXX
 
 +
 
+I hope this message finds you well. I am a PhD candidate in Computer Science (CAM) at Louisiana Tech University, currently working as a research assistant in the Automatic Control Lab under Dr. Lingxiao Wang. My research focuses on applying AI to robot navigation. I previously earned my Master’s in Computer Science with a 4.0/4.0 GPA, completing interdisciplinary coursework in computer science, mathematics, neuroscience, and electrical engineering.
+
+I am preparing to apply for PhD programs this fall, with a focus on cognitive robotics.
+
+
+
+Details about my projects and publications are available on my website and in the attached CV.
+
+Project of Interest: Trustworthy Interaction & Multi-UAV Systems
+
+I have experience in customizing and developing Raspberry Pi and ROS-based mobile robots. Currently, I am building a quadcopter that integrates Raspberry Pi with a Pixhawk flight controller. Additionally, I have hands-on expertise in ROS programming and Gazebo simulations for robot navigation.
+
+I have applied GPT APIs and Hugging Face LLMs for robot navigation and have practical experience in implementing deep supervised learning and reinforcement learning using PyTorch and TorchRL.
+
+I am deeply interested in application of human cognitive research in human-robot interaction. To strengthen my understanding of the intersection between neuroscience and engineering, and am currently collaborating on a brain genomics project, I plan to pursue a Master's in Biomedical Engineering by Summer 2025.
+Thank you very much for your time and consideration. I was hoping you might tell me whether you are planning to take new students in your lab in Fall 2025. I’d also be interested in any other information or advice you have.
+
+Sincerely,
+
+Sunzid Hassan
+
+
+
+
++
 
 Dear Dr. XXX,
 
@@ -69,21 +94,6 @@ Key Labs:
 Cognitive Learning for Vision and Robotics (CoLearn)
 Human-Computer Interaction Institute (HCII)
 Why CMU? It’s a leader in AI research and has close ties with interdisciplinary studies.
-2. Massachusetts Institute of Technology (MIT)
-Department: Computer Science and Artificial Intelligence Laboratory (CSAIL)
-Programs: Ph.D. in Electrical Engineering and Computer Science
-Focus: Cognitive computing, machine reasoning, human-computer interaction, and natural language processing.
-Key Labs:
-Center for Brains, Minds, and Machines (CBMM)
-Why MIT? Offers cutting-edge research opportunities in cognitive architectures and AI.
-3. Stanford University
-Department: Computer Science
-Programs: Ph.D. in Computer Science
-Focus: Human-centered AI, cognitive systems, and computational neuroscience.
-Key Labs:
-Stanford Artificial Intelligence Lab (SAIL)
-Computational and Cognitive Neuroscience Lab
-Why Stanford? Strong collaboration between AI and cognitive science faculties.
 4. University of California, Berkeley
 Department: Electrical Engineering and Computer Sciences (EECS)
 Programs: Ph.D. in Computer Science
@@ -127,9 +137,6 @@ Why USC? Renowned for research in virtual humans and cognitive simulations.
 
 | University                          | Application Deadline       |
 |-------------------------------------|----------------------------|
-| Massachusetts Institute of Technology (MIT) | December 1, 2024  |
-| Stanford University                 | December 3, 2024  |
-| University of California, Berkeley  | December 6, 2024 |
 | Carnegie Mellon University (CMU)    | December 11, 2024  |
 |     |   |
 | University of Illinois Urbana-Champaign | December 15, 2024  |
