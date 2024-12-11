@@ -1,3 +1,6 @@
+## Biomedical Instrumentation
+
+
 ## Chapter 1
 Goals:
 1. Highlight connections between instrumentation and mechanical, electrical, and chemical engineering disciplines.
@@ -38,3 +41,56 @@ In blood flow model, flow $Q$ is analogous to current, pressure $P$ is analogous
 
 
 ### 2.3 Elements in Series and Parallel
+
+Resistance
+$$R_{Series}=R_1+R_2$$
+$$\frac{1}{R_{Parallel}}=\frac{1}{R_1}+\frac{1}{R_2}$$
+
+Inductance
+$$L_{Series}=L_1+L_2$$
+$$\frac{1}{L_{Parallel}}=\frac{1}{L_1}+\frac{1}{L_2}$$
+
+Conductance
+$$\frac{1}{C_{Series}}=\frac{1}{C_1}+\frac{1}{C_2}$$
+$$C_{Parallel}=C_1+C_2$$
+
+### 2.4 Time Constant
+**Step function**
+$$
+H(t) =
+\begin{cases} 
+0 & \text{if } t < 0, \\
+1 & \text{if } t \geq 0.
+\end{cases}
+$$
+
+Output of a first order linear system to a step function is an exponential of the from:
+$$v_{out}=V_{max}(1-e^{-t/\tau})u_s(t)$$
+Where $\tau$ is the time constant, $V_{max}$ is the maximum value tha t$v_{out}$ can attain, and $u_s(t)$ is the unit step function.
+When $t=\tau$, the output is
+$$v_{out}=V_{max}(1-e^{-1})\approx0.631V_{max}$$
+To estimate the time function, a step function is used as input, and time to reach 0.632 of final value is measured.
+
+
+### 2.5 Impedance
+
+
+### 2.6 Diodes
+
+
+### 2.7 Linearity
+
+
+### 2.8 Input and Output Impedance
+
+
+### 2.9 AC vs DC Signals
+
+
+### 2.10 Euler's Rule
+
+
+### 2.11 Transfer Functions
+
+
+### 2.12 Semiconductors
