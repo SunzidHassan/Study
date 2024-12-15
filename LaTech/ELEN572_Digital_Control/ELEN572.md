@@ -96,3 +96,8 @@ $$|a|\lt1\rightarrow\sum_{k=0}^\infin{a^{k}}=\frac{1}{1-a}$$
 $$|z^{-1}|\lt1\rightarrow\sum_{k=0}^\infin{z^{-k}}=\frac{1}{1-k^{-1}}=\frac{z}{z-1}$$
 
 15:
+
+...
+
+## 3. z-Transform Inversion and Final Value Theorem
+### Method 1: Long Division

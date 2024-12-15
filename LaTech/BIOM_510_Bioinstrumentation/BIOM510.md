@@ -7,7 +7,33 @@ Goals:
 2. Provide an understanding of the basic concepts of instrumentation that are needed to take measurements from the body, design biomedical instruments, and to model, theoretically, certain aspects of the body.
 3. Highlight aspects of electrical engineering concepts, such as positive and negative feedback, that can be used to understand and quantitatively model physiological phenomena, such as oscillatory cycles.
 
+### HW 1
+#### 1. Design criteria examples:
+Signal factors: amplitude.
+Economic factors: financing option.
+Social factors: usage fear.
+Environmental factors: weight.
+Medical safety factors: noise or vibration.
 
+#### 2. Specificity as environmental factor:
+Specificity is the property of discerning the target signal from other signals in the envrionment. This is determined not only by the signal requirement, but also on other signals in the environment. That's why it's more appropriate to classify it in environmental factors.
+
+#### 3. Oscilloscope
+a. Input has 4 divisions from peak-to-peak, resulting in $4\times0.5=2$ volts.
+Output has 2 divisions from peak-to-peak, resulting in $2\times0.1=0.2$ volts.
+
+b. Gain for this system is $V_{out}/V_{in}=0.2/2=0.1$
+
+c. Frequency: the signal has period of about 6.6 divisions with time base of 0.2ms/div, resulting in $T=0.2\times6.6=1.32$ ms. Frequency = $(1/1.32)\times1000=757$ Hz.
+
+d. The output signal lag is about 1.6 divisions, with period of about 6.6 divisions. Lag in degrees: $1.6/6.6\times360=87.3\degree$
+
+e. The input signal is 1.8 division above arrow 1, so the offset is $1.8\times0.5=0.9$ volts.  
+The output signal is 0.6 division above arrow 2, so the offset is $0.6\times0.1=0.006$ volts.
+
+#### 4. Mean and RMS
+For the mean
+$\bar{s}=$
 
 ## Chapter 2: Review
 ### 2.1 Kirchov's Laws
