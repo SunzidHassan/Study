@@ -33,7 +33,82 @@ The output signal is 0.6 division above arrow 2, so the offset is $0.6\times0.1=
 
 #### 4. Mean and RMS
 For the mean
-$\bar{s}=$
+$\bar{s}=\frac{1}{T} \int_0^T \left( B + A \sin(\omega t) \right)dt$
+
+$= \frac{1}{T} \int_0^T B \, dt + \frac{A}{T} \int_0^T \sin(\omega t) \, dt$
+
+$= \frac{B(T - 0)}{T} + \frac{A}{T} \left[ -\frac{1}{\omega} \cos(\omega t) \right]_0^T$
+
+$= \frac{1}{T} \int_0^T \left( B + A \sin(\omega t) \right) \, dt$
+
+$= \frac{1}{T} \int_0^T B \, dt + \frac{A}{T} \int_0^T \sin(\omega t) \, dt$
+
+$= B + \frac{A}{T} \left( -\frac{1}{\omega} \right) \left[ \cos(\omega T) - \cos(0) \right]$
+
+$= B - \frac{A}{T \omega} \left[ \cos(\omega T) - 1 \right]$
+
+With $T = \frac{2\pi}{\omega}$
+
+$B - \frac{A}{2\pi}\left[\cos(2\pi) - 1 \right]$
+
+$B + {A}({1-1})=B$
+
+For RMS, $s_{rms}=\frac{1}{T}\int_0^T\left(s(t)-\bar{s}\right)^2dt$
+
+Given $\bar{s}=B$, $s(t)-\bar{s}=B+A\sin(\omega t)-B=A\sin(\omega t)$
+
+$=\left(\frac{\omega}{2\pi}\int_0^{\frac{2\pi}{\omega}}\left(A^2\sin^2(\omega t)\right)dt\right)^\frac{1}{2}$
+
+$=\left(\frac{A^2\omega}{2\pi}\int_0^{\frac{2\pi}{\omega}}\left(\frac{t}{2}-\frac{1}{4\omega}sin(2\omega t)\right)dt\right)^\frac{1}{2}$
+
+
+$=\left(\frac{A^2\omega}{4\pi}\left(\frac{2\pi}{\omega}-\left[\frac{\sin(2\omega t)}{2\omega}\right]_0^\frac{2\pi}{\omega}\right)\right)^\frac{1}{2}$
+
+$=\left(\frac{A^2\omega}{4\pi}\left(\frac{2\pi}{\omega}-0\right)\right)^\frac{1}{2}$
+
+$=\left(\frac{A^2}{2}\right)^\frac{1}{2}=\frac{A^2}{\sqrt2}$
+
+b. For $T=\frac{3\pi}{\omega}$
+
+Mean is $B - \frac{A}{3\pi}\left[\cos(3\pi) - 1 \right]$
+
+$B - \frac{A}{3\pi}\left[-1-1\right]$
+
+$B - \frac{2A}{3\pi}$
+
+
+#### 5. Mean and RMS
+For a complex number, $a+jb$  
+Magnitude = $|a+jb|=\sqrt{a^2+b^2}$  
+
+$\frac{V_{\text{out}}}{V_{\text{in}}} = K \frac{\tau_1 j \omega}{\tau_1 j \omega + 1}$
+
+$|K\tau_1 j \omega|=|K|\tau_1 j \omega$
+
+$\tau_1 j \omega + 1=\sqrt{1+(\tau_1\omega)^2}$
+
+Magnitude = $|K|\frac{\tau_1 j \omega}{\sqrt{1+(\tau_1\omega)^2}}$
+
+Phase shift:
+$\angle K \frac{\tau_1 j \omega}{\tau_1 j \omega + 1}=\angle{K}+\angle{\tau_1 j \omega}-\angle{(\tau_1 j \omega + 1)}$
+
+For a complex number, $a+jb$, 
+Phase = $\angle(a+jb)=\arctan{(\frac{b}{a})}$
+
+$\angle K \frac{\tau_1 j \omega}{\tau_1 j \omega + 1}=\arctan{\frac{0}{K}}+\angle{\arctan{\frac{\tau_1\omega}{0}}}-\angle{\arctan{\frac{\tau_1\omega}{1}}}$
+
+$=0\degree+90\degree-\angle{\arctan{(\tau_1\omega)}}$
+
+#### 6. Bode plot
+$T(s)=\frac{V_{out}}{V_{in}}=\frac{s+3}{s^2+10s+100}$
+
+Taking $s=j\omega$  
+$T(j\omega)=\frac{V_{out}}{V_{in}}=\frac{j\omega+3}{(j\omega)^2+10(j\omega)+100}=\frac{j\omega+3}{100-\omega^2+10(j\omega)}$
+
+Magnitude $=|T(j\omega)|=\frac{|j\omega+3|}{|100-\omega^2+10(j\omega)|}$  
+$=\frac{\sqrt{9+\omega^2}}{\sqrt{(100-\omega^2)^2+100\omega^2}}$  
+
+Phase shift $\angle{\frac{j\omega+3}{100-\omega^2+10(j\omega)}}=\arctan(\frac{\omega}{3})-\arctan(\frac{10\omega}{100-\omega^2})$
 
 ## Chapter 2: Review
 ### 2.1 Kirchov's Laws
