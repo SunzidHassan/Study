@@ -1,3 +1,4 @@
+# Lecture
 ## 2. Discrete Time Systems and Z-Transform
 
 Analog/Digital: y-axis
@@ -101,3 +102,121 @@ $$|z^{-1}|\lt1\rightarrow\sum_{k=0}^\infin{z^{-k}}=\frac{1}{1-k^{-1}}=\frac{z}{z
 
 ## 3. z-Transform Inversion and Final Value Theorem
 ### Method 1: Long Division
+
+
+# HW
+## 1
+### 1. Find the z-transforms of the following sequences:
+* $\{0, 1, 1, 1, 2, 0, 0, 0, ...\}$  
+$z^{-1}+z^{-2}+z^{-3}+2z^{-4}$
+
+* $\{0, 0, 1, 1, 2, 3, 5, 0, ...\}$  
+$z^{-2}+z^{-3}+2z^{-4}+3z^{-5}+5z^{-6}$
+
+* $\{1, 4, 2, 0, 0.5, 0, 0, ...\}$  
+$1+4z^{-1}+2z^{-2}+0.5z^{-4}$
+
+
+### 2. Find the z-transform of $cos(k\omega T)$
+$$cos(k\omega T)=\frac{1}{2}(e^{kj\omega T}+e^{-kj\omega T})$$
+$$z\{cos(k\omega T)\}=\frac{1}{2}[z(\{e^{kj\omega T}\}+z\{e^{-kj\omega T}\})]$$
+$$=\frac{1}{2}\left[\frac{z}{z-e^{j\omega T}}+\frac{z}{z-e^{-j\omega T}}\right]$$
+$$=\frac{z}{2}\left[\frac{z-e^{-j\omega T}+z-e^{j\omega T}}{(z-e^{j\omega T})(z-e^{-j\omega T})}\right]$$
+$$=\frac{z}{2}\left[\frac{2z-\cos{\omega T}-j\sin{\omega T}+\cos{\omega T}-j\sin{\omega T}}{z^2-z(e^{j\omega T}+e^{j\omega T})+1}\right]$$
+$$=\frac{z}{2}\left[\frac{2z-2\cos{\omega T}}{z^2-z\cos{\omega T}+1}\right]$$
+$$=\frac{z^2-2z\cos{\omega T}}{z^2-z\cos{\omega T}+1}$$
+
+### 3.
+a.
+$$F(z)=5z^{-1}+4z^{-5}$$
+$$=0z^0+5z^{-1}+0z^{-2}+0z^{-3}+0z^{-4}+4z^{-5}+...$$
+$$f(k)=\{0,5,0,0,0,4,0,...\}$$
+
+b.
+$$F(z)=\frac{z-0.1}{z^2+0.04z+0.25}$$
+
+||$z^{-1}-0.14z^{-2}-0.2444z^{-3}$|
+|-----------------|---------|
+|${z^2+0.04z+0.25}$|${z-0.1}$|
+||$z+0.04+0.25z^{-1}$|
+|||
+||$-0.14-0.25z^{-1}$|
+||$0.14-0.0056z^{-1}-0.035z^{-2}$|
+|||
+||$-0.2444z^{-1}+0.035z^{-2}$|
+
+$$F(z)=z^{-1}-0.14z^{-2}-0.2444z^{-3}$$
+$$f(k)=\{0,1,-0.14,-0.2444,...\}$$
+
+
+### 4.
+
+### 5. Find the final value for the function: $$F(z)=\frac{z}{z^2-7z+6}$$
+$$F(z)=\frac{z}{z^2-7z+6}=\frac{z}{z^2-z-6z+6}=\frac{z}{z(z-1)-6(z-1)}=\frac{z}{(z-1)(z-6)}$$
+
+$$f(\infin)=\lim_{z\rightarrow1}\left[(z-1)F(z)\right]$$
+$$=\lim_{z\rightarrow1}\left[(z-1)\frac{z}{(z-1)(z-6)}\right]$$
+$$=\lim_{z\rightarrow1}\left[\frac{z}{(z-6)}\right]=\frac{1}{1-6}=-0.2$$
+
+### 6.
+
+
+### 7. Find convolution of
+$\{f(k)\}=\{2,3,4\}$  
+$\{g(k)\}=\{1,2\}$  
+$y(k)=f(k)*g(k)=\sum_{i=0}^kf(k-i)g(i)$  
+
+$k=0$  
+$y(0)=f(0)*g(0)=2\times1=2$  
+
+$k=1$  
+$y(1)=f(1)*g(0)+f(0)*g(1)=3\times1+2\times2=10$  
+
+$k=2$  
+$y(2)=f(2)*g(0)+f(1)*g(1)=4\times1+3\times2=10$  
+
+$k=3$  
+$y(3)=f(3)*g(0)+f(2)*g(1)=4\times2=8$  
+
+$k\ge4$  
+$y(4)=0$  
+
+
+### 8. Find the transfer function of the following system
+$y(k+5)=y(k+4)+u(k+1)-u(k)$  
+
+Apply the Z-transform to $y(k+5): Z\{y(k+5)=z^5Y(z)\}$  
+Apply the Z-transform to $y(k+4): Z\{y(k+4)=z^4Y(z)\}$  
+Apply the Z-transform to $u(k+1): Z\{u(k+1)=zU(z)-zu(0)=zU(z)$  
+Apply the Z-transform to $u(k): Z\{u(k)=U(z)$  
+
+Substituting into the equation:  
+$$z^5Y(z)=z^4Y(z)+zU(z)-U(z)$$
+$$\Rightarrow z^5Y(z)-z^4Y(z)=zU(z)-U(z)$$
+$$\Rightarrow  Y(z)(z^5-z^4)=U(z)(z-1)$$
+$$H(z)=\frac{Y(z)}{U(z)}=\frac{z-1}{z^5-z^4}$$
+
+
+### 9.
+
+### 10.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
