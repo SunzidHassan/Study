@@ -1,0 +1,30 @@
+# Lecture 1
+
+
+
+
+## Layers of abstraction in 6.002
+
+| Nature                      | Physics law abstractions             | Lumped Circuit Abstraction (LCA)                                            | Amplifier |
+|-----------------------------|-------------------------------------|-----------------------------------------------------------------------------|-----------|
+| Table of observations of $I$ against $V$ | Ohm's law: $V=RI$ Maxwell law, etc. | Considering an object as just a resistors  voltage source, capacitors, etc. | --\|>--   |
+
+
+After amplifier there are two paths: digital and analog
+
+Path 1: Digital
+| Digital    | Combinational Logic | Clocked Digital Abstraction | Instruction Set Abstraction (ISA) | Language | Software systems |
+|------------|----------------|-----------------------------|-----------------------------------|----------|------------------|
+| Inverters (-\|>o-) and combinational gates (=D-) | Functions with output-input =[f]-          | Introducing clock for a function - introducing notion of time for functions =[f]-                       | X86                               | C, Java  | Windows, Linux   |
+
+Path 2: Analog
+| opamp   | Analog System Components              | System   |
+|---------|---------------------------------------|----------|
+| =\|-+>- | Oscillators, filters, power supplies. | Toasters |
+
+
+## Lumped Circuit Abstraction:
+
+In physics, we do Point Mass discretization to assume $F=ma$, considering the entire mass of an object is in a point. Similarly, we can consider a light bulb as a resistance, and get $I=\frac{V}{R}$ for current flow in the light. 
+
+For the light bulb filament, considering 
