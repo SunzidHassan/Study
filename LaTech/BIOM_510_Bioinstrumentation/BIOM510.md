@@ -195,3 +195,81 @@ To estimate the time function, a step function is used as input, and time to rea
 
 
 ### 2.12 Semiconductors
+
+## Chapter 4: Ideas Op Amp
+
+### HW
+#### 1. Gain of inverting amplifier
+
+$$Z_i=Z_R||Z_C$$
+$$=\frac{Z_RZ_C}{Z_R+Z_C}$$
+$$=\frac{R_i\frac{1}{j\omega C_i}}{R_i+\frac{1}{j\omega C_i}}$$
+$$=\frac{\frac{R_i}{j\omega C_i}}{\frac{j\omega C_iR_i+1}{j\omega C_i}}$$
+$$=\frac{R_i}{j\omega C_i}\times\frac{j\omega C_i}{j\omega C_iR_i+1}$$
+$$=\frac{R_i}{j\omega C_iR_i+1}$$
+
+$$Z_f=Z_C=\frac{1}{j\omega C_f}$$
+
+$$\frac{V_{out}}{V_{in}}=-\frac{Z_{f}}{Z_i}$$
+$$=-\frac{\frac{1}{j\omega C_f}}{\frac{R_i}{j\omega C_iR_i+1}}$$
+$$=-\frac{1}{j\omega C_f}\times\frac{j\omega C_iR_i+1}{R_i}$$
+$$=\frac{-j\omega C_iR_i-1}{R_ij\omega C_f}$$
+
+
+#### 2. Low-pass filter
+
+$A=20$  
+$R_f=100k$  
+
+##### a. Sketch
+
+##### b. $C_f$ and $R_f$
+For low-pass filter,
+$$\text{Cutoff frequency}=\frac{1}{C_f\times R_f}$$
+$$\Rightarrow C_f=\frac{1}{2\pi500\times 100k}=3.18\text{nF}$$
+
+$$A=\frac{v_o}{v_i}=\frac{R_f}{R_i}$$
+$$\Rightarrow20=\frac{100k}{R_i}$$
+$$\Rightarrow R_i=\frac{100k}{20}=5k\Omega$$
+
+##### c. Transfer function
+$$\frac{v_o}{v_i}=\frac{R_f}{R_i}\frac{1}{j\omega R_fC_f+1}$$
+$$=\frac{R_f}{R_i}\frac{1}{j\omega\tau+1}$$
+
+
+#### 3. High-pass filter
+$A=20$  
+$R_f=660k$  
+
+##### a. Sketch
+
+##### b. $C_i$ and $R_i$
+$$A=-\frac{R_f}{R_i}\Rightarrow R_i=\frac{660k}{20}=33k\Omega$$
+
+$$\text{Cutoff frequency}=\frac{1}{C_i\times R_i}$$
+$$C_i=\frac{1}{2\pi\times2\times 33k}=2.41\mu\text{F}$$
+
+##### c. Transfer function
+$$\frac{v_o}{v_i}=\frac{R_f}{R_i}\frac{j\omega R_iC_i}{j\omega R_iC_i+1}$$
+$$=\frac{R_f}{R_i}\frac{j\omega\tau}{j\omega\tau+1}$$
+
+#### 4. Band-pass filter
+$\text{High-pass corner frequency, }f_c=2$  
+$\text{Low-pass corner frequency, }f_c=500$  
+$R_i=33k$  
+$R_f=100k$
+
+##### a. Sketch
+
+##### b. $C_i$ and $C_f$
+$$\text{High-pass corner frequency, }f_c=2=\frac{1}{R_iC_i}$$  
+$$\Rightarrow C_i=\frac{1}{33k\times2\pi\times2}=2.41\mu\text{F}$$
+
+$$\text{Low-pass corner frequency, }f_c=500=\frac{1}{R_fC_f}$$
+$$\Rightarrow C_f=\frac{1}{100k\times2\pi\times500}=3.18\text{nF}$$
+
+##### c. Gain
+$$A=-\frac{R_f}{R_i}=\frac{R_f}{R_i}=3.303$$
+
+##### d. Transfer function
+$$\frac{v_o}{v_i}=\frac{R_f}{R_i}\frac{j\omega R_iC_i}{(j\omega R_iC_i+1)({j\omega R_fC_f+1})}$$
