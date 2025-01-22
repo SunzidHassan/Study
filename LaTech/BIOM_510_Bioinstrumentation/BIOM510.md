@@ -342,3 +342,21 @@ $$A=-\frac{R_f}{R_i}=\frac{R_f}{R_i}=3.303$$
 ##### d. Transfer function
 
 $$\frac{v_o}{v_i}=\frac{R_f}{R_i}\frac{j\omega R_iC_i}{(j\omega R_iC_i+1)({j\omega R_fC_f+1})}$$
+
+
+### HW 4
+#### 1
+$$f\left(a_1x_1+a_2x_2\right)=m\left(a_1x_1+a_2x_2\right)+b=ma_1x_1+ma_2x_2+b$$
+$$f\left(a_1x_1\right)+f\left(a_2x_2\right)=m\left(a_1x_1\right)+b+m\left(a_2x_2\right)+b=ma_1x_1+ma_2x_2+2b$$
+
+If $b\neq0$, then $b\neq2b$ and characteristic $mx+b$ is not linear.
+
+#### 2
+...
+
+#### 3
+
+$$v_a-V_s=i_1R_1$$
+$$V_s-v_b=i_1R_2$$
+$$v_a=i_2R_3$$
+$$-v_b=i_2R_4$$
