@@ -355,8 +355,16 @@ If $b\neq0$, then $b\neq2b$ and characteristic $mx+b$ is not linear.
 ...
 
 #### 3
+Voltage $v_a$ and $v_b$ are determined by voltage dividers.
+$$v_a=V_s\times\frac{R_3}{R_1+R_3}$$
+$$v_b=V_s\times\frac{R_4}{R_2+R_4}$$
+$$v_a-v_b=V_s\times\left(\frac{R_3}{R_1+R_3}-\frac{R_4}{R_2+R_4}\right)$$
 
-$$v_a-V_s=i_1R_1$$
-$$V_s-v_b=i_1R_2$$
-$$v_a=i_2R_3$$
-$$-v_b=i_2R_4$$
+#### 4
+Voltage $v_a$ and $v_b$ are determined by voltage dividers.
+$$v_a=V_s\times\frac{R_3}{R_1+R_3}$$
+$$v_b=V_s\times\frac{R_4}{R_2+R_4}$$
+$$v_a-v_b=V_s\times\left(\frac{R_3}{R_1+R_3}-\frac{R_4}{R_2+R_4}\right)$$
+
+
+$$v_a-v_b=V_s\times\left(\frac{R_3}{R_1+\Delta R+R_3}-\frac{R_3}{R_1+R_3}\right)$$
