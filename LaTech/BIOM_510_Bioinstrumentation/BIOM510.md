@@ -344,6 +344,31 @@ $$A=-\frac{R_f}{R_i}=\frac{R_f}{R_i}=3.303$$
 $$\frac{v_o}{v_i}=\frac{R_f}{R_i}\frac{j\omega R_iC_i}{(j\omega R_iC_i+1)({j\omega R_fC_f+1})}$$
 
 
+### HW 3
+#### 1
+$$C=\frac{\epsilon_0\epsilon_rA}{thickness}=\frac{8.85\times10^{-12}\times12\times(10^{-4})}{150\times10^{-6}}=7.08\times10^{-11}$$
+
+$$Q=KF=23\times10^{-12}(20\times10^{-3}\times9.8)=4.508\times10^{-12}$$
+
+$$V=Q/C=63.8\text{mV}$$
+
+#### 2
+When $T=0$, $R_1=500k$
+$$R=R_0[1+\alpha(37-0)]=573$$
+$$v_0=10\left(\frac{1}{1+1}-\frac{0.5}{0.5+0.573}\right)=0.34\text{V}$$
+
+$$R=R_0[1+\alpha(34-0)]=567$$
+$$v_0=10\left(\frac{1}{1+1}-\frac{0.5}{0.5+0.567}\right)=0.314\text{V}$$
+
+$$\Delta V=26\text{mV}$$
+
+#### 3
+#### 4
+#### 5
+#### 6
+#### 7
+#### 8
+
 ### HW 4
 #### 1
 $$f\left(a_1x_1+a_2x_2\right)=m\left(a_1x_1+a_2x_2\right)+b=ma_1x_1+ma_2x_2+b$$
@@ -352,7 +377,11 @@ $$f\left(a_1x_1\right)+f\left(a_2x_2\right)=m\left(a_1x_1\right)+b+m\left(a_2x_2
 If $b\neq0$, then $b\neq2b$ and characteristic $mx+b$ is not linear.
 
 #### 2
-...
+$$\mathcal{L}\{x_1+x_2\}=\int_0^{\infin}(x_1(t)+x_2(t))e^{-st}\text{dt}$$
+$$=\int_0^{\infin}x_1(t)e^{-st}\text{dt}+\int_0^{\infin}x_2(t)e^{-st}\text{dt}$$
+$$=\mathcal{L}\{x_1\}+\mathcal{L}\{x_2\}$$
+
+Laptop transform is linear.
 
 #### 3
 Voltage $v_a$ and $v_b$ are determined by voltage dividers.
@@ -361,10 +390,6 @@ $$v_b=V_s\times\frac{R_4}{R_2+R_4}$$
 $$v_a-v_b=V_s\times\left(\frac{R_3}{R_1+R_3}-\frac{R_4}{R_2+R_4}\right)$$
 
 #### 4
-Voltage $v_a$ and $v_b$ are determined by voltage dividers.
-$$v_a=V_s\times\frac{R_3}{R_1+R_3}$$
-$$v_b=V_s\times\frac{R_4}{R_2+R_4}$$
-$$v_a-v_b=V_s\times\left(\frac{R_3}{R_1+R_3}-\frac{R_4}{R_2+R_4}\right)$$
+$R_1=R_2+\Delta R$ and replace $R_4$ with $R_3$
 
-
-$$v_a-v_b=V_s\times\left(\frac{R_3}{R_1+\Delta R+R_3}-\frac{R_3}{R_1+R_3}\right)$$
+$$v_a-v_b=V_s\times\left(\frac{R_3}{R_2+\Delta R+R_3}-\frac{R_3}{R_2+R_3}\right)$$
