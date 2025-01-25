@@ -4,25 +4,85 @@
 
 ## Overview
 
-* [1 Introduction to Digital Control Systems](#1-introduction-to-digital-control-systems)
-* [2 Discrete Time Systems and Z-Transform](#2-discrete-time-systems-and-z-transform)
-* [3 z-Transform Inversion and Final Value Theorem](#3-z-transform-inversion-and-final-value-theorem)
-* [4 Time and Frequency Response of Discrete-time System](#4-time-and-frequency-response-of-discrete-time-system)
-* [5 Modeling of Digital Control Systems](#5-modeling-of-digital-control-systems)
-* [6 Systems with Transport Lag and Block Diagram Reduction](#6-systems-with-transport-lag-and-block-diagram-reduction)
-* [7 Steady-state Error and Error Constants](#7-steady-state-error-and-error-constants)
-* [8 Stability of Digital Control Systems, Nyquist Criterion, Phase Margin, and Gain Margin](#8-stability-of-digital-control-systems-nyquist-criterion-phase-margin-and-gain-margin)
+- [Lecture](#lecture)
+  - [Overview](#overview)
+  - [1. Introduction to Digital Control Systems](#1-introduction-to-digital-control-systems)
+    - [1.1 Analog vs. Digital Signals](#11-analog-vs-digital-signals)
+    - [1.2 Why Digital Control](#12-why-digital-control)
+    - [1.3 Structure of a Digital Control System](#13-structure-of-a-digital-control-system)
+    - [1.4 ADC and DAC](#14-adc-and-dac)
+    - [1.5 Closed-loop System Examples](#15-closed-loop-system-examples)
+  - [2. Discrete Time Systems and Z-Transform](#2-discrete-time-systems-and-z-transform)
+    - [Overview](#overview-1)
+    - [Discrete time systems](#discrete-time-systems)
+    - [Linear difference equation](#linear-difference-equation)
+    - [Z-transform](#z-transform)
+  - [3. z-Transform Inversion and Final Value Theorem](#3-z-transform-inversion-and-final-value-theorem)
+    - [3.1 Motivation](#31-motivation)
+    - [3.2 Inversion of the Z-transform](#32-inversion-of-the-z-transform)
+    - [3.3 Partial Fraction Expansion](#33-partial-fraction-expansion)
+    - [3.4 Repeated Roots](#34-repeated-roots)
+    - [3.5 Final Value Thorem](#35-final-value-thorem)
+    - [3.6 Z-Transform Solutions of Difference Equations](#36-z-transform-solutions-of-difference-equations)
+  - [4. Time and Frequency Response of Discrete-time System](#4-time-and-frequency-response-of-discrete-time-system)
+    - [4.1 Time Response of Discrete-time Systems](#41-time-response-of-discrete-time-systems)
+    - [4.2 The Convolution Theorem](#42-the-convolution-theorem)
+    - [4.3 Frequency Response of Discrete-time Systems](#43-frequency-response-of-discrete-time-systems)
+    - [4.4 The Sampling Theorem](#44-the-sampling-theorem)
+    - [4.5 Selection of Sampling Frequency](#45-selection-of-sampling-frequency)
+  - [5. Modeling of Digital Control Systems](#5-modeling-of-digital-control-systems)
+    - [5.1 DAC Model](#51-dac-model)
+    - [5.2 Transfer Function of Zero Order Hold](#52-transfer-function-of-zero-order-hold)
+    - [5.3 Frequency Response of Zero Order Hold](#53-frequency-response-of-zero-order-hold)
+    - [5.4 ADC Model](#54-adc-model)
+    - [5.5 DAC, Analog Subsystem, and ADC Combination Transfer Function](#55-dac-analog-subsystem-and-adc-combination-transfer-function)
+      - [Example](#example)
+  - [6. Systems with Transport Lag and Block Diagram Reduction](#6-systems-with-transport-lag-and-block-diagram-reduction)
+    - [6.1 Transport Lag](#61-transport-lag)
+    - [6.2 The Modified z-Transform](#62-the-modified-z-transform)
+    - [6.3 Systems with Transport Lag](#63-systems-with-transport-lag)
+    - [6.4 Closed-loop Transfer Function](#64-closed-loop-transfer-function)
+  - [7. Steady-state Error and Error Constants](#7-steady-state-error-and-error-constants)
+    - [7.1 Steady-state Error](#71-steady-state-error)
+    - [7.2 Type Number](#72-type-number)
+    - [7.3 Steady-state Error of Step Input](#73-steady-state-error-of-step-input)
+    - [7.4 Steady-state Error of Ramp Input](#74-steady-state-error-of-ramp-input)
+    - [7.5 Steady-state Error of Parabolic Input](#75-steady-state-error-of-parabolic-input)
+  - [8. Stability of Digital Control Systems, Nyquist Criterion, Phase Margin, and Gain Margin](#8-stability-of-digital-control-systems-nyquist-criterion-phase-margin-and-gain-margin)
+    - [8.1 Stability in Discrete-time Systems](#81-stability-in-discrete-time-systems)
+    - [8.2 Stable z-domain Pole Locations](#82-stable-z-domain-pole-locations)
+    - [8.3 Pole Location-based Stability Test](#83-pole-location-based-stability-test)
+    - [8.4 Jury Test](#84-jury-test)
+    - [8.5 Internal Stability](#85-internal-stability)
+    - [8.6 Nyquist Criterion](#86-nyquist-criterion)
+    - [8.7 Nyquist Curve](#87-nyquist-curve)
+    - [8.8 Gain Margin and Phase Margin](#88-gain-margin-and-phase-margin)
+    - [8.9 Undefined Stability Margins](#89-undefined-stability-margins)
+- [HW](#hw)
+  - [1](#1)
+    - [1. Find the z-transforms of the following sequences:](#1-find-the-z-transforms-of-the-following-sequences)
+    - [2. Find the z-transform of $cos(k\\omega T)$](#2-find-the-z-transform-of-coskomega-t)
+    - [3.](#3)
+    - [4.](#4)
+    - [5. Find the final value for the function: $$F(z)=\\frac{z}{z^2-7z+6}$$](#5-find-the-final-value-for-the-function-fzfraczz2-7z6)
+    - [6.](#6)
+    - [7. Find convolution of](#7-find-convolution-of)
+    - [8. Find the transfer function of the following system](#8-find-the-transfer-function-of-the-following-system)
+    - [9.](#9)
+    - [10.](#10)
+  - [2](#2)
+    - [1](#1-1)
+    - [2](#2-1)
+    - [3](#3-1)
+    - [4](#4-1)
+    - [5](#5)
+    - [6](#6-1)
+    - [7](#7)
+    - [8](#8)
 
 ---
 
 ## 1. Introduction to Digital Control Systems
-
-### 1.0 Overview
-* [1.1 Analog vs. Digital Signals](#11-analog-vs-digital-signals)
-* [1.2 Why Digital Control](#12-why-digital-control)
-* [1.3 Structure of a Digital Control System](#13-structure-of-a-digital-control-system)
-* [1.4 ADC and DAC](#14-adc-and-dac)
-* [1.5 Closed-loop System Examples](#15-closed-loop-system-examples)
 
 ### 1.1 Analog vs. Digital Signals
 
@@ -144,14 +204,6 @@ $$|z^{-1}|\lt1\rightarrow\sum_{k=0}^\infin{z^{-k}}=\frac{1}{1-k^{-1}}=\frac{z}{z
 
 ## 3. z-Transform Inversion and Final Value Theorem
 
-### 3.0 Overview
-* [3.1 Motivation](#31-motivation)
-* [3.2 Inversion of the Z-transform](#32-inversion-of-the-z-transform)
-* [3.3 Partial Fraction Expansion](#33-partial-fraction-expansion)
-* [3.4 Repeated Roots](#34-repeated-roots)
-* [3.5 Final Value Thorem](#35-final-value-thorem)
-* [3.6 Z-Transform Solutions of Difference Equations](#36-z-transform-solutions-of-difference-equations)
-
 ### 3.1 Motivation
 
 ### 3.2 Inversion of the Z-transform
@@ -168,13 +220,6 @@ $$|z^{-1}|\lt1\rightarrow\sum_{k=0}^\infin{z^{-k}}=\frac{1}{1-k^{-1}}=\frac{z}{z
 
 ## 4. Time and Frequency Response of Discrete-time System
 
-### 4.0 Overview
-* [4.1 Time Response of Discrete-time Systems](#41-time-response-of-discrete-time-systems)
-* [4.2 The Convolution Theorem](#42-the-convolution-theorem)
-* [4.3 Frequency Response of Discrete-time Systems](#43-frequency-response-of-discrete-time-systems)
-* [4.4 The Sampling Theorem](#44-the-sampling-theorem)
-* [4.5 Selection of Sampling Frequency](#45-selection-of-sampling-frequency)
-
 ### 4.1 Time Response of Discrete-time Systems
 
 ### 4.2 The Convolution Theorem
@@ -188,13 +233,6 @@ $$|z^{-1}|\lt1\rightarrow\sum_{k=0}^\infin{z^{-k}}=\frac{1}{1-k^{-1}}=\frac{z}{z
 ---
 
 ## 5. Modeling of Digital Control Systems
-
-### 5.0 Overview
-* [5.1 DAC Model](#51-dac-model)
-* [5.2 Transfer Function of Zero Order Hold](#52-transfer-function-of-zero-order-hold)
-* [5.3 Frequency Response of Zero Order Hold](#53-frequency-response-of-zero-order-hold)
-* [5.4 ADC Model](#54-adc-model)
-* [5.5 DAC, Analog Subsystem, and ADC Combination Transfer Function](#55-dac-analog-subsystem-and-adc-combination-transfer-function)
 
 ### 5.1 DAC Model
 
@@ -222,12 +260,6 @@ Step 3: Multiply $(1-z)^{-1}$ with $\mathcal{Z}\left\{\frac{G(s)}{s}\right\}$
 
 ## 6. Systems with Transport Lag and Block Diagram Reduction
 
-### 6.0 Overview
-* [6.1 Transport Lag](#61-transport-lag)
-* [6.2 The Modified z-Transform](#62-the-modified-z-transform)
-* [6.3 Systems with Transport Lag](#63-systems-with-transport-lag)
-* [6.4 Closed-loop Transfer Function](#64-closed-loop-transfer-function)
-
 ### 6.1 Transport Lag
 
 ### 6.2 The Modified z-Transform
@@ -239,13 +271,6 @@ Step 3: Multiply $(1-z)^{-1}$ with $\mathcal{Z}\left\{\frac{G(s)}{s}\right\}$
 ---
 
 ## 7. Steady-state Error and Error Constants
-
-### 7.0 Overview
-* [7.1 Steady-state Error](#71-steady-state-error)
-* [7.2 Type Number](#72-type-number)
-* [7.3 Steady-state Error of Step Input](#73-steady-state-error-of-step-input)
-* [7.4 Steady-state Error of Ramp Input](#74-steady-state-error-of-ramp-input)
-* [7.5 Steady-state Error of Parabolic Input](#75-steady-state-error-of-parabolic-input)
 
 ### 7.1 Steady-state Error
 
@@ -261,17 +286,6 @@ Step 3: Multiply $(1-z)^{-1}$ with $\mathcal{Z}\left\{\frac{G(s)}{s}\right\}$
 
 ## 8. Stability of Digital Control Systems, Nyquist Criterion, Phase Margin, and Gain Margin 
 
-### 8.0 Overview
-
-* [8.1 Stability in Discrete-time Systems](#81-stability-in-discrete-time-systems)
-* [8.2 Stable z-domain Pole Locations](#82-stable-z-domain-pole-locations)
-* [8.3 Pole Location-based Stability Test](#83-pole-location-based-stability-test)
-* [8.4 Jury Test](#84-jury-test)
-* [8.5 Internal Stability](#85-internal-stability)
-* [8.6 Nyquist Criterion](#86-nyquist-criterion)
-* [8.7 Nyquist Curve](#87-nyquist-curve)
-* [8.8 Gain Margin and Phase Margin](#88-gain-margin-and-phase-margin)
-* [8.9 Undefined Stability Margins](#89-undefined-stability-margins)
 
 ### 8.1 Stability in Discrete-time Systems
 
@@ -327,15 +341,15 @@ $$f(k)=\{0, 5, 0, 0, 0, 4, 0, ...\}$$
 b.
 $$F(z)=\frac{z-0.1}{z^2+0.04z+0.25}$$
 
-||$z^{-1}-0.14z^{-2}-0.2444z^{-3}$|
-|-----------------|---------|
-|${z^2+0.04z+0.25}$|${z-0.1}$|
-||$z+0.04+0.25z^{-1}$|
-|||
-||$-0.14-0.25z^{-1}$|
-||$0.14-0.0056z^{-1}-0.035z^{-2}$|
-|||
-||$-0.2444z^{-1}+0.035z^{-2}$|
+|                    | $z^{-1}-0.14z^{-2}-0.2444z^{-3}$ |
+| ------------------ | -------------------------------- |
+| ${z^2+0.04z+0.25}$ | ${z-0.1}$                        |
+|                    | $z+0.04+0.25z^{-1}$              |
+|                    |                                  |
+|                    | $-0.14-0.25z^{-1}$               |
+|                    | $0.14-0.0056z^{-1}-0.035z^{-2}$  |
+|                    |                                  |
+|                    | $-0.2444z^{-1}+0.035z^{-2}$      |
 
 $$F(z)=z^{-1}-0.14z^{-2}-0.2444z^{-3}$$
 $$f(k)=\{0, 1, -0.14, -0.2444, ...\}$$
