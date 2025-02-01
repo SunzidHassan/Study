@@ -1,0 +1,10 @@
+BIOM 510: graph rules
+- get rid of box
+- Black text, and possibly lines/points as well
+- no reason to connect the dots, you can fit regression if needed
+- theory with solid line, points for measurement
+- put units at the end of axis titles (Frequency (Hz), Magnitude (dB))
+- no main title
+- axis tick mark
+- Excel/LTspice bode plot: 3+ (preferably 20) points per octave
+- data from oscilloscope: solid line

@@ -58,6 +58,7 @@
     - [8.7 Nyquist Curve](#87-nyquist-curve)
     - [8.8 Gain Margin and Phase Margin](#88-gain-margin-and-phase-margin)
     - [8.9 Undefined Stability Margins](#89-undefined-stability-margins)
+  - [10. Analog Control System Design](#10-analog-control-system-design)
 - [HW](#hw)
   - [1](#1)
     - [1. Find the z-transforms of the following sequences:](#1-find-the-z-transforms-of-the-following-sequences)
@@ -304,6 +305,8 @@ Step 3: Multiply $(1-z)^{-1}$ with $\mathcal{Z}\left\{\frac{G(s)}{s}\right\}$
 ### 8.8 Gain Margin and Phase Margin
 
 ### 8.9 Undefined Stability Margins
+
+## 10. Analog Control System Design
 
 ---
 

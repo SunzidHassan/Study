@@ -1,5 +1,75 @@
 ## Biomedical Instrumentation
 
+- [Biomedical Instrumentation](#biomedical-instrumentation)
+- [Chapter 1](#chapter-1)
+- [Chapter 2: Review](#chapter-2-review)
+  - [2.1 Kirchov's Laws](#21-kirchovs-laws)
+  - [2.2 Resistance, Inductance, Capacitance](#22-resistance-inductance-capacitance)
+  - [2.3 Elements in Series and Parallel](#23-elements-in-series-and-parallel)
+  - [2.4 Time Constant](#24-time-constant)
+  - [2.5 Impedance](#25-impedance)
+  - [2.6 Diodes](#26-diodes)
+  - [2.7 Linearity](#27-linearity)
+  - [2.8 Input and Output Impedance](#28-input-and-output-impedance)
+  - [2.9 AC vs DC Signals](#29-ac-vs-dc-signals)
+  - [2.10 Euler's Rule](#210-eulers-rule)
+  - [2.11 Transfer Functions](#211-transfer-functions)
+  - [2.12 Semiconductors](#212-semiconductors)
+- [Chapter 4: Ideal Op Amp](#chapter-4-ideal-op-amp)
+  - [Differential Amp](#differential-amp)
+  - [Inverting Amp](#inverting-amp)
+  - [Generalized Inverting Amp](#generalized-inverting-amp)
+  - [Low-pass filter](#low-pass-filter)
+  - [High-pass filter](#high-pass-filter)
+  - [Band-pass filter](#band-pass-filter)
+    - [Example](#example)
+- [HW](#hw)
+  - [HW 1](#hw-1)
+    - [1. Design criteria examples:](#1-design-criteria-examples)
+    - [2. Specificity as environmental factor:](#2-specificity-as-environmental-factor)
+    - [3. Oscilloscope](#3-oscilloscope)
+    - [4. Mean and RMS](#4-mean-and-rms)
+    - [5. Mean and RMS](#5-mean-and-rms)
+    - [6. Bode plot](#6-bode-plot)
+  - [HW 2](#hw-2)
+    - [1. Gain of inverting amplifier](#1-gain-of-inverting-amplifier)
+    - [2. Low-pass filter](#2-low-pass-filter)
+      - [a. Sketch](#a-sketch)
+      - [b. $C\_f$ and $R\_f$](#b-c_f-and-r_f)
+      - [c. Transfer function](#c-transfer-function)
+    - [3. High-pass filter](#3-high-pass-filter)
+      - [a. Sketch](#a-sketch-1)
+      - [b. $C\_i$ and $R\_i$](#b-c_i-and-r_i)
+      - [c. Transfer function](#c-transfer-function-1)
+    - [4. Band-pass filter](#4-band-pass-filter)
+      - [a. Sketch](#a-sketch-2)
+      - [b. $C\_i$ and $C\_f$](#b-c_i-and-c_f)
+      - [c. Gain](#c-gain)
+      - [d. Transfer function](#d-transfer-function)
+  - [HW 3](#hw-3)
+    - [1](#1)
+    - [2](#2)
+    - [3](#3)
+    - [4](#4)
+    - [5](#5)
+    - [6](#6)
+    - [7](#7)
+    - [8](#8)
+  - [HW 4](#hw-4)
+    - [1](#1-1)
+    - [2](#2-1)
+    - [3](#3-1)
+    - [4](#4-1)
+    - [5](#5-1)
+    - [6](#6-1)
+  - [HW 6](#hw-6)
+    - [HW 6.1](#hw-61)
+    - [HW 6.2](#hw-62)
+    - [HW 6.3](#hw-63)
+    - [HW 6.4](#hw-64)
+    - [HW 6.5](#hw-65)
+
+
 ## Chapter 1
 
 Goals:
@@ -376,20 +446,61 @@ $$f\left(a_1x_1\right)+f\left(a_2x_2\right)=m\left(a_1x_1\right)+b+m\left(a_2x_2
 
 If $b\neq0$, then $b\neq2b$ and characteristic $mx+b$ is not linear.
 
+Review: OK
 #### 2
 $$\mathcal{L}\{x_1+x_2\}=\int_0^{\infin}(x_1(t)+x_2(t))e^{-st}\text{dt}$$
 $$=\int_0^{\infin}x_1(t)e^{-st}\text{dt}+\int_0^{\infin}x_2(t)e^{-st}\text{dt}$$
 $$=\mathcal{L}\{x_1\}+\mathcal{L}\{x_2\}$$
 
-Laptop transform is linear.
+Laplace transform is linear.
+
+Review: OK
 
 #### 3
 Voltage $v_a$ and $v_b$ are determined by voltage dividers.
 $$v_a=V_s\times\frac{R_3}{R_1+R_3}$$
 $$v_b=V_s\times\frac{R_4}{R_2+R_4}$$
 $$v_a-v_b=V_s\times\left(\frac{R_3}{R_1+R_3}-\frac{R_4}{R_2+R_4}\right)$$
+Review: OK
 
 #### 4
 $R_1=R_2+\Delta R$ and replace $R_4$ with $R_3$
 
 $$v_a-v_b=V_s\times\left(\frac{R_3}{R_2+\Delta R+R_3}-\frac{R_3}{R_2+R_3}\right)$$
+Review: OK
+
+
+#### 5
+Review:
+$$v_a-v_b=V_s\times\left(\frac{R_3}{R_2+\Delta R+R_3}-\frac{R_3}{R_2+R_3}\right)$$
+$$v_a-v_b=V_s\times\left(\frac{R_3/(R_2+R_3)}{1+\Delta R/(R_2+R_3)}-\frac{R_3}{R_2+R_3}\right)$$
+$$v_a-v_b=V_s\times\left(\frac{R_3}{(R_2+R_3)}(1-\Delta R)/(R_2+R_3)-\frac{R_3}{R_2+R_3}\right)$$
+$$v_a-v_b\approx -V_s(R_3/(R_2+R_3)^2)\Delta R$$
+
+#### 6
+Review:
+
+$R_2=5$  
+$R_3=10$
+$\Delta R=0.5$
+$V_S=20$
+
+$$v_a-v_b=20\times\left(\frac{10}{5+0.5+10}-\frac{10}{5+10}\right)=-0.44$$
+
+$$v_a-v_b\approx 20\times\left(\frac{10}{(5+10)^2}\times 0.5\right)=-0.44$$
+
+
+### HW 6
+#### HW 6.1
+Nerst potential of a monovalent cation (+valence) at 37-deg C given intracellular ion concentration is 10mM and th extracellular ion concentration is $80mM$.
+
+$$V=\frac{RT}{zF}\ln{\frac{C_0}{C_i}}=10$$
+
+#### HW 6.2
+
+#### HW 6.3
+
+#### HW 6.4
+
+#### HW 6.5
+
