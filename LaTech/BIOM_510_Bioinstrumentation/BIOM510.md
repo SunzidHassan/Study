@@ -500,6 +500,51 @@ $$V=\frac{RT}{zF}\ln{\frac{C_0}{C_i}}=10$$
 
 #### HW 6.3
 
+For a linear time‐invariant (LTI) system, if the input is** $\delta(t)$, the output $v(t)$ is the *impulse response* of the system, which is the inverse Fourier transform of $H(j\omega)$.
+
+Inverse Fourier transform of $H(j\omega)$.  In the (angular‐frequency) Fourier‐transform convention,
+$
+v(t)
+\;=\;
+\frac{1}{2\pi}\,\int_{-\infty}^{\infty} H(j\omega)\,e^{\,j\omega t}\,d\omega
+\;=\;
+\frac{1}{2\pi}\,\int_{-\omega_0}^{\omega_0} e^{\,j\omega t}\,d\omega,
+$
+because $H(j\omega)$ is $1$ only for $-\omega_0 \le \omega \le \omega_0$.
+
+$
+v(t)
+\;=\;
+\frac{1}{2\pi}
+\int_{-\omega_0}^{\omega_0} e^{\,j\omega t}\,d\omega
+\;=\;
+\frac{1}{2\pi}\,\biggl[\,\frac{e^{\,j\omega t}}{j\,t}\biggr]_{\omega=-\omega_0}^{\omega=\omega_0}.
+$
+
+$
+v(t)
+= \frac{1}{2\pi j t}\,\Bigl(e^{\,j\omega_0 t} - e^{-\,j\omega_0 t}\Bigr)
+= \frac{1}{2\pi j t}\,(2j)\,\sin(\omega_0 t)
+= \frac{1}{\pi t}\,\sin(\omega_0 t).
+$
+
+$
+\frac{\sin(\omega_0 t)}{\pi t}
+\;=\;
+\frac{\omega_0}{\pi}\,\frac{\sin(\omega_0 t)}{\omega_0 t}
+\;\equiv\;
+\frac{\omega_0}{\pi}\,\mathrm{sinc}\bigl(\omega_0 t\bigr),
+$
+
+$
+v(t) 
+\;=\;
+\frac{\sin(\omega_0 t)}{\pi\,t}
+\;=\;
+\frac{\omega_0}{\pi}\,\mathrm{sinc}\bigl(\omega_0 t\bigr).
+$
+
+
 #### HW 6.4
 
 #### HW 6.5

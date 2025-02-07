@@ -1,6 +1,6 @@
 LTspice 24.1.0 for Windows
-Circuit: C:\Users\sunzi\Documents\Study\LaTech\BIOM_510_Bioinstrumentation\Lab\5\Low pass.net
-Start Time: Tue Feb  4 00:00:04 2025
+Circuit: C:\Users\sunzi\Documents\Study\LaTech\BIOM_510_Bioinstrumentation\Lab\5\Draft1.net
+Start Time: Thu Feb  6 13:40:02 2025
 solver = Normal
 Maximum thread count: 16
 tnom = 27
@@ -26,9 +26,9 @@ Gmin = 2.70769e-13
 Gmin = 0
 Gmin stepping succeeded in finding the operating point.
 
-Total elapsed time: 0.638 seconds.
+Total elapsed time: 0.092 seconds.
 
 Files loaded:
-C:\Users\sunzi\Documents\Study\LaTech\BIOM_510_Bioinstrumentation\Lab\5\Low pass.net
+C:\Users\sunzi\Documents\Study\LaTech\BIOM_510_Bioinstrumentation\Lab\5\Draft1.net
 C:\Users\sunzi\AppData\Local\LTspice\lib\sub\LTC.lib
 

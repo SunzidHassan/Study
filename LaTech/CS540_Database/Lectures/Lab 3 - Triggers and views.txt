@@ -1,0 +1,59 @@
+/*Trigger #1 - Write a trigger to update the salary of an employee with an average salary of the department where he/she 
+works BEFORE INSERT(ing) the record in the employee table IF the salary is empty or NULL*/
+DELIMITER $$
+CREATE TRIGGER emp_salary_trig
+BEFORE INSERT ON employee
+FOR EACH ROW
+BEGIN
+	IF (NEW.salary = '' OR NEW.salary IS NULL) 
+    THEN 
+	SET NEW.salary = (SELECT AVG(salary)
+					  FROM employee e
+					  WHERE e.dno = NEW.dno);
+	END IF;
+END$$
+DELIMITER ;
+
+
+/*Trigger #2 - Write a trigger to enforce following constraint: Dependent relationship must be either spouse, son, or 
+daughter, if anything else, then display message – “Please, provide valid relationship (Spouse, Son or Daughter).”*/
+DELIMITER $$
+CREATE TRIGGER dependent_relationship
+BEFORE INSERT ON dependent
+FOR EACH ROW
+BEGIN
+	DECLARE MSG VARCHAR(255);
+    IF NEW.relationship NOT IN ('Spouse', 'Daughter', 'Son')
+    THEN /* Cause Error Message */
+    SET MSG = 'Please, provide correct relationship (Spouse, Son or Daughter).';
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = MSG;
+    END IF;
+END$$
+DELIMITER ;
+
+
+/*Trigger #3 - Write a trigger to create a default project for each new department inserted into database.*/
+DELIMITER $$
+CREATE TRIGGER new_dept
+AFTER INSERT ON department
+FOR EACH ROW
+BEGIN
+	INSERT INTO project 
+    VALUES(CONCAT(NEW.dname, ' - Initialization'), CONCAT(NEW.dnumber, '1'), 'Houston', NEW.dnumber);
+END$$
+DELIMITER ;
+
+
+/*View #1 - Create a view that provides information about the employees and the projects that they work on.*/
+CREATE VIEW works_on_ext
+AS SELECT fname, lname, pname, hours
+   FROM employee e, project p, works_on w
+   WHERE e.ssn = w.essn AND w.pno = p.pnumber;
+
+
+/*View #2 - Create a view that displays the number of employees and the total salary paid in each department*/
+CREATE VIEW dept_info(dept_name, no_of_emps, total_sal)
+AS SELECT dname, COUNT(*), SUM(salary)
+   FROM department d, employee e
+   WHERE d.dnumber = e.dno
+   GROUP BY dname;
