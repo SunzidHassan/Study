@@ -1,0 +1,11 @@
+Hassan, Sunzid, 10407862, sha040
+total: 50
+Q1 = 20
+Q2 = 15
+Q3 = 15
+
+Test by bcpufe_t3.py
+Checksums:   
+493871
+437767
+7855
