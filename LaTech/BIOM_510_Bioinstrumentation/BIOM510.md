@@ -544,6 +544,27 @@ v(t)
 \frac{\omega_0}{\pi}\,\mathrm{sinc}\bigl(\omega_0 t\bigr).
 $
 
+The time waveform $v(t)$ and transfer function of the second filter $H_2(j\omega)$. To get the time waveform $v_2(t)$, we need to multiply the Fourier transform of $v(t)$ by $H_2(j\omega)$ and take the inverse Fourier transform.
+
+$
+  v_2(t)
+  \;=\;
+  \frac{1}{2\pi}\,\int_{-\infty}^{\infty} 
+    V_2(\omega)\,e^{\,j\omega\,t}\,d\omega.
+$
+
+Substitute $V_2(\omega) = V(\omega)\,H_2(j\omega)$ into that integral:
+
+$
+  v_2(t)
+  \;=\;
+  \frac{1}{2\pi}
+  \int_{-\infty}^{\infty}
+  \Bigl[\int_{-\infty}^{\infty} v(\tau)\,e^{-j\,\omega\,\tau}\,\text{dt}\Bigr]
+  H_2(j\omega)
+  \,e^{j\omega\,t}\,d\omega.
+$
+
 
 #### HW 6.4
 

@@ -9,7 +9,7 @@
       - [Block diagram](#block-diagram)
       - [Signals](#signals-1)
       - [Operator Notation](#operator-notation)
-  - [Feedback,](#feedback)
+  - [Feedback, Poles, and Fundamental Modes](#feedback-poles-and-fundamental-modes)
   - [Continuous-Time (CT) Systems](#continuous-time-ct-systems)
   - [Z Transform](#z-transform)
   - [Laplace Transform](#laplace-transform)
@@ -86,8 +86,8 @@ $Y=X-\mathcal{R}X=(1-\mathcal{R})X$
 
 
 ---
-## Feedback,
- Poles, and Fundamental Modes
+## Feedback, Poles, and Fundamental Modes
+
 
 ---
 ## Continuous-Time (CT) Systems
