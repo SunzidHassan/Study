@@ -80,6 +80,16 @@
     - [6](#6-1)
     - [7](#7)
     - [8](#8)
+  - [HW 4](#hw-4)
+    - [HW 4.1](#hw-41)
+    - [HW 4.2](#hw-42)
+    - [HW 4.3](#hw-43)
+    - [HW 4.4](#hw-44)
+    - [HW 4.5](#hw-45)
+    - [HW 4.6](#hw-46)
+    - [HW 4.7](#hw-47)
+    - [HW 4.8](#hw-48)
+    - [HW 4.9](#hw-49)
 
 ---
 
@@ -699,3 +709,187 @@ $\Rightarrow c_5 = -9.48, \quad c_4 = 4.735, \quad c_3 = 2.583, \quad c_2 = -2.5
 $|c_0| = |9.48| = 9.48 \quad \text{and} \quad |c_3| = |2.583| = 2.583$
 
 Condition 5 fails, the system is not stable.
+
+
+## HW 4
+### HW 4.1
+a. A single-input, single-ouput, linear time-varying system.
+
+b. A single-input, single-output, linear, time-invariant.
+
+c. Single-input, single-output, non-linear, time-invariant.
+
+### HW 4.2
+Linearizing at the equilibrium point (1,0,0):
+$\frac{\delta f_1}{\delta x_1}=2x_1$, $\frac{\delta f_1}{\delta x_2}=\cos{x_2}$, $\frac{\delta f_1}{\delta u}=0$.  
+
+$\frac{\delta f_2}{\delta x_1}=0$, $\frac{\delta f_2}{\delta x_2}=-3x_2^2$, $\frac{\delta f_2}{\delta u}=1$.  
+
+Evaluating at (1,0,0)
+$\frac{\delta f_1}{\delta x_1}=2$, $\frac{\delta f_1}{\delta x_2}=1$, $\frac{\delta f_1}{\delta u}=0$.  
+
+$\frac{\delta f_2}{\delta x_1}=0$, $\frac{\delta f_2}{\delta x_2}=0$, $\frac{\delta f_2}{\delta u}=1$.  
+
+$\frac{f(x,u)}{\delta x|\{x_0u_0\}}=A=\left[\begin{array}{cc}2&1\\0&0\\\end{array}\right]$  
+$\frac{f(x,u)}{\delta x|\{x_0u_0\}}=B=\left[\begin{array}{c}0\\1\\\end{array}\right]$
+
+### HW 4.3
+a. State transition matrix:
+$e^{At}=\left[\begin{array}{ccc}
+e^{-3t} & 0 & 0\\
+0 & e^{-5t} & 0\\
+0 & 0 & e^{-7t}\\
+\end{array}\right]$
+
+b. State transition matrix:
+$\left[\begin{array}{ccc}
+\cos{\sqrt{6}t} & 0 & \frac{\sqrt{6}\sin{\sqrt{6}t}}{6}\\
+0 & e^{-t} & 0\\
+\sqrt{6}\sin{\sqrt{6}t} & 0 & \cos{\sqrt{6}t}
+\end{array}\right]$
+
+### HW 4.4
+Discrete A matrix,  
+$A_d=\left[\begin{array}{ccc}
+0.993187 & -0.03434 & 0\\
+-0.009456 & 0.997766 & 0\\
+-0.000237 & 0.049943 & 1\\
+\end{array}\right]$
+
+$B_d=\left[\begin{array}{c}
+0.002988\\
+-0.0115\\
+-0.000287\\
+\end{array}\right]$
+
+$C_d=\left[\begin{array}{ccc}
+1 & 0 & 0\\
+0 & 1 & 0\\
+\end{array}\right]$
+
+$D_d=\left[\begin{array}{c}
+0\\
+0\\
+\end{array}\right]$
+
+### HW 4.5
+$\left[\begin{array}{c}
+x_1(k+1)\\
+x_2(k+1)\\
+\end{array}\right]=
+\left[\begin{array}{cc}
+0 & 1\\
+-0.5 & -0.1\\
+\end{array}\right]=
+\left[\begin{array}{c}
+x_1(k)\\
+x_2(k)\\
+\end{array}\right]$
+
+$\left[\begin{array}{c}
+x_1e\\
+x_2e\\
+\end{array}\right]=
+\left[\begin{array}{cc}
+0 & 1\\
+-0.5 & -0.1\\
+\end{array}\right]=
+\left[\begin{array}{c}
+x_1e\\
+x_2e\\
+\end{array}\right]$
+
+Rearranging with $(I-A)xe=0$
+$\left[\begin{array}{cc}
+1-0 & -1\\
+0.5 & 1+0.1\\
+\end{array}\right]=
+\left[\begin{array}{c}
+x_1e\\
+x_2e\\
+\end{array}\right]$
+
+$\left[\begin{array}{cc}
+1 & -1\\
+0.5 & 1.1\\
+\end{array}\right]=
+\left[\begin{array}{c}
+x_1e\\
+x_2e\\
+\end{array}\right]=
+\left[\begin{array}{c}
+0\\
+0\\
+\end{array}\right]$
+
+$x_1e-x_2e=0\Rightarrow x_1e=x_2e$
+
+$0.5x_1e+1.1x_2e=0\Rightarrow x_2e = 0 = x_1e$
+
+$x_e=
+\left[\begin{array}{c}
+x_1e\\
+x_2e\\
+\end{array}\right]=
+\left[\begin{array}{c}
+0\\
+0\\
+\end{array}\right]$
+
+The equlibrium state is 
+$x_e=
+\left[\begin{array}{cc}
+0 & 0\\
+\end{array}\right]^T$
+
+### HW 4.6
+a.
+Eigenvalues are obtained by solving 
+$\det{(A-\lambda I)}=0$
+
+$\left[\begin{array}{cc}
+0.1-\lambda & 0\\
+1 & 0.2-\lambda\\
+\end{array}\right]$
+
+$\lambda_1=0.1\lt1$,
+$\lambda_2=0.2\lt1$
+
+All eigenvalues lie inside the unit circle, the system is asymptotically stable.
+
+b.
+$\left[\begin{array}{ccc}
+\lambda+0.2 & 0.2 & 0\\
+0 & \lambda-1 & 0.1\\
+0 & 0 & \lambda+1\\
+\end{array}\right]$  
+$\Rightarrow (\lambda+0.2)\{(\lambda-1)(\lambda+1)-0\}\Rightarrow \lambda=\pm1,-0.2$
+
+Not asymptotically stable.
+
+### HW 4.7
+a.
+$e=[B_d| A_dB_d]$
+$e=\left[\begin{array}{cc}
+0 & | & 0\\
+0.2 & | & 0.04
+\end{array}\right]$
+
+Rank $1\lt2$, system is not controllable.
+$O=\left[\begin{array}{c}
+c\\
+cA_d\\
+\end{array}\right]
+=\left[\begin{array}{cc}
+1 & 1\\
+1.1 & 0.2\\
+\end{array}\right]$
+
+Full rank, system is observable.
+
+b. c
+
+### HW 4.8
+
+
+### HW 4.9
