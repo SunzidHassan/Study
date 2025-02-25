@@ -888,8 +888,163 @@ cA_d\\
 Full rank, system is observable.
 
 b. c
+$C =
+\left[\begin{array}{ccccc}
+B_d & | & A_dB_d & | & A_d^2B_d\\
+\end{array}\right]=
+\left[\begin{array}{cccccccc}
+1 & 0 & | & -0.2 & 0 & | & 0.06 & 0.02\\
+0 & 0 & | & 0.1 & 0.1 & | & 0 & 0\\
+1 & 1 & | & -1 & -1 & | & 1 & 1\\
+\end{array}\right]$
+The rank is 3, the system is controllable.
+
+$C=
+\left[\begin{array}{ccc}
+1 & 0 & 0\\
+\end{array}\right]$
+
+$A=
+\left[\begin{array}{ccc}
+-0.2 & 0.2 & 0\\
+0 & 1 & 0.1\\
+0 & 0 & -1\\
+\end{array}\right]$
+
+$O=\left[\begin{array}{c}
+C\\
+CA_d\\
+CA_d^2\\
+\end{array}\right]=
+\left[\begin{array}{ccc}
+1 & 0 & 0\\
+-0.2 & 0.2 & 0\\
+0.04 & 0.16 & 0.02\\
+\end{array}\right]$
+
+The rank is 3, the system is fully observable.
 
 ### HW 4.8
+$A=
+\left[\begin{array}{cc}
+-1 & 0\\
+1 & -2\\
+\end{array}\right]$
 
+$B=
+\left[\begin{array}{c}
+1\\
+0\\
+\end{array}\right]$
+
+First, we check the controllability of the system
+$P_c=
+\left[\begin{array}{c}
+B, AB\\
+\end{array}\right]=
+\left[\begin{array}{cc}
+1 & -1\\
+0 & 1\\
+\end{array}\right]$
+
+Since P_c is full rank, the system is controllable. We can use pole placement.
+
+Step 1:The desired characteristic equation  
+$(\lambda+2+2j)(\lambda+2-2j)=\lambda^2+4\lambda+8$
+
+Step 2: the closed-loop characteristic equation is  
+$(A-B_k)=
+\left[\begin{array}{cc}
+-1 & 0\\
+1 & -2\\
+\end{array}\right]-
+\left[\begin{array}{cc}
+k_1 & k_2\\
+0 & 0\\
+\end{array}\right]=
+\left[\begin{array}{cc}
+-1-k_1 & -k_2\\
+1 & -2\\
+\end{array}\right]$
+
+Det $\lambda I_n - (A-B_k) = \lambda^2+\lambda(3+k_1)+(2+2k_1+K_2)$
+
+Step 3: equating coefficients of eqn(1) and eqn(2) -
+$k = [k_1, k_2] = [1, 4]$
 
 ### HW 4.9
+$A =
+\left[\begin{array}{cc}
+-1 & 0\\
+1 & -2\\
+\end{array}\right]$
+
+$c=
+\left[\begin{array}{cc}
+0 & 1\\
+\end{array}\right]$
+
+Step 1: check observability
+
+$P_0=
+\left[\begin{array}{c}
+C\\
+CA\\
+\end{array}\right]=
+\left[\begin{array}{cc}
+0 & 1\\
+1 & -2\\
+\end{array}\right]$
+$P_0$ is full rank, system is observable.
+
+Step 2: compute $\Delta(\lambda)$
+$\Delta(\lambda)=
+(\lambda+8)(\lambda+10)=\lambda^2+18\lambda+80$
+
+Step 3: compute det$(\lambda I-(A-LC))$
+$A-LC =
+\left[\begin{array}{cc}
+-1 & 0\\
+1 & -2\\
+\end{array}\right]-
+\left[\begin{array}{c}
+L_1\\
+L_2\\
+\end{array}\right]
+\left[\begin{array}{c}
+0 & 1\\
+\end{array}\right]=
+\left[\begin{array}{cc}
+-1 & -L_1\\
+1 & (-2-L_2)\\
+\end{array}\right]$
+
+$\lambda I-(A-LC)=
+\left[\begin{array}{cc}
+\lambda & 0\\
+0 & \lambda\\
+\end{array}\right]-
+\left[\begin{array}{cc}
+-1 & -L_1\\
+1 & (-2-L_2)\\
+\end{array}\right]=
+\left[\begin{array}{cc}
+\lambda+1 & L_1\\
+-1 & \lambda+2+L_2\\
+\end{array}\right]
+$
+
+$
+\det(\lambda I-(A-LC))=
+(\lambda+1)(\lambda+2+L_2)+L_1=
+\lambda^2+\lambda(3+L_2)+(2+L_1+L_2)
+$
+
+Step 4: equating the coefficient
+$L_2=15$  
+$L_1=63$
+
+$\left[\begin{array}{c}
+63\\
+15\\
+\end{array}\right]$
