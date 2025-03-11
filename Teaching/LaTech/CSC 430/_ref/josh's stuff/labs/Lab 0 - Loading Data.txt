@@ -1,0 +1,32 @@
+mysql -u root -p --local_infile
+
+# the above will prompt you to input password
+
+use company;
+
+LOAD DATA LOCAL INFILE 'C:/Users/coriell/OneDrive - Louisiana Tech University/CSC 530/2021.2 Spring/company_data/department.dat'
+REPLACE INTO TABLE department
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+LOAD DATA LOCAL INFILE 'C:/Users/coriell/OneDrive - Louisiana Tech University/CSC 530/2021.2 Spring/company_data/dept_locations.dat'
+REPLACE INTO TABLE dept_locations
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+LOAD DATA LOCAL INFILE 'C:/Users/coriell/OneDrive - Louisiana Tech University/CSC 530/2021.2 Spring/company_data/project.dat'
+REPLACE INTO TABLE project
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+LOAD DATA LOCAL INFILE 'C:/Users/coriell/OneDrive - Louisiana Tech University/CSC 530/2021.2 Spring/company_data/works_on.dat'
+REPLACE INTO TABLE works_on
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+
+select * from works_on; # displays the table
