@@ -1,0 +1,12 @@
+Rhf 0.2[mm] Inner radius, hollow fiber
+Lm 0.08[mm] Thickness, membrane
+Lpc 0.42[mm] Width, concentric permeate channel
+H 21[mm] Length, fiber
+D 1e-9[m^2/s] Diffusion constant, liquid phases
+Dm 1e-9[m^2/s] Diffusion constant, membrane
+K 0.7 Partition coefficient
+c0_dia 1[mol/liter] Inlet concentration, dialysate
+c0_per c0_dia*0.1 Inlet concentration, permeate
+c0_mem 0[mol/liter] Initial concentration, membrane
+Uave_dia 0.5[mm/s] Average velocity, dialysate
+Uave_per 0.8[mm/s] Average velocity, permeate
