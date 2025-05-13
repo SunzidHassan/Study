@@ -1,0 +1,258 @@
+
+SDLC
+5 - Who are the stakeholders?
+ Product Owner(Holds Product Backlog)
+ Executive
+ Marketing(You cant sell it, If you cant market it)
+ Technical Lead (Technical architecture, constraints, 20 years experience )
+Developer
+Customer
+Project Manager or Scrum Master(Who manages all the deadlines, infra, looks for all the project)
+Testing/QA- to test and find bugs, and document them and report those to developers
+
+
+6 - What are their responsibilities?
+7 - What are the steps? Can you recognize them?
+Requirements
+Analysis(Prune, elaborate)
+Prototyping:Validation  (Usabilitytest)
+Build
+Test(Bug Test)
+Deploy
+Document
+Maintainance
+8 - What's in a product backlog? a release backlog?
+Product backlog  contains both user critical feautues and technical requirements
+Release Backlog contains the commited features and requirements
+
+9 - What are the characteristics of linear projects?
+	Project is a combination of sequence of tasks, where one task restricts the start of other task
+		(These projects require schedules that maintain resource continuity for an activity from one unit to the next one and achieve logic constraints at the same time)
+10 - What are some of the different types of testing?
+	Manual Vs Automatic testing
+	
+	Automatic Testing tools
+	Eg:  Developer testing tools Q-Unit, J-Unit, Post Testing team- Selenium
+	
+	- Unit Testing
+	- Integration tests
+	-Functional Tests
+	-End to end tests
+	-Acceptance tests
+	-Performance testing
+	-Smoke Testing
+	-Exploratory testing
+	
+	Ref https://www.atlassian.com/continuous-delivery/software-testing/types-of-software-testing
+	
+	
+	
+
+11 - What are QA's deliverables?
+E.g.: bugs, risk analysis, advice on quality practices tailored to that company or team, metrics, and tools to gain quality information automatically.
+
+link use cases/user stories to test cases covering them and report their status
+list which test cases are automated and why those cases were automated (in general the scenarios that are most likely to get the heaviest use are the best candidates for automation)
+the state of overall product regression if you have it (this is particularly important when you're dealing with development against an existing product)
+areas that weren't tested, the reasons these were not tested, and the potential risks exposed. It's very rare that everything can be tested, so there's always going to be a need for testing triage.
+
+ref https://sqa.stackexchange.com/questions/7518/what-are-the-deliverables-of-the-qa-department
+
+
+
+12 - What's a post mortem? Who's it for?
+POSTMORTEM - Complete In-Depth Documentation of everything,, all the decisions made during the project
+
+13 - What are the considerations of software after ship?
+
+%%Maintainance%%
+Security Threats
+Hardware Changes
+Orientation of libraries
+Critical bugs
+
+
+AGILE
+
+16 - Can you recognize or elaborate the differences between incremental and iterative? waterfall? agile?
+	%%WATERFALL%% - Old SChool"Nobody follows it now"
+
+-Requirements are known
+-Requirements wont change
+-Deliver Once
+
+Eg- Buidling a Cake
+
+
+%%Iterative Development%%
+
+-Changing
+- Many Unknown Requirements
+-Deliver Many/Multiple Times
+-Change/Improve/move toward target with each iteration 
+
+ 
+Eg: The perfect Steak Recipie 
+Eg: Game development(Version based Improvement)
+
+%%Incremental Development%%
+
+-Large Project
+-Delivered in fully functional Pieces
+- Delivered over a period of time
+-Few Unknowns or changing requirements
+
+
+
+ %%Agile(Iterative,Incremental)%%
+
+18 - Can you differentiate between different examples?
+19 - Do you understand the tenets of the Agile Manifesto?
+-Individuals and interactions over processes and tools(Face-face Interactions)
+-Working software over comprehensive documentation(always working on a central Build)
+-Customer collaboration over contract negotiation(Involve the customer in the process)
+-Responding to change over following a plan(Embrace regular change of requirements)
+
+	
+SCRUM
+
+22 - Who's on the team?
+Developer, ProductOwner, SCrum Master, Testing/QA, Customer/User(Not always the same)
+
+
+23 - What are their roles and responsibilities?
+24 - Do you understand the goals of release planning?
+
+Release Schedule is limited from today to the commited delivery time
+Release Schedule is filled with Sprints and Gates
+
+25 - What is a release? a gate? a sprint?
+For eg, if the Schedule is a 4 and half month stretch,
+4 1/2 is divided with 3 gates and each gate has 3 sprints i.e each sprint has perfect 2 weeks
+
+26 - How/ when does alpha fit in? What are the goals of alpha?
+
+after the last gate, ALPHA phase begins, in which ,only testing happens(No New features are added, code merge,Impediment orientation, testing bugs)
+
+27 - What kinds of projects have shorter or longer sprints?
+ref https://hygger.io/blog/quick-guide-choosing-right-sprint-length-project/#longer-sprints-vs-shorter-sprints
+
+28 - Can you write good user stories? recognize good user stories?
+		should have the "Accurate empathy"
+1) Elicitation (Asking really Good questions; Documenting in the others language)
+2) Clarification/elaboration
+3)Prioritization
+4)Validation 	
+		eg:https://blogs.itemis.com/en/what-are-good-user-stories#:~:text=The%20story%20always%20elaborates%20an,the%20user%2C%20customer%20or%20client.&text=The%20story%20is%20quantifiable%3A%20it,team%20to%20appreciate%20its%20scope.&text=The%20story%20is%20the%20right%20size.&text=The%20story%20contains%20enough%20information%20to%20allow%20it%20to%20be%20tested
+		
+		
+
+29 - What are the components/ characteristics of a sprint?
+Sprint Planning
+Execution
+The Sprint Review
+Sprint Retrospective
+
+ref : https://www.projectengineer.net/the-4-parts-of-a-sprint-in-agile/
+30 - What types of work aren't great for agile or scrum?
+31 - What events occur in 1 sprint?
+Sprint Planning
+Execution
+The Sprint Review
+Sprint Retrospective
+
+32 - What happens at retrospective? after?
+Features feedback from customer,
+Clarifications on the sprint development
+Make some changes in priorities,
+Next to Retrospective is Sprint Planning
+
+33 - What takes place on planning day? What are the outcomes of sprint planning?
+- Tasks
+- Story Pooints
+- Estimates
+
+34 - Can you calculate hours for one developer's work?
+
+Add up all the User stories  developer has worked,
+
+estimated + 20% is Good
+Estomated + 15% is excellent
+Estimate without any variation is (MI)
+
+35 - Can you identify/calculate velocity?
+Velocity- Average Hrs/Day
+Average work remaining calculation according to the burndown chart
+
+AVerage velocity =  Number of story points/No of sprints
+
+ref: https://premieragile.com/how-to-improve-velocity-in-scrum/
+
+36 - Can you identify technical debt?
+%%TECHNICAL DEBT%%
+The work that is pending on the last day of the sprint, i.e due deadline 
+
+Velocity- Average Hrs/Day
+Average work remaining calculation according to the burndown chart
+
+which is very essential to calculate the technical debt
+
+Eg: is 20/896 work hrs of technical debt present, 876/896 work hours are remaining for the next sprints
+
+
+
+
+37 - What makes a good standup? a bad standup?
+-dev's + management
+-10min tops
+-dont solvve the problems
+-Same time,Place everyday
+
+
+What do you do?
+What are you going to do?
+Are there any blocking issues?
+
+Bad Standup - No Technical Discussion/ Long calls are not allowed
+
+39 REQUIREMENTS
+40 - What are the characteristics of the steps?
+41 - What are different types of requirements?
+User and system requirements
+42 - What are some user requirement tools?
+Mock Up Interviews
+	Continue WalkRound
+	Market Research
+	Ethitographic Research
+	Surveys
+43 - What philosophies or mindsets govern finding requirements?
+-Developing Accurate Empathy
+-Task Analysis
+-Interviews
+-Market Maping
+
+44 - Who captures requirements? From whom?
+User requirements are captured from (Product owner)
+System Requirements are caputed from(Developer, Technical Lead)
+
+45 - What's gold plating?
+- Extra Unexpected developments which are out of scope, and this can utilize more time than Sprint time
+-Gold plating, on the other hand, is when a project team adds on features that were not requested by the client. 
+The reasons for gold plating can vary. 
+Sometimes this is done to gain the approval of a client or internal management. This is also occasionally done to draw attention away from project defects. 
+
+
+46 - What's scope creep?
+-In project management, scope creep is when extra features are added to a project at the request of a client. This can occur when the scope is hazily defined or agreed upon informally.\
+ Scope creep can cause costs to spiral and should be avoided.
+ 
+ 
+
+
+
+47
+48 MYTHICAL MAN MONTH
+49 - Did you read it?
+50 - Do you understand it?
+51 - What are the major insights that stand out to you?
+52 - Can you recognize the patterns he describes?
