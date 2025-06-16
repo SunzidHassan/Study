@@ -1042,6 +1042,7 @@ With motors and their hardware interfaces loaded, `ros2 control list_hardware_in
 - ros2control command line tool (CLI): makes these service calls easier. 
 - Nodes/scripts: can run key functions.
 
+On the dev machine:
 ```bash
 sudo apt install ros-${ROS_DISTRO}-ros2-control ros-${ROS_DISTRO}-ros2-controllers ros-${ROS_DISTRO}-gazebo-ros2-control
 ```
@@ -1066,9 +1067,9 @@ In the robot description `robot.urdf.xacro`, add another xacro file for ros2 con
                 <param name="left_wheel_name">left_wheel_joint</param>
                 <param name="right_wheel_name">right_wheel_joint</param>
                 <param name="loop_rate">30</param>
-                <param name="device">/dev/ttyUSB0</param>
+                <param name="device">/dev/ttyUSB0</param>  <!-- The USB device needs to be udpated to differential between the arduino and the LiDAR-->
                 <param name="baud_rate">57600</param>
-                <param name="timeout_ms">1000</param>
+                <param name="timeout_ms">1000</param> <!-- 1 second -->
                 <param name="enc_counts_per_rev">3436</param>
             </hardware>
             <joint name="left_wheel_joint">
@@ -1259,7 +1260,131 @@ Update `rsp.launch.py`.
 
 ### Driving Actual Robot using ROS2 Control
 
+We have our physical robot on one side, and the command velocity to be published by a nav stack on another side. Command velocity is of type `Twist` or `TwistStamped`, a 6-d velocity including `linear.x`, `linear.y`, `linear.z`, `angular.x`, `angular.y`, `angular.z`. But for a differential drive robot, we'll only use `linear.x`, `angular.z`. `ros2_control` will link the `/cmd_vel` to the actual motors.  
 
+`ros2_control` has 3 main parts - a controller manager that links diff drive controller to hardware interface. `ros2_control` provides the controller manager - `ros2_control_node`, the diff drive controller - `diff_drive_controller` (although we could write one), we write the hardware interface plugin - `diffdrive_arduino`. The `diff_drive_controller` converts the `/cmd_vel` into required motor velocity, and the `diffdrive_arduino` converts the abstract motor velocity into hardware commands, the `ros2_control_node` links the `diff_drive_controller` and `diffdrive_arduino`.
+
+We also have a controller manager `joint_state_broadcaster` that reads motor encoder position state provided by the hardware interface, and publishes them in the `/joint_states` topic. For the robot state publisher to generate transforms.
+
+The last section discusses setting up controller manager and hardware interfaces for gazebo. This section deals with setting up controller manager and hardware interfaces for the real robot.
+
+#### Setting up controller manager
+If you use the arduino code provided, youcan use the hardware interface `diffdrive_arduino` discussed here. It exposes the two command interfaces (velocities) and four state interfaces (velocities, positions), and uses the same serial commands to drive the motors. Control will use the `diff_drive_controller` used for Gazebo.
+
+Right now, the custom hardware interface can't be installed using apt, we'll have to build from source. 
+
+On the Pi:
+
+```bash
+sudo apt install ros-${ROS_DISTRO}-ros2-control ros-${ROS_DISTRO}-ros2-controllers ros-${ROS_DISTRO}-gazebo-ros2-control
+cd <workspace>/src
+git clone https://github.com/joshnewans/diffdrive_arduino
+git clone https://github.com/joshnewans/serial
+cd ../..
+colcon build --symlink-install
+source install/setup.bash
+```
+Connect to the Pi using vscode remote host (ssh) to udpate the `ros2_control.xacro` and to create/update `launch_robot.launch.py`.
+
+The controller manager needs two things: the robot URDF that includes information to load the hardware interfaces, and a params file that includes information to load the controllers. For the URDF, we'll edit the `launch_robot.launch.py` launcher. We'll include the library `from launch.substitution import Command`, and add a command substitution `robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])`, that is going to execute a command that asks `robot_state_publisher` node to return its `robot_description` parameters as a string.
+
+We'll add a `controller_manager` node with the same `controller_manager` package, but with the executable `ros2_control_node`, and some parameters.
+
+```python
+robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
+
+controller_params_file = os.path.join(get_package_share_directory(package_name),'config','my_controllers.yaml')
+
+controller_manager = Node(
+    package="controller_manager",
+    executable="ros2_control_node",
+    parameters=[{'robot_description': robot_description}, # for urdf (hardware interface)
+                controller_params_file] # for params (controllers)
+)
+```
+
+Now this will launch `ros2_control` node, it'll set robot description parameter to what `robot_description` returns, and set the controller parameters from the yaml file.
+
+```python
+# delays running the controller manager by 3 seconds for the parameters to complete loading.
+from launch.actions import TimerAction
+delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager])
+
+# waits for the controller_manager to start, then starts `diff_drive_spawner
+from launch.event_handlers import OnProcessStart
+
+diff_drive_spawner = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["diff_cont"],
+)
+
+delayed_diff_drive_spawner = RegisterEventHandler(
+    event_handler=OnProcessStart(
+        target_action=controller_manager,
+        on_start=[diff_drive_spawner],
+    )
+)
+
+joint_broad_spawner = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["joint_broad"],
+)
+
+delayed_joint_broad_spawner = RegisterEventHandler(
+    event_handler=OnProcessStart(
+        target_action=controller_manager,
+        on_start=[joint_broad_spawner],
+    )
+)
+
+
+# Launch them all!
+return LaunchDescription([
+    rsp,
+    # joystick,
+    twist_mux,
+    delayed_controller_manager,
+    delayed_diff_drive_spawner,
+    delayed_joint_broad_spawner
+])
+```
+
+#### Testing the real robot
+- Initial test: Drive it with teleop and compare with rviz.
+- Encoder counts per revolution: Rotate the wheels, and check alignment with rviz transforms.
+- Wheel radius: Drive the robot 1m, and check if it aligns with rviz. You can update the value in URDF and in `my_controllers.yaml`.
+- Wheel seperation: rotate the robot 1 circle, check alignment with rviz. You can update the value in URDF and in `my_controllers.yaml`.
+
+Check the camera by launcing it in the Pi:
+```bash
+# source workspace
+ros2 launch articubot_one camera.launch.py
+```
+
+Check the lidar by launcing it in the Pi:
+```bash
+# source workspace
+ros2 launch articubot_one rplidar.launch.py
+```
+
+#### Switch real and gazebo controller manager
+
+```xml
+<xacro:arg name="sim_mode" default="false"/>
+```
+
+On the `ros2_control.xacro` file, put the real robot control tag inside xacro:unless, and gazebo control tag inside if:
+```xml
+<xacro:unless value="$(arg sim_mode)">
+    <ros2_control name="RealRobot" type="system">...</ros2_control>
+</xacro:unless>
+
+<xacro:if value="$(arg sim_mode)">
+    <ros2_control name="GazeboSystem" type="system">...</ros2_control>
+</xacro:if>
+```
 
 ### Wireless Control
 
