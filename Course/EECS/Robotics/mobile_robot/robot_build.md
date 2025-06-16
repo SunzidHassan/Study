@@ -612,6 +612,21 @@ LiPo needs careful handling.
 - Rotate the wheel by n times, get encoder reading e (e in miniterm), e/n is rev of encoders per rev of wheel.
 - In the Arduino code, PID loop runs 30 loops/sec, number of encoder counts per PID loop = (e/n)/30 - is the magnitude (range 0-255) for 1 rev/sec.
 
+Arduino		L298N
+D10		L Fwd - IN2
+D6		L Rev - IN1
+D9		R Fwd - IN3
+D5		R Rev - IN4
+
+Arduino		Encoder pin
+Gnd		Black
+5V		Blue
+D2		Left A (Left Green)
+D3		Left B (Left Yellow)
+A4		Right A (Right Yellow)
+A5		Right B (Right Green)
+
+
 ### ROS Driver
 
 Demo driver with two nodes, an encoder listener in topic and send them to the controller, another GUI for sending commands.
