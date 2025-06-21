@@ -601,7 +601,23 @@ LiPo needs careful handling.
 
 - Upload driver code on the Arduino
 - Connect Arduino to the motor driver
-- Check if the motor control works using miniterm (by sending serial command)
+Arduino		L298N
+- D10		L Fwd - IN2
+- D6		L Rev - IN1
+- D9		R Fwd - IN3
+- D5		R Rev - IN4
+
+Arduino		Encoder pin
+- Gnd		Black
+- 5V		Blue
+- D2		Left A (Left Green)
+- D3		Left B (Left Yellow)
+- A4		Right A (Right Yellow)
+- A5		Right B (Right Green)
+
+- Install pyserial
+- Check the USB in which the Arduino is connected (e.g., `/dev/ttyUSB0`)
+- Check if the motor control works using pyserial (by sending serial command): `python3 -m serial.tools.miniterm /dev/ttyUSB0 57600 --echo`
   - `e` for checking current speed
   - `r` to reset
   - `o (+/-)0-255 (+/-)0-255` for spinning at variable speed with open-loop control
@@ -609,34 +625,20 @@ LiPo needs careful handling.
 
 - The motor encoders can have 4 wires - two will go to 5V and Gnd to power the encoder circuit, two will go to Arduino input.
 - After connecting the encoder to the Arduino, check if rotating the wheel gives positive return (r in miniterm). Otherwise, swap the motor power wires.
-- Rotate the wheel by n times, get encoder reading e (e in miniterm), e/n is rev of encoders per rev of wheel.
-- In the Arduino code, PID loop runs 30 loops/sec, number of encoder counts per PID loop = (e/n)/30 - is the magnitude (range 0-255) for 1 rev/sec.
-
-Arduino		L298N
-D10		L Fwd - IN2
-D6		L Rev - IN1
-D9		R Fwd - IN3
-D5		R Rev - IN4
-
-Arduino		Encoder pin
-Gnd		Black
-5V		Blue
-D2		Left A (Left Green)
-D3		Left B (Left Yellow)
-A4		Right A (Right Yellow)
-A5		Right B (Right Green)
+- Rotate the wheel by n times, get encoder reading e (e in miniterm), e/n is rev of encoders per rev of wheel. For my first motor, it's about 1970.
+- In the Arduino code, PID loop runs 30 loops/sec, number of encoder counts per PID loop = (e/n)/30=1970/30=66 - is the magnitude (range 0-255) for 1 rev/sec. But after testing closed loop, m 36 gives approx 1 rev, which makes e/n=36*30=1080
 
 
 ### ROS Driver
 
 Demo driver with two nodes, an encoder listener in topic and send them to the controller, another GUI for sending commands.
 
-On the PI:
+On the both the dev machine and PI:
 
 - Clone https://github.com/joshnewans/serial_motor_demo in workspace (src) folder, build, source.
 
 ```bash
-ros2 run serial_motor_demo driver --ros-args -p serial_port:=/dev/ttyUSB0 -p baud_rate:=57600 -p loop_rate:=30 -p encoder_cpr:=3450
+ros2 run serial_motor_demo driver --ros-args -p serial_port:=/dev/ttyUSB0 -p baud_rate:=57600 -p loop_rate:=30 -p encoder_cpr:=1080
 ```
 
 `Error: Serial timeout on command: e` is OK.
