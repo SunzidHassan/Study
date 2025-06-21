@@ -1044,12 +1044,12 @@ With motors and their hardware interfaces loaded, `ros2 control list_hardware_in
 
 On the dev machine:
 ```bash
-sudo apt install ros-${ROS_DISTRO}-ros2-control ros-${ROS_DISTRO}-ros2-controllers ros-${ROS_DISTRO}-gazebo-ros2-control
+sudo apt install ros-${ROS_DISTRO}-ros2-control ros-${ROS_DISTRO}-ros2-controllers ros-${ROS_DISTRO}-gz-ros2-control
 ```
 
 #### Setting up ROS2 Control
 
-In the robot description `robot.urdf.xacro`, add another xacro file for ros2 control and replace `gaze_control` with it.
+In the robot description `robot.urdf.xacro`, add another xacro file for ros2 control and replace `gazebo_control` with it.
 
 ##### ROS2 Control Xacro
 
