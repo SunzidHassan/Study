@@ -900,7 +900,7 @@ sudo apt install ros-${ROS_DISTRO}-image-transport-plugins ros-${ROS_DISTRO}-rqt
 Run the camera:
 
 ```bash
-ros2 run v412_camera v412_camera_node --ros-args -p image_size:="[640,480]" -p camera_frame_id:=camera_link_optical
+ros2 run v4l2_camera v4l2_camera_node --ros-args -p image_size:="[640,480]" -p camera_frame_id:=camera_link_optical
 # or
 ros2 run launch camera.launch.py
 ```
@@ -1278,7 +1278,17 @@ Right now, the custom hardware interface can't be installed using apt, we'll hav
 On the Pi:
 
 ```bash
-sudo apt install ros-${ROS_DISTRO}-ros2-control ros-${ROS_DISTRO}-ros2-controllers ros-${ROS_DISTRO}-gazebo-ros2-control
+sudo apt update && sudo apt upgrade -y && sudo apt install -y \
+  ros-${ROS_DISTRO}-twist-mux \
+  ros-${ROS_DISTRO}-twist-stamper \
+  ros-${ROS_DISTRO}-ros2-control \
+  ros-${ROS_DISTRO}-ros2-controllers \
+  ros-${ROS_DISTRO}-gz-ros2-control \
+  ros-${ROS_DISTRO}-ros-gz
+
+# sudo apt install ros-${ROS_DISTRO}-ros2-control ros-${ROS_DISTRO}-ros2-controllers ros-${ROS_DISTRO}-gazebo-ros2-control
+
+sudo apt install libserial-dev
 cd <workspace>/src
 git clone https://github.com/joshnewans/diffdrive_arduino
 git clone https://github.com/joshnewans/serial
