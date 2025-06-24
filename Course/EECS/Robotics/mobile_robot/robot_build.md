@@ -23,9 +23,8 @@
     - [L298N Motor Driver](#l298n-motor-driver)
     - [Motor-Driver-Arduino Pairing](#motor-driver-arduino-pairing)
     - [ROS Driver](#ros-driver)
-  - [Sensors](#sensors)
-    - [LiDAR](#lidar)
-      - [Connecting Physical LiDAR](#connecting-physical-lidar)
+  - [LiDAR](#lidar)
+    - [Connecting Physical LiDAR](#connecting-physical-lidar)
   - [Camera](#camera)
     - [Camera and Images Fundamentals](#camera-and-images-fundamentals)
       - [Image Representation](#image-representation)
@@ -53,6 +52,9 @@
         - [Wheel friction and rviz2 lag](#wheel-friction-and-rviz2-lag)
         - [Object scan move around for simulation](#object-scan-move-around-for-simulation)
     - [Driving Actual Robot using ROS2 Control](#driving-actual-robot-using-ros2-control)
+      - [Setting up controller manager](#setting-up-controller-manager)
+      - [Testing the real robot](#testing-the-real-robot)
+      - [Switch real and gazebo controller manager](#switch-real-and-gazebo-controller-manager)
     - [Wireless Control](#wireless-control)
     - [Phone Control](#phone-control)
   - [SLAM](#slam)
@@ -651,9 +653,7 @@ ros2 run serial_motor_demo gui
 
 ---
 
-## Sensors
-
-### LiDAR
+## LiDAR
 
 Can be based on sound or light, 1/2/3D.
 
@@ -731,7 +731,7 @@ In the robot description `robot.urdf.xacro`, add another xacro file for lidar.
 
 In Rviz2, add LaserScan topic.
 
-#### Connecting Physical LiDAR
+### Connecting Physical LiDAR
 
 On Pi, install driver with `sudo apt install` command.
 
@@ -745,7 +745,10 @@ Run:
 
 ```bash
 ros2 rplidar_ros rplidar_composition --ros-args -p serial_port:=/dev/serial/by-path/<NAME> -p frame_id:=laser_frame -p angle_compensate:=true -p scan_mode:=Standard
+
+ros2 run ydlidar_ros2_driver ydlidar_ros2_driver_node --ros-args -p serial_port:=/~/dev/ttyUSB0 -p frame_id:=laser_frame -p angle_compensate:=true -p scan_mode:=Standard
 ```
+
 
 On dev machine, launch `rviz2`. If the robot state publisher is not published, select Fixed Frame `laser_frame`.
 
