@@ -5,9 +5,13 @@ milk:
     - name: Brand A
       coordinates: [12.1, 4.5]
       description: Low-fat dairy milk with smooth taste and high calcium.
+      price: 2.99
+      stock: 50
     - name: Brand B
       coordinates: [12.5, 4.9]
       description: Full-cream organic milk from grass-fed cows.
+      price: 3.49
+      stock: 30
 
 promotions:
   - item: Brand B Milk
