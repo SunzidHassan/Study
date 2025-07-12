@@ -618,8 +618,8 @@ Arduino		Encoder pin
 - A5		Right B (Right Green)
 
 - Install pyserial
-- Check the USB in which the Arduino is connected (e.g., `/dev/ttyUSB0`)
-- Check if the motor control works using pyserial (by sending serial command): `python3 -m serial.tools.miniterm /dev/ttyUSB0 57600 --echo`
+- Check the USB in which the Arduino is connected (e.g., `/dev/ttyUSB0` or `/dev/ttyACM0`)
+- Check if the motor control works using pyserial (by sending serial command): `python3 -m serial.tools.miniterm /dev/ttyUSB0 57600 --echo` or `python3 -m serial.tools.miniterm /dev/ttyACM0 57600 --echo`
   - `e` for checking current speed
   - `r` to reset
   - `o (+/-)0-255 (+/-)0-255` for spinning at variable speed with open-loop control
@@ -641,6 +641,10 @@ On the both the dev machine and PI:
 
 ```bash
 ros2 run serial_motor_demo driver --ros-args -p serial_port:=/dev/ttyUSB0 -p baud_rate:=57600 -p loop_rate:=30 -p encoder_cpr:=1080
+
+#or
+ros2 run serial_motor_demo driver --ros-args -p serial_port:=/dev/ttyACM0 -p baud_rate:=57600 -p loop_rate:=30 -p encoder_cpr:=1080
+
 ```
 
 `Error: Serial timeout on command: e` is OK.
@@ -733,7 +737,7 @@ In Rviz2, add LaserScan topic.
 
 ### Connecting Physical LiDAR
 
-On Pi, install driver with `sudo apt install` command.
+On Pi, install rplidar driver with `sudo apt install ros-${ROS_DISTRO}-rplidar-ros`.
 
 To figure out the USB where the LiDAR is connected:
 
@@ -744,11 +748,8 @@ ls /dev/serial/by-path/
 Run:
 
 ```bash
-ros2 rplidar_ros rplidar_composition --ros-args -p serial_port:=/dev/serial/by-path/<NAME> -p frame_id:=laser_frame -p angle_compensate:=true -p scan_mode:=Standard
-
-ros2 run ydlidar_ros2_driver ydlidar_ros2_driver_node --ros-args -p serial_port:=/~/dev/ttyUSB0 -p frame_id:=laser_frame -p angle_compensate:=true -p scan_mode:=Standard
+ros2 run rplidar_ros rplidar_composition --ros-args -p serial_port:=/dev/ttyUSB0 -p frame_id:=laser_frame -p angle_compensate:=true -p scan_mode:=Standard
 ```
-
 
 On dev machine, launch `rviz2`. If the robot state publisher is not published, select Fixed Frame `laser_frame`.
 
