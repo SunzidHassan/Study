@@ -748,7 +748,7 @@ ls /dev/serial/by-path/
 Run:
 
 ```bash
-ros2 run rplidar_ros rplidar_composition --ros-args -p serial_port:=/dev/ttyUSB0 -p frame_id:=laser_frame -p angle_compensate:=true -p scan_mode:=Standard
+ros2 run rplidar_ros rplidar_composition --ros-args  -p serial_port:=/dev/ttyUSB0 -p serial_baudrate:=115200 -p frame_id:=laser -p inverted:=false -p angle_compensate:=true -p scan_mode:=Standard
 ```
 
 On dev machine, launch `rviz2`. If the robot state publisher is not published, select Fixed Frame `laser_frame`.
@@ -901,12 +901,13 @@ v4l2-ctl --list-devices # check if video for linux subsystem can see camera
 sudo apt install ros-${ROS_DISTRO}-image-transport-plugins ros-${ROS_DISTRO}-rqt-image-view
 ```
 
+
 Run the camera:
 
 ```bash
 ros2 run v4l2_camera v4l2_camera_node --ros-args -p image_size:="[640,480]" -p camera_frame_id:=camera_link_optical
 # or
-ros2 run launch camera.launch.py
+ros2 launch camera.launch.py
 ```
 
 On a new terminal:
