@@ -27,3 +27,33 @@
 - Tool down arrow shows more drawing options. Hovering over tool buttons shows tips.
 
 ### Property Manager, Aids
+- The `Property Manager` on the left allows to change the drawing mode and properties - like size of polygon.
+- `Ctrl+z` for undo
+
+Drawing aids:
+- Solidworks shows length and radius while drawing.
+- It shows dashed lines and special symbols on cursor size for perpendicular or tangent directions.
+- Snapping for object endpoints, midpoints. Snapping can be disables by holding down the `Ctrl` key.
+
+### 2D Sketches
+- All drawings are part of sketch (check name on bottom-right).
+- Sketch can be zoomed in/out using mouse wheel.
+- You can hold `Ctrl` and use arrow for panning.
+- `Ctrl+Q` for applying sketch.
+- You can then move, resize, or delete the sketch from the left-side panel.
+- You can start to draw a new sketch by starting to draw with tools, selecting the right plane again.
+
+### Selection and Editing
+- You can double click to edit any sketch.
+- Regular cut-copy-paste.
+- You can click to select and reposition points, lines, curves, etc.
+- You can use dialog box near cursor to make lines horizontal or verticle to main axes, or use `Construction Geometry` to use the entity as guides to further drawings.
+
+### Keyboard Drawing
+- Sketch Tab > Smart Dimension to add dimension annotations/length correction between points/lines.
+- Sketch Tab > Move Entities to move them without changing their properties.
+- `Ctrl` hold and click to select multiple entities.
+
+### Advanced 2D Tools
+- Sketch > Move/Rotate Entities to select rotaion point and rotate.
+- You can also sketch in 3D on multiple planes.
