@@ -1,6 +1,9 @@
 # Table of Contents
 
 - [Table of Contents](#table-of-contents)
+- [Log](#log)
+  - [2025](#2025)
+    - [September](#september)
 - [Docker for Robotics](#docker-for-robotics)
   - [ROS2 Dev Container Setup](#ros2-dev-container-setup)
 - [Making a Mobile Robot](#making-a-mobile-robot)
@@ -64,6 +67,11 @@
   - [New Gazebo](#new-gazebo)
 
 ---
+# Log
+## 2025
+### September
+- Managed to run LiDAR, but not rplidar.launch.pi
+- Managed to run 
 
 # Docker for Robotics
 
@@ -748,7 +756,7 @@ ls /dev/serial/by-path/
 Run:
 
 ```bash
-ros2 run rplidar_ros rplidar_composition --ros-args  -p serial_port:=/dev/ttyUSB0 -p serial_baudrate:=115200 -p frame_id:=laser -p inverted:=false -p angle_compensate:=true -p scan_mode:=Standard
+ros2 run rplidar_ros rplidar_composition --ros-args  -p serial_port:=/dev/ttyUSB0 -p serial_baudrate:=115200 -p frame_id:=laser_frame -p inverted:=false -p angle_compensate:=true -p scan_mode:=Standard
 ```
 
 On dev machine, launch `rviz2`. If the robot state publisher is not published, select Fixed Frame `laser_frame`.
