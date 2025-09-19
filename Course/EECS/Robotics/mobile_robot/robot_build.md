@@ -62,6 +62,7 @@
       - [Getting feedback using rviz2](#getting-feedback-using-rviz2)
     - [Phone Control](#phone-control)
   - [SLAM](#slam)
+    - [ROS and SLAM](#ros-and-slam)
   - [Nav2](#nav2)
   - [Additional Hardware](#additional-hardware)
   - [Humble](#humble)
@@ -1483,6 +1484,37 @@ ssh into the robot and launch LiDAR launcher
 ---
 
 ## SLAM
+Simultaneous Localization And Mapping.
+GridSLAM using 2D LiDAR.
+
+Localization is placing concepts on map. If we don't have GPS to start with, we can use SLAM to both localize and update our map. Two major approaches are `feature or landmark` slam and `grid slam`. Feature slam detects objects in our map. Grid slam divides the area into grids, and each are occupied or unoccupied.
+
+
+### ROS and SLAM
+We can set our fixed frame in rviz to `odom`, which represents the robot's world origin. And the transform from odom to `base_link` is calculated by the differential drive controller using the wheel odometry. But odometry drifts away from the truth slowly over time, as it integrates velocity to estimate position (dead reckoning), which compunds error.  
+GPS/SLAM can correct these errors. But using them to correct odom can result in transporting base_link. Instead we use a `map` link instead of `odom`. And the final output combines two.  
+In addition to `odom` and `map` frames, we have `odom` and `map` topics that contain data of odometry (`nav_msgs/msg/Odometry`: contains position info of odom->base_link TF and velocity) and map (`nav_msgs/msg/OccupancyGrid`: contains grid map occupancy data).  
+
+`base_footprint` is a like a 2D shadow of `base_link` stuck on the ground - used for 2D SLAM algorithms. `Pose` means the position and orientation of robot (same as robot's transform frame).  
+
+You can find more info on coordinate frames in **REP 105 - Coordinate Frames for Mobile Platforms** and **REP 120 - Coordinate Frames for Humanoid Robots**.  
+
+Now we'll add `base_footprint` link in our `robot_core.xacro` file under the `base_link`.
+
+We'll also install:
+```bash
+sudo apt update && sudo apt upgrade -y && sudo apt install -y ros-${ROS_DISTRO}-slam-toolbox
+```
+SLAM toolbox has many modes. We'll use -
+- `Online`: working on a live data stream rather than recorded logs.
+- `Asynchronous`: always process the latest scan to avoid lagging, even if it skips scans.
+
+SLAM toolbox comes with launcher and param files - we'll copy a params file in our directory.
+
+```bash
+cp /opt/ros/${ROS_DISTRO}/share/slam_toolbox/config/mapper_params_online_async.yaml dev_ws/src/bluebot_one/config/
+```
+ 
 
 ---
 
