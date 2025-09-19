@@ -63,6 +63,7 @@
     - [Phone Control](#phone-control)
   - [SLAM](#slam)
     - [ROS and SLAM](#ros-and-slam)
+    - [Running on real robot](#running-on-real-robot)
   - [Nav2](#nav2)
   - [Additional Hardware](#additional-hardware)
   - [Humble](#humble)
@@ -1514,7 +1515,56 @@ SLAM toolbox comes with launcher and param files - we'll copy a params file in o
 ```bash
 cp /opt/ros/${ROS_DISTRO}/share/slam_toolbox/config/mapper_params_online_async.yaml dev_ws/src/bluebot_one/config/
 ```
- 
+Go to workspace > Rebuild with colcon > source workspace > launch simulation launcher and rviz. If you drive your robot and come back to the origin, you'll find it has drifted away in rviz. Restart gazebo and rviz, and in a new terminal:
+
+```bash
+ros2 launch slam_toolbox online_async_launch.py params_file:=./src/bluebot_one/config/mapper_params_online_async.yaml use_sim_time:=true 
+```
+
+In rviz, add map and set topic to `\map`, and change the Fixed Frame to `map` (this'll make the map steady, while the robot can jump around). Now driving the robot will udpate the map. You can change your view from Orbit (rviz default) to TopDownOrthographic. Now, returning to the map origin will land it very close to origin in Gazebo, while the odom has drifted.
+
+Running `ros2 service list` shows options to save map. But it also has a rviz plugin (Panels Tab > Add new Panel > SlamToolboxPlugin). You can use `Save Map` to save it in old format, and `Serialize Map` to save map that can be used with `slam_toolbox`. Go to the `mapper_params_online_async.yaml` file and change `mode: localization`. For `map_file_name: `, write the path to the saved map (e.g., `/home/dev/dev_ws/my_map_serial`). Set `map_start_at_dock` to `true`. Then rerun the `slam_toolbox`.  
+
+Once we've built our map, we can use it with other systems like the AMCL (Adaptive Monte Carlo Localisation).  
+
+Now install Nav2 from the [Getting Started with Nav2](https://docs.nav2.org/getting_started/index.html).
+
+We'll now start a `map_server` node that take the saved map and makes it avaiable as `/map` topic. We'll run
+```bash
+ros2 run nav2_map_server map_serve --ros-args -p yaml_file_name:=my_map_save.yaml -p use_sim_time:=true
+```
+In a new tab
+```bash
+ros2 run nav2_util lifecycle_bringup map_server
+```
+
+After rerunning gazebo, rviz, we can set rviz > map > Topic> Reliability to Reliable and Durability Policy to Transient Local. To localize our robot we'll run amcl in a new tab
+```bash
+ros2 run nav2_amcl amcl --ros-args -p use_sim_time:=true
+```
+In a new tab run lifecycle bringup with amcl
+```bash
+ros2 run nav2_util lifecycle_bringup amcl
+```
+Now we'll use 2D Pose Estimate on rviz to localize the robot.
+
+### Running on real robot
+On the Pi
+```bash
+ros2 launch bluebot_one launch_robot.launch.py
+```
+
+In another tab
+```bash
+ros2 launch bluebot_one rplidar.launch.py
+```
+
+Now we'll run `slam_toolbox` on the dev machine
+```bash
+ros2 launch slam_toolbox online_async_launch.py params_file:=./src/bluebot_one/config/mapper_params_online_async.yaml use_sim_time:=false 
+```
+
+Wait for the map to appear, and change the fixed frame to map. You can also run `slam_toolbox` on the robot to reduce latency.
 
 ---
 
