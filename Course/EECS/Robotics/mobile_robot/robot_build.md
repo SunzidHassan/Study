@@ -59,6 +59,7 @@
       - [Testing the real robot](#testing-the-real-robot)
       - [Switch real and gazebo controller manager](#switch-real-and-gazebo-controller-manager)
     - [Wireless Control](#wireless-control)
+      - [Getting feedback using rviz2](#getting-feedback-using-rviz2)
     - [Phone Control](#phone-control)
   - [SLAM](#slam)
   - [Nav2](#nav2)
@@ -1412,6 +1413,70 @@ On the `ros2_control.xacro` file, put the real robot control tag inside xacro:un
 ```
 
 ### Wireless Control
+
+```bash
+cd dev_ws/
+sudo apt install joystick jstest-gtk evtest
+evtest # typing event number will enable testing the gamepad in Linux
+```
+Linux Joystick Driver > Joy Node (talks to Linux driver) > /joy (topic sensor messages /joy - list of buttons and axis values we're pressing) > teleop_twist_joy (message) > /cmd_vel
+
+```bash
+ros2 run joy joy_enumerate_devices # shows plugged in controllers
+ros2 run joy joy_node # run joy node
+```
+
+On a new terminal
+```bash
+ros2 topic echo /joy # pressing controller should print topic
+```
+
+`joystick.launch.py` launcher runs node `joy_node` of package `joy`, and passes parameters from `joystick.yaml` in `config` directory.
+
+```yaml
+joy_node:
+  ros_parameters:
+    device_id: 0
+    deadzone: 0.05
+    autorepeat_rate: 20.0
+```
+
+colcon build, run launcher, run test.
+
+Now we'll generate twist message from joy input. We'll use `teleop_twist_joy` node to do this. We'll add this to the launch file. The package is `teleop_teist_joy`, the executable is `teleop_node`, and give it a name, pass the same params file, and run it in the launch description.
+
+In joystick.yaml
+```yaml
+teleop_node:
+  ros_parameters:
+    axis_linear:
+      x: 1 # the axis button ID
+    scale_linear: # speed in x direction when we push the button to the limit
+      x: 0.5 # m/s
+    scale_linear_turbo:
+      x: 1.0 # m/s in turbo mode
+
+    axis_angular:
+      yaw: 0
+    scale_angular: # angular speed
+      yaw: 0.5 # rad/s
+    scale_angular_turbo:
+      yaw: 1.0 # rad/s in turbo mode
+
+    enable_button: 6
+    enable_turbo_button: 7
+
+    require_enable_button: true # dead man's switch enable - if you don't press 6/7, it'll send 0 m/s
+```
+
+Build and relaunch, run `ros2 topic echo /cmd_vel`, and now joystick input should publish `/cmd_vel`. In the launcher file, we'll add remapping in teleop_node from `/cmd_vel` to `/diff_cont/cmd_vel_unstamped`.
+
+#### Getting feedback using rviz2
+Launch rviz2.
+
+ssh into your robot and launch camera launcher to get image feedback in rviz or rqt.
+
+ssh into the robot and launch LiDAR launcher
 
 ### Phone Control
 
