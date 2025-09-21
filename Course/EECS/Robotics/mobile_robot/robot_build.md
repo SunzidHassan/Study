@@ -65,6 +65,9 @@
     - [ROS and SLAM](#ros-and-slam)
     - [Running on real robot](#running-on-real-robot)
   - [Nav2](#nav2)
+    - [Nav2 on real robot](#nav2-on-real-robot)
+  - [Adding Screen](#adding-screen)
+  - [Object Tracking](#object-tracking)
   - [Additional Hardware](#additional-hardware)
   - [Humble](#humble)
   - [New Gazebo](#new-gazebo)
@@ -1569,6 +1572,127 @@ Wait for the map to appear, and change the fixed frame to map. You can also run 
 ---
 
 ## Nav2
+
+Plan and execute a safe trajectory from an initial pose to a target pose. The robot needs position estimate, which is provided by SLAM. We also need obstacle awareness, which can come from a existing static map or live Lidar data. Existing map and Lidar data is fused in a `Costmap` - where a high cost region may have obstacle, and low cost region is safe to go to.
+
+```bash
+sudo apt update && sudo apt upgrade -y && sudo apt install -y \
+  ros-${ROS_DISTRO}-twist-mux
+```
+
+nav2 stack publishes to `/cmd_vel`, but we need `/diff_cont/cmd_vel_unstamped`. We'll use `twist_mux` that'll take `/cmd_vel_joy` and `/cmd_vel` out to `/diff_cont/cmd_vel_unstamped`
+
+in config folder, create a new file `twist_mux.yaml`.
+
+Run on devpc:
+```bash
+ros2 run twist_mux twist_mux --ros-args --params-file ./src/bluebot_one/config/twist_mux.yaml -r cmd_vel_out:=diff_cont/cmd_vel_unstamped
+```
+Update the joystick.launch.py
+```py
+# FROM
+teleop_node = Node(
+        remappings=[('/cmd_vel','/diff_cont/cmd_vel_unstamped')]
+      )
+# TO
+teleop_node = Node(
+        remappings=[('/cmd_vel','/cmd_vel_joy')]
+      )
+```
+
+Now launch the launch_sim.launch.py. In a new tab run the `slam_toolbox` to generate map. In a new tab run nav2
+```bash
+ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true
+```
+
+In rviz add a new map and set topic to `/global_costmap` and set color scheme to `costmap`. Now we can use `2D Goal Pose`.
+
+### Nav2 on real robot
+Connect to Pi over SSH. Run ros2 control, twist_mux and lidar driver on Pi. On dev machine, run joy_stick driver, slam_toolbox, rviz, and the navigation launcher with sim_time to false.
+
+On rviz, we can add a new panel navigation 2, and a new tool navigation2 goal. Upon fixing some nav points with the nav2 goal tool, start navigation in nav2 panel will start the navigation.
+
+Once we have a map, we can keep using it for localization, and use it with nav2. Run simulation, joystick control, rviz and twist_mux. Now instead of running the slam_toolbox, run
+
+```bash
+ros2 launch nav2_bringup localization_launcy.py map:=./my_map_save.yaml use_sim_time:=true
+```
+
+Set map Topic>Durability to Transient Local. In another tab, run nav2 in another terminal with an extra parameter specifying it needs to subscribe to transient_local.
+```bash
+ros2 launch nav2_bringup navigation_launch.py use_time_time:=true map_subscribe_transient_local:=true
+```
+Now add a new map, set topic to global costmap and color to costmap. Now the base map will not update, but the cost map can update if new objects are included in the nav area. But without tuning, AMCL can result in unstable maps.
+
+To make it more stable, we can copy some config files
+```bash
+cp /opt/ros/${ROS_DISTRO}/share/nav2_bringup/params/nav2_params/yaml src/bluebot_one/config/
+cp /opt/ros/${ROS_DISTRO}/share/nav2_bringup/launch/navigation_launc.py src/bluebot_one/launch/
+cp /opt/ros/${ROS_DISTRO}/share/nav2_bringup/launch/localization_launc.py src/bluebot_one/launch/
+cp /opt/ros/${ROS_DISTRO}/share/slam_toolbox/launch/online_async_launch.py src/bluebot_one/launch/
+```
+Now in the `navigation_launch.py` and `localization_launch.py` and `online_asynch_launch.py` files, update the self package name - `bringup_dir = get_package_share_directory('bluebot_one')`, find where `bringup_dir` is used and replace `params` with `config` (our config folder name). We can also set a default map directory here. Now we can launch
+
+We will also add `twist_mux_params` and update `LaunchDescription` in our `launch_sim.launch.py` and `launch_robot.launch.py` files.
+
+```bash
+ros2 launch bluebot_one navigation_launch.py use_time_time:=true map_subscribe_transient_local:=true
+```
+Now we can tune the `nav2_params.yaml` file in our config folder. You can start with robot_radius, inflation_radius.
+
+---
+
+## Adding Screen
+
+Josh used a waveshare 7 inch display with case.
+```bash
+sudo systemctl set-default graphical.target # to enable GUI
+sudo systemctl set-default multi-user.target # to disable GUI
+sudo reboot
+```
+To invert display and touch
+```bash
+xrandr -o inverted # to invert display
+#or
+DISPLAY=:0 xrandr -o inverted
+
+DISPLAY=:0 xinput list # to list inputs
+DISPLAY=:0 xinput set-prop "DISPLAY_NAME" --type=float "Coordinate Transformation Matrix" -1 0 1 0 -1 1 0 0 1
+```
+
+Clone [articubot_one_ui](https://github.com/joshnewans/articubot_one_ui.git) package from github on the Pi and rebuild the workspace with colcon. Run the LiDAR driver on Pi over SSH, and joystick driver and twist_mux on dev machine. 
+```bash
+DISPLAY:=0 ros2 run articubot_one_ui ui_node --ros-args -r cmd_vel:=diff_cont/cmd_vel_unstamped
+```
+
+Cloning the package on dev machine will run an ui window.
+
+---
+
+## Object Tracking
+
+The algorithm will have two nodes:
+1. Handle image processing: take camera feed, use opencv to detect obect and return object coordinates,
+2. Subscribe to the measurement to calculate command velocity to send to the control system.
+
+```bash
+sudo apt install python3-opencv
+```
+We'll update the `twist_mux.yaml` - add tracker topic:
+```yaml
+tracker:
+  topic: cmd_vel_tracker
+  timeout: 0.5
+  priority: 20
+```
+
+Run simulation
+```bash
+source install/setup.bash
+# sim.launch.py
+```
+
+Edit Gazebo model by selecting it > Right Click and Edit Model > Select the Link > Right Click and Open Link Inspector > Visual > Material Scirpt from Gray to Yellow > Radius to 0.033 > Set collision geometry to 0.033 > OK > rename and save.
 
 ---
 
