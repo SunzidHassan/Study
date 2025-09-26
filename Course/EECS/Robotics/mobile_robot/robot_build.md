@@ -8,6 +8,9 @@
   - [ROS2 Dev Container Setup](#ros2-dev-container-setup)
 - [Making a Mobile Robot](#making-a-mobile-robot)
   - [Introduction](#introduction)
+    - [Making a Package](#making-a-package)
+    - [Workspace Folder](#workspace-folder)
+    - [Concepts](#concepts)
     - [Adding Files](#adding-files)
   - [Robot Model](#robot-model)
     - [URDF Syntax](#urdf-syntax)
@@ -123,8 +126,23 @@ In terminal, and rebuild container.
 
 # Making a Mobile Robot
 
-## Introduction
+Install ROS2
 
+```bash
+nano ~/.bashrc  
+# add: source /opt/ros/${ROS_DISTRO}/setup.bash  
+source ~/.bashrc  
+```
+
+## Introduction
+### Making a Package
+While working on a project with ROS, we keep all our code and files in a package.
+
+### Workspace Folder
+Make workspace folders in the Pi and the dev machine.  
+Create a workspace folder/src folder. Clone your packages. Go back to the workspace folder and run colcon build. Source the workspace.
+
+### Concepts
 **Differential Drive:** Robot with two wheels driving it.
 
 **Base link:** Main coordinate system: x-pointing forward, y-pointing left, z-pointing up.
