@@ -7,40 +7,48 @@
 - [Docker for Robotics](#docker-for-robotics)
   - [ROS2 Dev Container Setup](#ros2-dev-container-setup)
 - [Making a Mobile Robot](#making-a-mobile-robot)
-  - [Introduction](#introduction)
+  - [bluebot\_one](#bluebot_one)
+  - [bluebotone\_controller](#bluebotone_controller)
+  - [Project Overview](#project-overview)
     - [Making a Package](#making-a-package)
     - [Workspace Folder](#workspace-folder)
-    - [Concepts](#concepts)
     - [Adding Files](#adding-files)
-  - [Robot Model](#robot-model)
-    - [URDF Syntax](#urdf-syntax)
-      - [Creating URDF](#creating-urdf)
-    - [Links](#links)
-    - [Joints](#joints)
-    - [xacro](#xacro)
-    - [Robot URDF Example](#robot-urdf-example)
-  - [Driving the Robot (in old Gazebo)](#driving-the-robot-in-old-gazebo)
-  - [Robot Brain: Pi](#robot-brain-pi)
-  - [Powering the Robot](#powering-the-robot)
-    - [Deciding Battery Voltage](#deciding-battery-voltage)
-    - [Current Draw](#current-draw)
-    - [Battery](#battery)
-  - [Motors](#motors)
-    - [L298N Motor Driver](#l298n-motor-driver)
-    - [Motor-Driver-Arduino Pairing](#motor-driver-arduino-pairing)
-    - [ROS Driver](#ros-driver)
-  - [LiDAR](#lidar)
-    - [Connecting Physical LiDAR](#connecting-physical-lidar)
-  - [Camera](#camera)
-    - [Camera and Images Fundamentals](#camera-and-images-fundamentals)
-      - [Image Representation](#image-representation)
-      - [Image Compression](#image-compression)
-      - [Camera Parameter - Focal Length](#camera-parameter---focal-length)
-      - [ROS-Camera/Image Integration](#ros-cameraimage-integration)
-      - [Coordinate Systems](#coordinate-systems)
-      - [Gazebo Camera Simulation](#gazebo-camera-simulation)
-        - [Camera Xacro](#camera-xacro)
-      - [Connecting a Real Camera and Getting Data](#connecting-a-real-camera-and-getting-data)
+  - [Concept Design](#concept-design)
+    - [URDF Design](#urdf-design)
+      - [URDF Syntax](#urdf-syntax)
+        - [Creating URDF](#creating-urdf)
+      - [Links](#links)
+      - [Joints](#joints)
+      - [xacro](#xacro)
+      - [Robot URDF Example](#robot-urdf-example)
+    - [Gazebo Simulation](#gazebo-simulation)
+      - [Gazebo tags](#gazebo-tags)
+        - [Friction](#friction)
+        - [Torque and Velocity](#torque-and-velocity)
+        - [Spherical Collision](#spherical-collision)
+      - [Controlling Gazebo via ROS](#controlling-gazebo-via-ros)
+  - [Hardware](#hardware)
+    - [The Brain - Raspberry Pi](#the-brain---raspberry-pi)
+    - [Power Concenpts](#power-concenpts)
+      - [Deciding Battery Voltage](#deciding-battery-voltage)
+      - [Current Draw](#current-draw)
+      - [Battery](#battery)
+    - [LiDAR](#lidar)
+      - [Connecting Physical LiDAR](#connecting-physical-lidar)
+    - [Motors](#motors)
+      - [L298N Motor Driver](#l298n-motor-driver)
+      - [Motor-Driver-Arduino Pairing](#motor-driver-arduino-pairing)
+      - [ROS Driver](#ros-driver)
+    - [Camera](#camera)
+      - [Camera and Images Fundamentals](#camera-and-images-fundamentals)
+        - [Image Representation](#image-representation)
+        - [Image Compression](#image-compression)
+        - [Camera Parameter - Focal Length](#camera-parameter---focal-length)
+        - [ROS-Camera/Image Integration](#ros-cameraimage-integration)
+        - [Coordinate Systems](#coordinate-systems)
+        - [Gazebo Camera Simulation](#gazebo-camera-simulation)
+          - [Camera Xacro](#camera-xacro)
+        - [Connecting a Real Camera and Getting Data](#connecting-a-real-camera-and-getting-data)
     - [Depth Camera](#depth-camera)
       - [Depth Camera Fundamentals](#depth-camera-fundamentals)
       - [ROS-Depth Camera Integration and Simulation](#ros-depth-camera-integration-and-simulation)
@@ -48,30 +56,30 @@
       - [Connecting a Real Depth Camera and Getting Data](#connecting-a-real-depth-camera-and-getting-data)
   - [Chassis Design](#chassis-design)
     - [Bench test components](#bench-test-components)
-  - [Control](#control)
-    - [ROS2 Control](#ros2-control)
+  - [Applications](#applications)
+    - [ros2\_control](#ros2_control)
       - [Setting up ROS2 Control](#setting-up-ros2-control)
         - [ROS2 Control Xacro](#ros2-control-xacro)
-      - [Starting controllers](#starting-controllers)
+        - [Starting controllers](#starting-controllers)
       - [Extra bits](#extra-bits)
         - [Gazebo lag](#gazebo-lag)
         - [Wheel friction and rviz2 lag](#wheel-friction-and-rviz2-lag)
         - [Object scan move around for simulation](#object-scan-move-around-for-simulation)
-    - [Driving Actual Robot using ROS2 Control](#driving-actual-robot-using-ros2-control)
-      - [Setting up controller manager](#setting-up-controller-manager)
+      - [Driving Actual Robot using ROS2 Control](#driving-actual-robot-using-ros2-control)
+        - [Setting up controller manager](#setting-up-controller-manager)
       - [Testing the real robot](#testing-the-real-robot)
-      - [Switch real and gazebo controller manager](#switch-real-and-gazebo-controller-manager)
-    - [Wireless Control](#wireless-control)
-      - [Getting feedback using rviz2](#getting-feedback-using-rviz2)
+        - [Switch real and gazebo controller manager](#switch-real-and-gazebo-controller-manager)
+    - [Teleoportation](#teleoportation)
+        - [Getting feedback using rviz2](#getting-feedback-using-rviz2)
+    - [SLAM](#slam)
+      - [ROS and SLAM](#ros-and-slam)
+      - [Running on real robot](#running-on-real-robot)
     - [Phone Control](#phone-control)
-  - [SLAM](#slam)
-    - [ROS and SLAM](#ros-and-slam)
-    - [Running on real robot](#running-on-real-robot)
-  - [Nav2](#nav2)
-    - [Nav2 on real robot](#nav2-on-real-robot)
-  - [Adding Screen](#adding-screen)
-  - [Object Tracking](#object-tracking)
-  - [Additional Hardware](#additional-hardware)
+    - [Nav2](#nav2)
+      - [Nav2 on real robot](#nav2-on-real-robot)
+    - [Adding Screen](#adding-screen)
+    - [Object Tracking](#object-tracking)
+    - [Additional Hardware](#additional-hardware)
   - [Humble](#humble)
   - [New Gazebo](#new-gazebo)
 
@@ -125,6 +133,14 @@ In terminal, and rebuild container.
 ---
 
 # Making a Mobile Robot
+## bluebot_one
+- build the physical robot
+- clone and build package
+- test the launcher files
+
+## bluebotone_controller
+
+## Project Overview
 
 Install ROS2
 
@@ -134,7 +150,6 @@ nano ~/.bashrc
 source ~/.bashrc  
 ```
 
-## Introduction
 ### Making a Package
 While working on a project with ROS, we keep all our code and files in a package.
 
@@ -142,7 +157,27 @@ While working on a project with ROS, we keep all our code and files in a package
 Make workspace folders in the Pi and the dev machine.  
 Create a workspace folder/src folder. Clone your packages. Go back to the workspace folder and run colcon build. Source the workspace.
 
-### Concepts
+### Adding Files
+
+You can copy `blue_bot` and `blue_bot_controller` folders to your `/src` folder and run:
+
+```bash
+colcon build --symlink-install
+source install/setup.bash
+```
+
+Run the `/robot_state_publisher` by running the launch file:
+
+```bash
+ros2 launch blue_bot rsp.launch.py
+```
+
+---
+
+
+## Concept Design
+### URDF Design
+
 **Differential Drive:** Robot with two wheels driving it.
 
 **Base link:** Main coordinate system: x-pointing forward, y-pointing left, z-pointing up.
@@ -170,26 +205,8 @@ source install/setup.bash
 
 After change, we need to quit and relaunch `/robot_state_publisher`. If Rviz doesn't show updates in URDF visualization, refresh.
 
-### Adding Files
 
-You can copy `blue_bot` and `blue_bot_controller` folders to your `/src` folder and run:
-
-```bash
-colcon build --symlink-install
-source install/setup.bash
-```
-
-Run the `/robot_state_publisher` by running the launch file:
-
-```bash
-ros2 launch blue_bot rsp.launch.py
-```
-
----
-
-## Robot Model
-
-### URDF Syntax
+#### URDF Syntax
 
 URDF is based on XML, where everything is represented as a series of tags nested inside each other.
 
@@ -203,7 +220,7 @@ URDF is based on XML, where everything is represented as a series of tags nested
 </robot>
 ```
 
-#### Creating URDF
+##### Creating URDF
 
 In `workspace/src/`, we have `blue_bot/description/robot.urdf.xacro`:
 
@@ -225,7 +242,7 @@ sudo apt install ros-jazzy-joint-state-publisher-gui
 
 ---
 
-### Links
+#### Links
 
 Each `<link>` tag represents one link. It must have a name, but can also have 3 additional properties:
 
@@ -253,7 +270,7 @@ Each `<link>` tag represents one link. It must have a name, but can also have 3 
 
 ---
 
-### Joints
+#### Joints
 
 Joints specify where the links are in space.
 
@@ -273,7 +290,7 @@ Naming convention: `_link`, `_joint` (e.g., `arm_link` is the child link in `arm
 
 ---
 
-### xacro
+#### xacro
 
 XML macro (xacro) helps with URDF files:
 - Splitting URDF into multiple files
@@ -340,7 +357,7 @@ Usage:
 
 ---
 
-### Robot URDF Example
+#### Robot URDF Example
 
 ```xml
 <?xml version="1.0"?>
@@ -499,7 +516,7 @@ In rviz, set `Global Options > Fixed Frame` to `base_link`. Add `/tf`, show name
 
 ---
 
-## Driving the Robot (in old Gazebo)
+### Gazebo Simulation
 
 Robot launcher:
 
@@ -507,31 +524,83 @@ Robot launcher:
 ros2 launch blue_bot rsp.launch.py use_sim_time:=true
 ```
 
+Install Gazebo:
+```bash
+sudo apt install ros-${ROS_DISTRO}-ros-gz
+```
+
 Gazebo launcher:
 
 ```bash
-ros2 launch gazebo_ros gazebo.launch.py
+ros2 launch ros_gz_sim gz_sim.launch.py gz_args:=empty.sdf
 ```
 
 Entity spawner in gazebo:
 
 ```bash
-ros2 run gazebo_ros spawn_entity.py -topic robot_description -entity <NAME>
+ros2 run ros_gz_sim create -topic robot_description -name my_bot -z 0.1 -name bluebot_one -z 0.1 # spawn the robot a little in the air (positive z) to avoid clippin in floor
 ```
 
 Combining these 3 with a single launcher file:
 
 ```python
+import os
+
+from ament_index_python.packages import get_package_share_directory
+
+from launch import LaunchDescription
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration
+
+from launch_ros.actions import Node
+
+
+
 def generate_launch_description():
-    # ...existing code...
+
+
+    # Include the robot_state_publisher launch file, provided by our own package. Force sim time to be enabled
+    # !!! MAKE SURE YOU SET THE PACKAGE NAME CORRECTLY !!!
+
+    package_name='bluebot_one' #<--- CHANGE ME
+
+    rsp = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(
+                    get_package_share_directory(package_name),'launch','rsp.launch.py'
+                )]), launch_arguments={'use_sim_time': 'true'}.items()
+    )
+    
+    world = LaunchConfiguration('world')
+
+    world_arg = DeclareLaunchArgument(
+        'world',
+        default_value="empty.sdf",
+        description='World to load'
+        )
+
+    # Include the Gazebo launch file, provided by the ros_gz_sim package
+    gazebo = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(
+                    get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
+                    launch_arguments={'gz_args': ['-r -v4 ', world], 'on_exit_shutdown': 'true'}.items()
+             )
+
+    # Run the spawner node from the ros_gz_sim package. The entity name doesn't really matter if you only have a single robot.
+    spawn_entity = Node(package='ros_gz_sim', executable='create',
+                        arguments=['-topic', 'robot_description',
+                                   '-name', 'my_bot',
+                                   '-z', '0.1'],
+                        output='screen')
+
+
+
+    # Launch them all!
     return LaunchDescription([
         rsp,
-        joystick,
-        twist_mux,
+        world_arg,
         gazebo,
         spawn_entity,
-        diff_drive_spawner,
-        joint_broad_spawner
     ])
 ```
 
@@ -541,10 +610,65 @@ Now launch using the combined launcher:
 ros2 run gazebo_ros launch_sim.launch.py
 ```
 
+#### Gazebo tags
+```xml
+<link name="my_link">
+    <!-- All the stuff that is inside the link tag -->
+</link>
+
+<gazebo reference="my_link">
+    <!-- Gazebo-specific parameters for that link -->
+</gazebo>
+
+<gazebo>
+    <!-- Gazebo parameters that are not specific to a link -->
+</gazebo>
+
+
+```
+##### Friction
+Remove friction from caster wheels:
+```xml
+<gazebo reference="caster_wheel">
+        <mu1 value="0.0"/>
+        <mu2 value="0.0"/>
+</gazebo>
+```
+
+##### Torque and Velocity
+
+Limit the torque and velocity of drive wheels.
+
+```xml
+<joint name="left_wheel_joint" type="continuous">
+  <!-- ... -->
+  <limit effort="0.05" velocity="10.0"/>
+</joint>
+```
+
+##### Spherical Collision
+Instead of cylinder to minimize odometry error.
+```xml
+    <link name="left_wheel">
+        <visual>
+          <!-- ... -->
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="0.05" />
+            </geometry>
+        </collision>
+```
+
+#### Controlling Gazebo via ROS
+We'll use `ros2_control` later. A control system takes command velocity input (how fast we want the robot to move), translate that into motor commands for the motor drivers, read the actual motor speeds, calculate true velocity. The command velocity topic is `/cmd_vel` of type `Twist` - 6 numbers xyz linear and angular (diff drive can only control linear x and angular z), or `TwistStamped` that adds time.
+
+Robot position can be estimated by dead reckoning - integrating velocity over time.
+
 ---
 
-## Robot Brain: Pi
-
+## Hardware
+### The Brain - Raspberry Pi
 - **PC**
   - 64-bit
   - RAM: >= 4GB
@@ -566,7 +690,7 @@ ros2 run gazebo_ros launch_sim.launch.py
 
 ---
 
-## Powering the Robot
+### Power Concenpts
 
 | Name    | Other Names        | Units              | Symbol | Water Analogy         |
 | ------- | ------------------ | ------------------ | ------ | --------------------- |
@@ -579,11 +703,11 @@ ros2 run gazebo_ros launch_sim.launch.py
 - Motors draw more.
 - Use switching regulator/buck converter to convert high voltage into 5V.
 
-### Deciding Battery Voltage
+#### Deciding Battery Voltage
 
 12V for DC motors.
 
-### Current Draw
+#### Current Draw
 
 ![Estimated current draw](./images/current_draw.png)
 
@@ -592,7 +716,7 @@ ros2 run gazebo_ros launch_sim.launch.py
 - Motor demand: highest (stall) current draw * 2 $1.8A\times 2=3.6A$
 - Total current $2.5+3.6=6.1A$
 
-### Battery
+#### Battery
 
 LiPo
 
@@ -613,7 +737,105 @@ LiPo needs careful handling.
 
 ---
 
-## Motors
+### LiDAR
+Can be based on sound or light, 1/2/3D.
+
+In ROS, different LiDAR are subscribed using `/scan`.
+
+In the robot description `robot.urdf.xacro`, add another xacro file for lidar.
+
+**LiDAR xacro:**
+
+```xml
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <joint name="laser_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="laser_frame"/>
+        <origin xyz="0.1 0 0.175" rpy="0 0 0"/>
+    </joint>
+
+    <link name="laser_frame">
+        <visual>
+            <geometry>
+                <cylinder radius="0.05" length="0.04"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.05" length="0.04"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="0.04" radius="0.05">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+
+
+    <gazebo reference="laser_frame">
+        <material>Gazebo/Red</material>
+
+        <sensor name="laser" type="ray">
+            <pose> 0 0 0 0 0 0 </pose>
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <min_angle>-3.14</min_angle>
+                        <max_angle>3.14</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.3</min>
+                    <max>12</max>
+                </range>
+            </ray>
+            <plugin name="laser_controller" filename="libgazebo_ros_ray_sensor.so">
+                <ros>
+                    <argument>~/out:=scan</argument>
+                </ros>
+                <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>laser_frame</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+</robot>
+```
+
+In Rviz2, add LaserScan topic.
+
+#### Connecting Physical LiDAR
+
+On Pi, install rplidar driver with `sudo apt install ros-${ROS_DISTRO}-rplidar-ros`.
+
+To figure out the USB where the LiDAR is connected:
+
+```bash
+ls /dev/serial/by-path/
+```
+
+Run:
+
+```bash
+ros2 run rplidar_ros rplidar_composition --ros-args  -p serial_port:=/dev/ttyUSB0 -p serial_baudrate:=115200 -p frame_id:=laser_frame -p inverted:=false -p angle_compensate:=true -p scan_mode:=Standard
+```
+
+On dev machine, launch `rviz2`. If the robot state publisher is not published, select Fixed Frame `laser_frame`.
+
+To start/stop LiDAR motor:
+
+```bash
+ros2 service call /stop_motor std_srvs/srv/Empty {}
+```
+---
+
+### Motors
 
 - Robot controller (e.g., Pi calculating required speed)
   - Comms layer: computer to motor controller (e.g., USB serial)
@@ -626,12 +848,12 @@ LiPo needs careful handling.
 
 ![Motor Circuit](./images/motor_loop.png)
 
-### L298N Motor Driver
+#### L298N Motor Driver
 
 - It has 12V in for motors, and 5V in for the L298N chip.
 - Pair of terminals in each side are for the motors.
 
-### Motor-Driver-Arduino Pairing
+#### Motor-Driver-Arduino Pairing
 
 - Upload driver code on the Arduino
 - Connect Arduino to the motor driver
@@ -663,7 +885,7 @@ Arduino		Encoder pin
 - In the Arduino code, PID loop runs 30 loops/sec, number of encoder counts per PID loop = (e/n)/30=1970/30=66 - is the magnitude (range 0-255) for 1 rev/sec. But after testing closed loop, m 36 gives approx 1 rev, which makes e/n=36*30=1080
 
 
-### ROS Driver
+#### ROS Driver
 
 Demo driver with two nodes, an encoder listener in topic and send them to the controller, another GUI for sending commands.
 
@@ -689,126 +911,22 @@ ros2 run serial_motor_demo gui
 
 ---
 
-## LiDAR
+### Camera
 
-Can be based on sound or light, 1/2/3D.
-
-In ROS, different LiDAR are subscribed using `/scan`.
-
-In the robot description `robot.urdf.xacro`, add another xacro file for lidar.
-
-**LiDAR xacro:**
-
-```xml
-<?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
-
-  <joint name="laser_joint" type="fixed">
-    <parent link="chassis"/>
-    <child link="laser_frame"/>
-    <origin xyz="0.122 0 0.212" rpy="0 0 0"/>
-  </joint>
-
-  <link name="laser_frame">
-    <visual>
-      <geometry>
-        <cylinder radius="0.05" length="0.04"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-    <visual>
-      <origin xyz="0 0 -0.05"/>
-      <geometry>
-        <cylinder radius="0.01" length="0.1"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-    <collision>
-      <geometry>
-        <cylinder radius="0.05" length="0.04"/>
-      </geometry>
-    </collision>
-    <xacro:inertial_cylinder mass="0.1" length="0.04" radius="0.05">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-    </xacro:inertial_cylinder>
-  </link>
-
-  <gazebo reference="laser_frame">
-    <material>Gazebo/Black</material>
-    <sensor name="laser" type="ray">
-      <pose> 0 0 0 0 0 0 </pose>
-      <visualize>false</visualize>
-      <update_rate>10</update_rate>
-      <ray>
-        <scan>
-          <horizontal>
-            <samples>360</samples>
-            <min_angle>-3.14</min_angle>
-            <max_angle>3.14</max_angle>
-          </horizontal>
-        </scan>
-        <range>
-          <min>0.3</min>
-          <max>12</max>
-        </range>
-      </ray>
-      <plugin name="laser_controller" filename="libgazebo_ros_ray_sensor.so">
-        <ros>
-          <argument>~/out:=scan</argument>
-        </ros>
-        <output_type>sensor_msgs/LaserScan</output_type>
-        <frame_name>laser_frame</frame_name>
-      </plugin>
-    </sensor>
-  </gazebo>
-
-</robot>
-```
-
-In Rviz2, add LaserScan topic.
-
-### Connecting Physical LiDAR
-
-On Pi, install rplidar driver with `sudo apt install ros-${ROS_DISTRO}-rplidar-ros`.
-
-To figure out the USB where the LiDAR is connected:
-
-```bash
-ls /dev/serial/by-path/
-```
-
-Run:
-
-```bash
-ros2 run rplidar_ros rplidar_composition --ros-args  -p serial_port:=/dev/ttyUSB0 -p serial_baudrate:=115200 -p frame_id:=laser_frame -p inverted:=false -p angle_compensate:=true -p scan_mode:=Standard
-```
-
-On dev machine, launch `rviz2`. If the robot state publisher is not published, select Fixed Frame `laser_frame`.
-
-To start/stop LiDAR motor:
-
-```bash
-ros2 service call /stop_motor std_srvs/srv/Empty {}
-```
-
----
-
-## Camera
-
-### Camera and Images Fundamentals
+#### Camera and Images Fundamentals
 
 - Types: RGB, infrared, thermal, wide angle, telephoto
 - Capture light through a lens, aperture, onto a sensor.
 
-#### Image Representation
+##### Image Representation
 
 Stored in 2D array of pixels. For RGB, 3 color channels per pixel (0-255).
 
-#### Image Compression
+##### Image Compression
 
 PNG is lossless, JPEG is lossy.
 
-#### Camera Parameter - Focal Length
+##### Camera Parameter - Focal Length
 
 Affects horizontal Field of View (FOV):
 
@@ -818,7 +936,7 @@ $$
 
 ---
 
-#### ROS-Camera/Image Integration
+##### ROS-Camera/Image Integration
 
 - Driver node communicates with hardware, publishes to `sensor_msgs/Image` and `sensor_msgs/CompressedImage`.
 - The published unprocessed image is called `/image_raw` or `/image_raw/compressed`.
@@ -826,7 +944,7 @@ $$
 
 ---
 
-#### Coordinate Systems
+##### Coordinate Systems
 
 - **ROS:** Right-hand rule, `camera_link` (x-forward, y-left, z-up)
 - **Camera:** Left-hand rule, `camera_link_optical` (x-left to right, y-top to bottom, z-away from camera)
@@ -835,71 +953,69 @@ $$
 
 ---
 
-#### Gazebo Camera Simulation
+##### Gazebo Camera Simulation
 
 In the robot description `robot.urdf.xacro`, add another xacro file for camera.
 
-##### Camera Xacro
+###### Camera Xacro
 
 ```xml
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-  <joint name="camera_joint" type="fixed">
-    <parent link="chassis"/>
-    <child link="camera_link"/>
-    <origin xyz="0.276 0 0.181" rpy="0 0.18 0"/>
-  </joint>
+    <joint name="camera_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="camera_link"/>
+        <origin xyz="0.305 0 0.08" rpy="0 0 0"/>
+    </joint>
 
-  <link name="camera_link">
-    <visual>
-      <geometry>
-        <box size="0.010 0.03 0.03"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-    <visual>
-      <origin xyz="0 0 -0.05"/>
-      <geometry>
-        <cylinder radius="0.002" length="0.1"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-  </link>
+    <link name="camera_link">
+        <visual>
+            <geometry>
+                <box size="0.010 0.03 0.03"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+    </link>
 
-  <!-- Special joint for ros coordinate system to vision coordinate system -->
-  <joint name="camera_optical_joint" type="fixed">
-    <parent link="camera_link"/>
-    <child link="camera_link_optical"/>
-    <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
-  </joint>
-  <link name="camera_link_optical"></link>
 
-  <gazebo reference="camera_link">
-    <material>Gazebo/Black</material>
-    <sensor name="camera" type="camera">
-      <pose> 0 0 0 0 0 0 </pose>
-      <visualize>true</visualize>
-      <update_rate>10</update_rate>
-      <camera>
-        <camera_info_topic>camera/camera_info</camera_info_topic>
-        <horizontal_fov>1.089</horizontal_fov>
-        <image>
-          <format>R8G8B8</format>
-          <width>640</width>
-          <height>480</height>
-        </image>
-        <clip>
-          <near>0.05</near>
-          <far>8.0</far>
-        </clip>
-      </camera>
-      <topic>camera/image_raw</topic>
-      <gz_frame_id>camera_link_optical</gz_frame_id>
-    </sensor>
-  </gazebo>
+    <joint name="camera_optical_joint" type="fixed">
+        <parent link="camera_link"/>
+        <child link="camera_link_optical"/>
+        <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+    </joint>
+
+    <link name="camera_link_optical"></link>
+
+
+
+    <gazebo reference="camera_link">
+        <material>Gazebo/Red</material>
+
+        <sensor name="camera" type="camera">
+            <pose> 0 0 0 0 0 0 </pose>
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <camera>
+                <horizontal_fov>1.089</horizontal_fov>
+                <image>
+                    <format>R8G8B8</format>
+                    <width>640</width>
+                    <height>480</height>
+                </image>
+                <clip>
+                    <near>0.05</near>
+                    <far>8.0</far>
+                </clip>
+            </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <frame_name>camera_link_optical</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
 
 </robot>
+
 ```
 
 Install compressed image transport plugins:
@@ -919,7 +1035,7 @@ ros2 run image_transport republish compressed raw --ros-args -r in/compressed:=/
 
 ---
 
-#### Connecting a Real Camera and Getting Data
+##### Connecting a Real Camera and Getting Data
 
 Install camera on Pi:
 
@@ -948,10 +1064,34 @@ On a new terminal:
 ros2 run rqt_image_view rqt_image_view
 ```
 
+Camera launch file:
+```python
+import os
+
+from launch import LaunchDescription
+from launch_ros.actions import Node
+
+def generate_launch_description():
+
+
+
+    return LaunchDescription([
+
+        Node(
+            package='v4l2_camera',
+            executable='v4l2_camera_node',
+            output='screen',
+            parameters=[{
+                'image_size': [640,480],
+                'camera_frame_id': 'camera_link_optical'
+                }]
+    )
+    ])
+
+```
+
 ---
-
 ### Depth Camera
-
 #### Depth Camera Fundamentals
 
 - Major types:
@@ -1058,12 +1198,11 @@ Connect all the components (motors, camera, LiDAR) and see if they work.
 
 Clone and build workspace > Chassis design
 
+---
+## Applications
 
 ---
-
-## Control
-### ROS2 Control
-
+### ros2_control
 Fast common framework between drivers for hardwares and control algorithms.
 
 The center of ros2 control is **Controller manager**, links controllers and drivers. It has **hardware interfaces** or hardware components that speaks to the hardware and exposes them to controller. Hardwares are represented with **command interfaces (read/write)** and **state interfaces (real only)**.  An actuator can have multiple command interfaces, e.g., it can be controlled by either speed or torque.For motors, we can only control it, making it a command interface. But we can monitor the speed, position with encoders, making them state interfaces. For the two motors, we have two command interfaces (one for velocity of each motor), and four state interfaces (position and velocity of each wheel).  
@@ -1240,7 +1379,7 @@ diff_cont:
 ```
 Build and source the installation. Now launch Gazebo, and check hardware interfaces with `ros2 control list hardware_interfaces`. 
 
-#### Starting controllers
+##### Starting controllers
 
 ```bash
 ros2 run controller_manager spawner.py diff_cont
@@ -1250,7 +1389,10 @@ ros2 run controller_manager spawner.py joint_broad
 Now teleop is not going to work, as the controller is expecting command velocity from `/diff_cont/cmd_vel_unstamped`, and not `/cmd_vel`. So we need to map it using
 
 ```bash
+# for humble
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r /cmd_vel:=/diff_cont/cmd_vel_unstamped
+# for jazzy
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true
 ```
 
 The diff_drive_spawner can be added in the launcher files.
@@ -1259,7 +1401,11 @@ The diff_drive_spawner can be added in the launcher files.
 diff_drive_spawner = Node(
     package="controller_manager",
     executable="spawner",
-    arguments=["diff_cont"],
+    arguments=[
+            "diff_cont",
+            '--controller-ros-args',
+            '-r /diff_cont/cmd_vel:=/cmd_vel'
+        ],
 )
 
 joint_broad_spawner = Node(
@@ -1297,7 +1443,7 @@ Use gazebo_control instead of ros2 control. In the `robot.urdf.xacro`, use a con
 
 Update `rsp.launch.py`.
 
-### Driving Actual Robot using ROS2 Control
+#### Driving Actual Robot using ROS2 Control
 
 We have our physical robot on one side, and the command velocity to be published by a nav stack on another side. Command velocity is of type `Twist` or `TwistStamped`, a 6-d velocity including `linear.x`, `linear.y`, `linear.z`, `angular.x`, `angular.y`, `angular.z`. But for a differential drive robot, we'll only use `linear.x`, `angular.z`. `ros2_control` will link the `/cmd_vel` to the actual motors.  
 
@@ -1307,7 +1453,7 @@ We also have a controller manager `joint_state_broadcaster` that reads motor enc
 
 The last section discusses setting up controller manager and hardware interfaces for gazebo. This section deals with setting up controller manager and hardware interfaces for the real robot.
 
-#### Setting up controller manager
+##### Setting up controller manager
 If you use the arduino code provided, youcan use the hardware interface `diffdrive_arduino` discussed here. It exposes the two command interfaces (velocities) and four state interfaces (velocities, positions), and uses the same serial commands to drive the motors. Control will use the `diff_drive_controller` used for Gazebo.
 
 Right now, the custom hardware interface can't be installed using apt, we'll have to build from source. 
@@ -1418,7 +1564,7 @@ Check the lidar by launcing it in the Pi:
 ros2 launch articubot_one rplidar.launch.py
 ```
 
-#### Switch real and gazebo controller manager
+##### Switch real and gazebo controller manager
 
 ```xml
 <xacro:arg name="sim_mode" default="false"/>
@@ -1435,7 +1581,8 @@ On the `ros2_control.xacro` file, put the real robot control tag inside xacro:un
 </xacro:if>
 ```
 
-### Wireless Control
+---
+### Teleoportation
 
 ```bash
 cd dev_ws/
@@ -1494,25 +1641,22 @@ teleop_node:
 
 Build and relaunch, run `ros2 topic echo /cmd_vel`, and now joystick input should publish `/cmd_vel`. In the launcher file, we'll add remapping in teleop_node from `/cmd_vel` to `/diff_cont/cmd_vel_unstamped`.
 
-#### Getting feedback using rviz2
+##### Getting feedback using rviz2
 Launch rviz2.
 
 ssh into your robot and launch camera launcher to get image feedback in rviz or rqt.
 
 ssh into the robot and launch LiDAR launcher
 
-### Phone Control
-
 ---
-
-## SLAM
+### SLAM
 Simultaneous Localization And Mapping.
 GridSLAM using 2D LiDAR.
 
 Localization is placing concepts on map. If we don't have GPS to start with, we can use SLAM to both localize and update our map. Two major approaches are `feature or landmark` slam and `grid slam`. Feature slam detects objects in our map. Grid slam divides the area into grids, and each are occupied or unoccupied.
 
 
-### ROS and SLAM
+#### ROS and SLAM
 We can set our fixed frame in rviz to `odom`, which represents the robot's world origin. And the transform from odom to `base_link` is calculated by the differential drive controller using the wheel odometry. But odometry drifts away from the truth slowly over time, as it integrates velocity to estimate position (dead reckoning), which compunds error.  
 GPS/SLAM can correct these errors. But using them to correct odom can result in transporting base_link. Instead we use a `map` link instead of `odom`. And the final output combines two.  
 In addition to `odom` and `map` frames, we have `odom` and `map` topics that contain data of odometry (`nav_msgs/msg/Odometry`: contains position info of odom->base_link TF and velocity) and map (`nav_msgs/msg/OccupancyGrid`: contains grid map occupancy data).  
@@ -1569,7 +1713,7 @@ ros2 run nav2_util lifecycle_bringup amcl
 ```
 Now we'll use 2D Pose Estimate on rviz to localize the robot.
 
-### Running on real robot
+#### Running on real robot
 On the Pi
 ```bash
 ros2 launch bluebot_one launch_robot.launch.py
@@ -1589,7 +1733,11 @@ Wait for the map to appear, and change the fixed frame to map. You can also run 
 
 ---
 
-## Nav2
+### Phone Control
+
+---
+
+### Nav2
 
 Plan and execute a safe trajectory from an initial pose to a target pose. The robot needs position estimate, which is provided by SLAM. We also need obstacle awareness, which can come from a existing static map or live Lidar data. Existing map and Lidar data is fused in a `Costmap` - where a high cost region may have obstacle, and low cost region is safe to go to.
 
@@ -1625,7 +1773,7 @@ ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true
 
 In rviz add a new map and set topic to `/global_costmap` and set color scheme to `costmap`. Now we can use `2D Goal Pose`.
 
-### Nav2 on real robot
+#### Nav2 on real robot
 Connect to Pi over SSH. Run ros2 control, twist_mux and lidar driver on Pi. On dev machine, run joy_stick driver, slam_toolbox, rviz, and the navigation launcher with sim_time to false.
 
 On rviz, we can add a new panel navigation 2, and a new tool navigation2 goal. Upon fixing some nav points with the nav2 goal tool, start navigation in nav2 panel will start the navigation.
@@ -1660,7 +1808,7 @@ Now we can tune the `nav2_params.yaml` file in our config folder. You can start 
 
 ---
 
-## Adding Screen
+### Adding Screen
 
 Josh used a waveshare 7 inch display with case.
 ```bash
@@ -1687,7 +1835,7 @@ Cloning the package on dev machine will run an ui window.
 
 ---
 
-## Object Tracking
+### Object Tracking
 
 The algorithm will have two nodes:
 1. Handle image processing: take camera feed, use opencv to detect obect and return object coordinates,
@@ -1714,7 +1862,7 @@ Edit Gazebo model by selecting it > Right Click and Edit Model > Select the Link
 
 ---
 
-## Additional Hardware
+### Additional Hardware
 
 ---
 
