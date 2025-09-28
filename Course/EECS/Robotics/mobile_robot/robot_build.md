@@ -1040,14 +1040,17 @@ ros2 run image_transport republish compressed raw --ros-args -r in/compressed:=/
 Install camera on Pi:
 
 ```bash
-sudo apt install libraspberrypi-bin v4l-utils ros-${ROS_DISTRO}-v4l2-camera
+sudo apt install libraspberrypi-bin v4l-utils ros-${ROS_DISTRO}-v4l2-camera ros-${ROS_DISTRO}-image-transport-plugins
+sudo apt-get install ros-$ROS_DISTRO-camera-ros # for jazzy
+
 groups # check if video is in groups, if not:
-sudo usermod -aG video robot # add video to group > reboot
+sudo usermod -aG video $USER # add video to group > reboot
 vcgencmd get_camera # check if camera is connected to the pi
 raspistill -k # shows camera feed. Press x > Enter to close
 v4l2-ctl --list-devices # check if video for linux subsystem can see camera
-sudo apt install ros-${ROS_DISTRO}-image-transport-plugins ros-${ROS_DISTRO}-rqt-image-view
+sudo apt install ros-${ROS_DISTRO}-rqt-image-view
 ```
+
 
 
 Run the camera:
