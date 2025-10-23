@@ -58,19 +58,30 @@
     - [Bench test components](#bench-test-components)
   - [Applications](#applications)
     - [ros2\_control](#ros2_control)
-      - [Setting up ROS2 Control](#setting-up-ros2-control)
+      - [Controller Manager](#controller-manager)
+      - [Hardware Interfaces](#hardware-interfaces)
+      - [Controllers](#controllers)
+      - [Running the Controller Manager](#running-the-controller-manager)
+      - [ros2 control in Simulation](#ros2-control-in-simulation)
+        - [Installing dependencies](#installing-dependencies)
+        - [Updating URDF](#updating-urdf)
         - [ROS2 Control Xacro](#ros2-control-xacro)
+        - [Controller Config](#controller-config)
         - [Starting controllers](#starting-controllers)
       - [Extra bits](#extra-bits)
+        - [Update the URDF to match robot structure](#update-the-urdf-to-match-robot-structure)
         - [Gazebo lag](#gazebo-lag)
-        - [Wheel friction and rviz2 lag](#wheel-friction-and-rviz2-lag)
+        - [Wheel friction and RViz2 lag](#wheel-friction-and-rviz2-lag)
         - [Object scan move around for simulation](#object-scan-move-around-for-simulation)
       - [Driving Actual Robot using ROS2 Control](#driving-actual-robot-using-ros2-control)
+      - [Hardware Interface](#hardware-interface)
+      - [Update the URDF](#update-the-urdf)
+        - [Launch File](#launch-file)
         - [Setting up controller manager](#setting-up-controller-manager)
       - [Testing the real robot](#testing-the-real-robot)
         - [Switch real and gazebo controller manager](#switch-real-and-gazebo-controller-manager)
     - [Teleoportation](#teleoportation)
-        - [Getting feedback using rviz2](#getting-feedback-using-rviz2)
+        - [Getting feedback using RViz2](#getting-feedback-using-rviz2)
     - [SLAM](#slam)
       - [ROS and SLAM](#ros-and-slam)
       - [Running on real robot](#running-on-real-robot)
@@ -203,7 +214,7 @@ colcon build --symlink-install
 source install/setup.bash
 ```
 
-After change, we need to quit and relaunch `/robot_state_publisher`. If Rviz doesn't show updates in URDF visualization, refresh.
+After change, we need to quit and relaunch `/robot_state_publisher`. If RViz doesn't show updates in URDF visualization, refresh.
 
 
 #### URDF Syntax
@@ -510,9 +521,9 @@ After adding wheel link, run:
 ros2 run joint_state_publisher_gui joint_state_publisher_gui
 ```
 
-before opening rviz2.
+before opening RViz2.
 
-In rviz, set `Global Options > Fixed Frame` to `base_link`. Add `/tf`, show names. Add robot body and set `Description Topic` to `/robot_description`.
+In RViz, set `Global Options > Fixed Frame` to `base_link`. Add `/tf`, show names. Add robot body and set `Description Topic` to `/robot_description`.
 
 ---
 
@@ -808,7 +819,7 @@ In the robot description `robot.urdf.xacro`, add another xacro file for lidar.
 </robot>
 ```
 
-In Rviz2, add LaserScan topic.
+In RViz2, add LaserScan topic.
 
 #### Connecting Physical LiDAR
 
@@ -826,7 +837,7 @@ Run:
 ros2 run rplidar_ros rplidar_composition --ros-args  -p serial_port:=/dev/ttyUSB0 -p serial_baudrate:=115200 -p frame_id:=laser_frame -p inverted:=false -p angle_compensate:=true -p scan_mode:=Standard
 ```
 
-On dev machine, launch `rviz2`. If the robot state publisher is not published, select Fixed Frame `laser_frame`.
+On dev machine, launch `RViz2`. If the robot state publisher is not published, select Fixed Frame `laser_frame`.
 
 To start/stop LiDAR motor:
 
@@ -1179,7 +1190,7 @@ Since we added a new file, build and source the workspace.
 colcon build --symlink-install
 source install/setup.bash
 ```
-Run gazebo launcher and `rviz2`, add `point cloud`, select `/camera/points` topic to view.
+Run gazebo launcher and `RViz2`, add `point cloud`, select `/camera/points` topic to view.
 
 
 #### Connecting a Real Depth Camera and Getting Data
@@ -1206,33 +1217,52 @@ Clone and build workspace > Chassis design
 
 ---
 ### ros2_control
-Fast common framework between drivers for hardwares and control algorithms.
+Fast common framework between drivers for different hardware platforms and control algorithms.
 
-The center of ros2 control is **Controller manager**, links controllers and drivers. It has **hardware interfaces** or hardware components that speaks to the hardware and exposes them to controller. Hardwares are represented with **command interfaces (read/write)** and **state interfaces (real only)**.  An actuator can have multiple command interfaces, e.g., it can be controlled by either speed or torque.For motors, we can only control it, making it a command interface. But we can monitor the speed, position with encoders, making them state interfaces. For the two motors, we have two command interfaces (one for velocity of each motor), and four state interfaces (position and velocity of each wheel).  
+#### Controller Manager
 
-With motors and their hardware interfaces loaded, `ros2 control list_hardware_interfaces` returns command and state interfaces. ROS2 control doesn't know or care which one does what. **Resource Manager** takes all command and state interfaces and publishes as a list, accessible by the controllers. The URDF mentions which interfaces are connected to which part of the hardware.  
+The center of ros2 control is **Controller manager** that links controllers and hardware drivers.
 
-**Controllers**: are how we interact with the robot. On one end, they listen to ros_topics for sensed data, do some calculations, and send output to hardware interfaces exposed by the resource manager. While the hardware interfaces is designed for specific hardwares, the controllers are designed for robot applications. ROS2 control packages has built in controllers for common needs, like the `diff_drive_controller` for differential drive robot. Controllers can be input-only, output-only or both. 
+#### Hardware Interfaces
+It has **hardware interfaces** or hardware component that speaks to different languages of hardwares and exposes them to controller. Hardwares are represented with **command interfaces (read/write)** or **state interfaces (real only)**.  An actuator can have multiple command interfaces, e.g., it can be controlled by either speed or torque. For motors, we can only control it, making it a command interface. But we can monitor the speed, position with encoders, making them state interfaces. For the two motors, we have two command interfaces (one for velocity of each motor), and four state interfaces (position and velocity of each wheel).  
 
-**Control Manager and Controllers**: The controller manager matches controllers with the right command and state interfaces the resource manager is exposing. To set up the controller, we write a yaml file with parameters, and pass that to the controller manager. From there we can tell it to start/stop controller as needed. We can have multiple controllers in one robot - as long as they are not trying to control the same command interface (real-only state interfaces can be shared).  
+With motors and their hardware interfaces loaded, `ros2 control list_hardware_interfaces` returns command and state interfaces. ROS2 control doesn't know or care which one does what. **Resource Manager** takes all command and state interfaces and publishes as a list, accessible by the controllers. We associate hardware interfaces with actual hardware by adding them into the URDF using `<ros2_control>` tag - and the **Resource Manager** knows about the hardware interfaces from the URDF.
 
-**Setting up Controller Manager**: With hardware and controllers, we can write node and have controller manager running inside it, or more usually, use node provided for us. In either way, we need to provide hardware info, usually with URDF, and controller info, usually with yaml file. 
+#### Controllers
+are how the rest of the ROS ecosystem interact with ros2_control. On one end, they listen to ros_topics for control input - joint positions or body velocities - they take the input and use some alogirhtm to figure out the appropriate actuator speeds, positions, etc. They can also publish to ROS topics for command feedback or state information, and a single controller can pass information in either or both directions. There are controllers that don't control anything, just publishes sensor/feedback data.
+
+**Control Manager and Controllers**: The controller manager loads listed controllers and matches them with the right command and state interfaces the resource manager is exposing. To set up the controller, we write a yaml file with parameters, and pass that to the controller manager. From there we can tell it to start/stop controller as needed. We can have multiple controllers in one robot - as long as they are not trying to control the same command interface (real-only state interfaces can be shared).  
+
+While the hardware interfaces is designed for specific hardwares, the controllers are designed for robot applications. ROS2 control packages has built in controllers for common needs, like the `diff_drive_controller` for differential drive robot. Controllers can be input-only, output-only or both. 
+
+#### Running the Controller Manager
+We have our hardware interfaces on one side, controllers on the other side, and a controller manager in the middle. We can run the controller manager in two ways
+1. Normal way: use the `ros2_control_node` provided by the `controller_manager` package. We'll use this for controlling the real robot.
+2. Writing our own node and instantiate the controller manager inside it. For example, `gazebo_ros2_control` plugin runs its own controller manager.
+In either way, we need to provide hardware info, usually with URDF, and controller info, usually with yaml file. 
 
 **Interacting with Controller Manager**:
-- The controller manager has *services* to access the functionalities
-- ros2control command line tool (CLI): makes these service calls easier. 
-- Nodes/scripts: can run key functions.
+Once controller manager is running, we need to interact with it to do things like checking the hardware interfaces and starting the controllers. There are a number of ways to do these interactions:
+1. it exposes some services that we can call
+2. it provides the ros2 control command line tool to simplify calling the services
+3. it provides some nodes which will also call the services when they are executed
 
+Using these tools we can start/stop/reconfigure the controllers. 
+
+#### ros2 control in Simulation
+##### Installing dependencies
 On the dev machine:
 ```bash
 sudo apt install ros-${ROS_DISTRO}-ros2-control ros-${ROS_DISTRO}-ros2-controllers ros-${ROS_DISTRO}-gz-ros2-control
 ```
 
-#### Setting up ROS2 Control
+##### Updating URDF
 
-In the robot description `robot.urdf.xacro`, add another xacro file for ros2 control and replace `gazebo_control` with it.
+In the robot description `robot.urdf.xacro`, add another xacro file - `ros2_control.xacro` for ros2 control and comment out `gazebo_control`.
 
 ##### ROS2 Control Xacro
+
+Our new `ros2_control.xacro` file will have two main tags - a `<ros2_control>` tag with details of the hardware interfaces for the controller manager, and a `<gazebo>` tag.
 
 ```xml
 <?xml version="1.0"?>
@@ -1251,7 +1281,7 @@ In the robot description `robot.urdf.xacro`, add another xacro file for ros2 con
                 <param name="device">/dev/ttyUSB0</param>  <!-- The USB device needs to be udpated to differential between the arduino and the LiDAR-->
                 <param name="baud_rate">57600</param>
                 <param name="timeout_ms">1000</param> <!-- 1 second -->
-                <param name="enc_counts_per_rev">3436</param>
+                <param name="enc_counts_per_rev">1080</param>
             </hardware>
             <joint name="left_wheel_joint">
             <!-- define motor command interface of velocity and state interfaces of position and velocity-->
@@ -1300,15 +1330,42 @@ In the robot description `robot.urdf.xacro`, add another xacro file for ros2 con
     <gazebo>
     <!-- Has its own controller manager, that takes URDF from state_publisher, but controler yaml needs to be passed -->
         <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system.so">
-            <parameters>$(find articubot_one)/config/my_controllers.yaml</parameters>
+            <parameters>$(find bluebot_one)/config/my_controllers.yaml</parameters>
             <!-- path to the controller yaml -->
-            <parameters>$(find articubot_one)/config/gaz_ros2_ctl_use_sim.yaml</parameters>
+            <parameters>$(find bluebot_one)/config/gaz_ros2_ctl_use_sim.yaml</parameters>
+        </plugin>
+                <plugin
+            filename="gz-sim-sensors-system"
+            name="gz::sim::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+        </plugin>
+        <plugin
+            filename="gz-sim-user-commands-system"
+            name="gz::sim::systems::UserCommands">
+        </plugin>
+        <plugin
+            filename="gz-sim-scene-broadcaster-system"
+            name="gz::sim::systems::SceneBroadcaster">
+        </plugin>
+        <plugin
+            filename="gz-sim-user-commands-system"
+            name="gz::sim::systems::UserCommands">
+        </plugin>
+        <plugin
+            filename="gz-sim-scene-broadcaster-system"
+            name="gz::sim::systems::SceneBroadcaster">
         </plugin>
     </gazebo>
 
 </robot>
 ```
-We'll write a controllers yaml file in the config folder.
+
+##### Controller Config
+
+In the `config` directory, we'll add `my_controllers.yaml` parameter file. 
+Parameters for is the controller manager. Two simple parameters to set are the update_rate which determines the rate the controllers will update at, and use_sim_time because we want to use this with a Gazebo simulation (commented out for real robot).
+
+We set the parameter name as the name we want to call our controller, then nested under it is the type of the controller. We need to make two controllers, a diff_drive_controller and a joint_state_broadcaster which we'll dive into next.
 
 ```yaml
 controller_manager:
@@ -1375,17 +1432,22 @@ diff_cont:
     # angular.z.min_jerk: NAN
 
 
-
-
 # joint_broad:
 #   ros__parameters:
 ```
-Build and source the installation. Now launch Gazebo, and check hardware interfaces with `ros2 control list hardware_interfaces`. 
+
+
+
+Build and source the installation. Now launch Gazebo, and check hardware interfaces with:
+
+```bash
+ros2 control list hardware_interfaces
+``` 
 
 ##### Starting controllers
 
 ```bash
-ros2 run controller_manager spawner.py diff_cont
+ros2 run controller_manager spawner diff_cont --controller-ros-args "-r /diff_cont/cmd_vel:=/cmd_vel"
 ros2 run controller_manager spawner.py joint_broad
 ```
 
@@ -1416,9 +1478,38 @@ joint_broad_spawner = Node(
     executable="spawner",
     arguments=["joint_broad"],
 )
+
+    # Launch them all!
+    return LaunchDescription([
+        ...,
+        diff_drive_spawner,
+        joint_broad_spawner
+    ])
 ```
 
 #### Extra bits
+##### Update the URDF to match robot structure
+- Set up xacro parameters for all the key dimensions and set them accordingly
+- Changed my Gazebo and RViz colours to match the real robot
+- Fixed up the controller YAML to have the correct wheel separation and radius
+
+```xml
+<xacro:property name="chassis_length" value="0.335"/>
+<xacro:property name="chassis_width" value="0.265"/>
+<xacro:property name="chassis_height" value="0.138"/>
+<xacro:property name="chassis_mass" value="1.0"/>
+<xacro:property name="wheel_radius" value="0.034"/>
+<xacro:property name="wheel_thickness" value="0.026"/>
+<xacro:property name="wheel_mass" value="0.05"/>
+<xacro:property name="wheel_offset_x" value="0.226"/>
+<xacro:property name="wheel_offset_y" value="0.166"/>
+<xacro:property name="wheel_offset_z" value="0.01"/>
+<xacro:property name="caster_wheel_radius" value="0.01"/>
+<xacro:property name="caster_wheel_mass" value="0.01"/>
+<xacro:property name="caster_wheel_offset_x" value="0.075"/>
+<xacro:property name="caster_wheel_offset_z" value="${wheel_offset_z - wheel_radius + caster_wheel_radius}"/>
+```
+
 ##### Gazebo lag
 Add an extra gazebo parameters file and add it in the launcher.
 ```python
@@ -1429,7 +1520,7 @@ gazebo = IncludeLaunchDescription(
                 launch_arguments={'gz_args': ['-r -v4 ', world], 'on_exit_shutdown': 'true'}.items()
             )
 ```
-##### Wheel friction and rviz2 lag
+##### Wheel friction and RViz2 lag
 Make the wheel collision into sphere geometry to reduce friction.
 
 ##### Object scan move around for simulation
@@ -1450,19 +1541,18 @@ Update `rsp.launch.py`.
 
 We have our physical robot on one side, and the command velocity to be published by a nav stack on another side. Command velocity is of type `Twist` or `TwistStamped`, a 6-d velocity including `linear.x`, `linear.y`, `linear.z`, `angular.x`, `angular.y`, `angular.z`. But for a differential drive robot, we'll only use `linear.x`, `angular.z`. `ros2_control` will link the `/cmd_vel` to the actual motors.  
 
-`ros2_control` has 3 main parts - a controller manager that links diff drive controller to hardware interface. `ros2_control` provides the controller manager - `ros2_control_node`, the diff drive controller - `diff_drive_controller` (although we could write one), we write the hardware interface plugin - `diffdrive_arduino`. The `diff_drive_controller` converts the `/cmd_vel` into required motor velocity, and the `diffdrive_arduino` converts the abstract motor velocity into hardware commands, the `ros2_control_node` links the `diff_drive_controller` and `diffdrive_arduino`.
+`ros2_control` has 3 main parts:
+1. The `diff_drive_controller` plugin, provided by `ros2_controllers`, which turns command velocity into abstract wheel velocity.
+2. The hardware interface plugin, `diffdrive_arduino` is provided by us, which turns abstract wheel velocities into signals for the motor controller (e.g., via serial commands).
+3. The controller manager, provided by `ros2_control`, in this case the `ros2_control_node` that links the `diff_drive_controller` to the hardware interface.
+The `diff_drive_controller` converts the `/cmd_vel` into required motor velocity, and the `diffdrive_arduino` converts the abstract motor velocity into hardware commands, the `ros2_control_node` links the `diff_drive_controller` and `diffdrive_arduino`.
+- In addition we have a controller called `joint state broadcaster` that reads motor encoder positions (provided by the hardware interface) and publishes them to the `/joint_states` topic for robot state publisher to generate the wheel transforms.
 
-We also have a controller manager `joint_state_broadcaster` that reads motor encoder position state provided by the hardware interface, and publishes them in the `/joint_states` topic. For the robot state publisher to generate transforms.
 
-The last section discusses setting up controller manager and hardware interfaces for gazebo. This section deals with setting up controller manager and hardware interfaces for the real robot.
+#### Hardware Interface
+`diffdrive_arduino` exposes the two command interfaces (velocities) and four state interfaces (velocities, positions), and uses the same serial commands to drive the motors. It just sends the "m" and "e" commands over serial. Control will use the `diff_drive_controller` used for Gazebo.
 
-##### Setting up controller manager
-If you use the arduino code provided, youcan use the hardware interface `diffdrive_arduino` discussed here. It exposes the two command interfaces (velocities) and four state interfaces (velocities, positions), and uses the same serial commands to drive the motors. Control will use the `diff_drive_controller` used for Gazebo.
-
-Right now, the custom hardware interface can't be installed using apt, we'll have to build from source. 
-
-On the Pi:
-
+On the Pi
 ```bash
 sudo apt update && sudo apt upgrade -y && sudo apt install -y \
   ros-${ROS_DISTRO}-twist-mux \
@@ -1471,22 +1561,77 @@ sudo apt update && sudo apt upgrade -y && sudo apt install -y \
   ros-${ROS_DISTRO}-ros2-controllers \
   ros-${ROS_DISTRO}-gz-ros2-control \
   ros-${ROS_DISTRO}-ros-gz
+sudo apt install libserial-dev
 
 # sudo apt install ros-${ROS_DISTRO}-ros2-control ros-${ROS_DISTRO}-ros2-controllers ros-${ROS_DISTRO}-gazebo-ros2-control
 
-sudo apt install libserial-dev
-cd <workspace>/src
-git clone https://github.com/joshnewans/diffdrive_arduino
+cd robot_ws/src
 git clone https://github.com/joshnewans/serial
-cd ../..
+git clone https://github.com/joshnewans/diffdrive_arduino
+cd ..
 colcon build --symlink-install
+
 source install/setup.bash
 ```
+
+#### Update the URDF
 Connect to the Pi using vscode remote host (ssh) to udpate the `ros2_control.xacro` and to create/update `launch_robot.launch.py`.
+
+In the ros2_control.xacro file we will find the <ros2_control> block that describe our hardware interface.
+
+Name (e.g. to "RealRobot").
+Plugin to diffdrive_arduino/DiffDriveArduino
+Parameters for the hardware interface, including:
+
+- Left and right wheel joint names
+- Arduino loop rate
+- Serial port
+- Baud rate
+- Comms timeout
+- Encoder counts per revolution
+
+```xml
+<ros2_control name="RealRobot" type="system">
+    <hardware>
+        <plugin>diffdrive_arduino/DiffDriveArduino</plugin>
+        <param name="left_wheel_name">left_wheel_joint</param>
+        <param name="right_wheel_name">right_wheel_joint</param>
+        <param name="loop_rate">30</param>
+        <param name="device">/dev/ttyUSB0</param>
+        <param name="baud_rate">57600</param>
+        <param name="timeout">1000</param>
+        <param name="enc_counts_per_rev">1080</param>
+    </hardware>
+    <!-- Note everything below here is the same as the Gazebo one -->
+    <joint name="left_wheel_joint">
+        <command_interface name="velocity">
+            <param name="min">-10</param>
+            <param name="max">10</param>
+        </command_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+    </joint>
+    <joint name="right_wheel_joint">
+        <command_interface name="velocity">
+            <param name="min">-10</param>
+            <param name="max">10</param>
+        </command_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+    </joint>
+</ros2_control>
+```
+
+##### Launch File
+
+
+
+
+##### Setting up controller manager
+We'll add a `controller_manager` node with the same `controller_manager` package, but with the executable `ros2_control_node`, and some parameters.
 
 The controller manager needs two things: the robot URDF that includes information to load the hardware interfaces, and a params file that includes information to load the controllers. For the URDF, we'll edit the `launch_robot.launch.py` launcher. We'll include the library `from launch.substitution import Command`, and add a command substitution `robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])`, that is going to execute a command that asks `robot_state_publisher` node to return its `robot_description` parameters as a string.
 
-We'll add a `controller_manager` node with the same `controller_manager` package, but with the executable `ros2_control_node`, and some parameters.
 
 ```python
 robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
@@ -1550,10 +1695,20 @@ return LaunchDescription([
 ```
 
 #### Testing the real robot
-- Initial test: Drive it with teleop and compare with rviz.
-- Encoder counts per revolution: Rotate the wheels, and check alignment with rviz transforms.
-- Wheel radius: Drive the robot 1m, and check if it aligns with rviz. You can update the value in URDF and in `my_controllers.yaml`.
-- Wheel seperation: rotate the robot 1 circle, check alignment with rviz. You can update the value in URDF and in `my_controllers.yaml`.
+Prop up the robot.
+- Run the `launch_robot.launch.py` script on the Pi via SSH.
+- Start RViz on the development machine, with the fixed frame set to `odom`. Run `teleop_twist_keyboard` with topics remapped:
+```bash
+# for humble
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r /cmd_vel:=/diff_cont/cmd_vel_unstamped
+# for jazzy
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true
+```
+- Initial test: Drive it with teleop and compare with RViz. All the transforms are displayed without errors.
+
+- Encoder counts per revolution: Rotate the wheels, and check alignment with RViz transforms.
+- Wheel radius: Drive the robot 1m, and check if it aligns with RViz. You can update the value in URDF and in `my_controllers.yaml`.
+- Wheel seperation: rotate the robot 1 circle, check alignment with RViz. You can update the value in URDF and in `my_controllers.yaml`.
 
 Check the camera by launcing it in the Pi:
 ```bash
@@ -1644,10 +1799,10 @@ teleop_node:
 
 Build and relaunch, run `ros2 topic echo /cmd_vel`, and now joystick input should publish `/cmd_vel`. In the launcher file, we'll add remapping in teleop_node from `/cmd_vel` to `/diff_cont/cmd_vel_unstamped`.
 
-##### Getting feedback using rviz2
-Launch rviz2.
+##### Getting feedback using RViz2
+Launch RViz2.
 
-ssh into your robot and launch camera launcher to get image feedback in rviz or rqt.
+ssh into your robot and launch camera launcher to get image feedback in RViz or rqt.
 
 ssh into the robot and launch LiDAR launcher
 
@@ -1660,7 +1815,7 @@ Localization is placing concepts on map. If we don't have GPS to start with, we 
 
 
 #### ROS and SLAM
-We can set our fixed frame in rviz to `odom`, which represents the robot's world origin. And the transform from odom to `base_link` is calculated by the differential drive controller using the wheel odometry. But odometry drifts away from the truth slowly over time, as it integrates velocity to estimate position (dead reckoning), which compunds error.  
+We can set our fixed frame in RViz to `odom`, which represents the robot's world origin. And the transform from odom to `base_link` is calculated by the differential drive controller using the wheel odometry. But odometry drifts away from the truth slowly over time, as it integrates velocity to estimate position (dead reckoning), which compunds error.  
 GPS/SLAM can correct these errors. But using them to correct odom can result in transporting base_link. Instead we use a `map` link instead of `odom`. And the final output combines two.  
 In addition to `odom` and `map` frames, we have `odom` and `map` topics that contain data of odometry (`nav_msgs/msg/Odometry`: contains position info of odom->base_link TF and velocity) and map (`nav_msgs/msg/OccupancyGrid`: contains grid map occupancy data).  
 
@@ -1683,15 +1838,15 @@ SLAM toolbox comes with launcher and param files - we'll copy a params file in o
 ```bash
 cp /opt/ros/${ROS_DISTRO}/share/slam_toolbox/config/mapper_params_online_async.yaml dev_ws/src/bluebot_one/config/
 ```
-Go to workspace > Rebuild with colcon > source workspace > launch simulation launcher and rviz. If you drive your robot and come back to the origin, you'll find it has drifted away in rviz. Restart gazebo and rviz, and in a new terminal:
+Go to workspace > Rebuild with colcon > source workspace > launch simulation launcher and RViz. If you drive your robot and come back to the origin, you'll find it has drifted away in RViz. Restart gazebo and RViz, and in a new terminal:
 
 ```bash
 ros2 launch slam_toolbox online_async_launch.py params_file:=./src/bluebot_one/config/mapper_params_online_async.yaml use_sim_time:=true 
 ```
 
-In rviz, add map and set topic to `\map`, and change the Fixed Frame to `map` (this'll make the map steady, while the robot can jump around). Now driving the robot will udpate the map. You can change your view from Orbit (rviz default) to TopDownOrthographic. Now, returning to the map origin will land it very close to origin in Gazebo, while the odom has drifted.
+In RViz, add map and set topic to `\map`, and change the Fixed Frame to `map` (this'll make the map steady, while the robot can jump around). Now driving the robot will udpate the map. You can change your view from Orbit (RViz default) to TopDownOrthographic. Now, returning to the map origin will land it very close to origin in Gazebo, while the odom has drifted.
 
-Running `ros2 service list` shows options to save map. But it also has a rviz plugin (Panels Tab > Add new Panel > SlamToolboxPlugin). You can use `Save Map` to save it in old format, and `Serialize Map` to save map that can be used with `slam_toolbox`. Go to the `mapper_params_online_async.yaml` file and change `mode: localization`. For `map_file_name: `, write the path to the saved map (e.g., `/home/dev/dev_ws/my_map_serial`). Set `map_start_at_dock` to `true`. Then rerun the `slam_toolbox`.  
+Running `ros2 service list` shows options to save map. But it also has a RViz plugin (Panels Tab > Add new Panel > SlamToolboxPlugin). You can use `Save Map` to save it in old format, and `Serialize Map` to save map that can be used with `slam_toolbox`. Go to the `mapper_params_online_async.yaml` file and change `mode: localization`. For `map_file_name: `, write the path to the saved map (e.g., `/home/dev/dev_ws/my_map_serial`). Set `map_start_at_dock` to `true`. Then rerun the `slam_toolbox`.  
 
 Once we've built our map, we can use it with other systems like the AMCL (Adaptive Monte Carlo Localisation).  
 
@@ -1706,7 +1861,7 @@ In a new tab
 ros2 run nav2_util lifecycle_bringup map_server
 ```
 
-After rerunning gazebo, rviz, we can set rviz > map > Topic> Reliability to Reliable and Durability Policy to Transient Local. To localize our robot we'll run amcl in a new tab
+After rerunning gazebo, RViz, we can set RViz > map > Topic> Reliability to Reliable and Durability Policy to Transient Local. To localize our robot we'll run amcl in a new tab
 ```bash
 ros2 run nav2_amcl amcl --ros-args -p use_sim_time:=true
 ```
@@ -1714,7 +1869,7 @@ In a new tab run lifecycle bringup with amcl
 ```bash
 ros2 run nav2_util lifecycle_bringup amcl
 ```
-Now we'll use 2D Pose Estimate on rviz to localize the robot.
+Now we'll use 2D Pose Estimate on RViz to localize the robot.
 
 #### Running on real robot
 On the Pi
@@ -1774,14 +1929,14 @@ Now launch the launch_sim.launch.py. In a new tab run the `slam_toolbox` to gene
 ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true
 ```
 
-In rviz add a new map and set topic to `/global_costmap` and set color scheme to `costmap`. Now we can use `2D Goal Pose`.
+In RViz add a new map and set topic to `/global_costmap` and set color scheme to `costmap`. Now we can use `2D Goal Pose`.
 
 #### Nav2 on real robot
-Connect to Pi over SSH. Run ros2 control, twist_mux and lidar driver on Pi. On dev machine, run joy_stick driver, slam_toolbox, rviz, and the navigation launcher with sim_time to false.
+Connect to Pi over SSH. Run ros2 control, twist_mux and lidar driver on Pi. On dev machine, run joy_stick driver, slam_toolbox, RViz, and the navigation launcher with sim_time to false.
 
-On rviz, we can add a new panel navigation 2, and a new tool navigation2 goal. Upon fixing some nav points with the nav2 goal tool, start navigation in nav2 panel will start the navigation.
+On RViz, we can add a new panel navigation 2, and a new tool navigation2 goal. Upon fixing some nav points with the nav2 goal tool, start navigation in nav2 panel will start the navigation.
 
-Once we have a map, we can keep using it for localization, and use it with nav2. Run simulation, joystick control, rviz and twist_mux. Now instead of running the slam_toolbox, run
+Once we have a map, we can keep using it for localization, and use it with nav2. Run simulation, joystick control, RViz and twist_mux. Now instead of running the slam_toolbox, run
 
 ```bash
 ros2 launch nav2_bringup localization_launcy.py map:=./my_map_save.yaml use_sim_time:=true
