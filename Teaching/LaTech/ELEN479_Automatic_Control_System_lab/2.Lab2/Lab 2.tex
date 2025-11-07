@@ -1,0 +1,153 @@
+\documentclass[12pt]{article}
+
+\usepackage{hyperref}
+\usepackage[xetex, dvipsnames]{xcolor}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage[margin = 2cm]{geometry}
+\usepackage{circuitikz}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{placeins}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{\baselineskip}
+
+\newcommand{\header}[1]{\textcolor{CornflowerBlue}{#1}}
+\renewcommand{\title}[1]{\header{\large #1}}
+
+\begin{document}
+	\scrollmode
+	\begin{centering}
+		\textbf{Louisiana Tech University\\
+			ELEN 479 Automatic Control Systems Lab\\
+			Lab 2\\}
+	\end{centering}
+	\vspace{\baselineskip}
+	\title{CONTROLLING A REAL RLC CIRCUIT}
+	
+	\header{Objective:}
+	
+	You already simulated the step response of an RLC circuit with a negative feedback controller last week. This week, you will implement that system using physical components.
+	
+	\FloatBarrier
+	\header{Theory:}
+	
+	Review lab 1 for more information on relevant control theory and how to derive the the governing equation for this system. Figure~\ref{fig:RLC circuit} shows our system and and Equation~\ref{eq:RLC circuit} is the governing equation for it.
+	\begin{figure}[hbt]
+		\centering
+		\begin{circuitikz}[american]
+			\draw (0,0) to[R, label = R] (4,0) to[short, -o] (7,0) node[below]{$+$};
+			\draw (4,0) to[C, label = C] (4,-3);
+			\draw (0,-3) to[L, label = L] (4,-3) to[short, -o] (7,-3) node[above]{$-$};
+			\draw (0,0) to[vsource, label = $V_\mathrm{in}(s)$] (0,-3);
+			\draw (7,-1.5) node[]{$V_\mathrm{out}(s)$};
+		\end{circuitikz}
+		\caption{\label{fig:RLC circuit} An RLC circuit}
+	\end{figure}
+	\begin{equation} \label{eq:RLC circuit}
+		\frac{V_\mathrm{out}(s)}{V_\mathrm{in}(s)} = \frac{1}{C\left(Ls^2 + Rs +\frac{1}{C}\right)}
+	\end{equation}
+	
+	There are many ways to implement a feedback loop for this system using op-amps. We will use a differencing amplifier to perform the actual feedback and a non-inverting buffer to read the output.
+	
+	\begin{figure}[hbt]
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) node[left]{$v_2$} to[R,o-,label=$R$] (3,0) -- (3.5,0) node[op amp, anchor = -](OA){};
+			\draw (OA.+) -- ++(-0.5,0) to[R, -o, label=$R$] ++(-3,0) node[left]{$v_1$};
+			\draw (OA.+) ++(-0.5,0) to[R, label=$R$] ++(0,-2) node[ground]{};
+			\draw (3,0) -- ++(0,1.5) coordinate(c) to[R, label=$R$] (c -| OA.out) -- (OA.out) to[short, -o] ++(1,0) node[right]{$v_\mathrm{out}$};
+		\end{circuitikz}
+		\caption{\label{fig:differencing op-amp} A differencing op-amp configuration}
+	\end{figure}
+	
+	The governing equation for the circuit in Figure~\ref{fig:differencing op-amp} is given by Equation~\ref{eq:differencing op-amp} below. All resistors are approximately the same value, $R$.
+	\begin{equation}\label{eq:differencing op-amp}
+		v_1 - v_2 = v_\mathrm{out}
+	\end{equation}
+	
+	\begin{figure}[hbt]
+		\centering
+		\begin{circuitikz}
+			\draw (0,0) node[op amp, anchor = -](OA){};
+			\draw (OA.+) to[short,-o] ++(-1,0) node[left]{$v_\mathrm{in}$};
+			\draw (0,0) -- ++(-0.5,0) -- ++(0,1.5) coordinate(c) -- (c -| OA.out) -- (OA.out) to[short, -o] ++(1,0) node[right]{$v_\mathrm{out}$};
+		\end{circuitikz}
+		\caption{\label{fig:buffering op-amp} A buffering op-amp configuration}
+	\end{figure}
+	
+	The circuit in Figure~\ref{fig:buffering op-amp} is governed by Equation~\ref{eq:buffering op-amp}. It's important that we use a buffer to read the output when we do not want to load a circuit significantly. It's best to use a non-inverting op-amp configuration as a buffer because the input signal goes into the high-impedance port of the op-amp, which means virtually no current will enter the op-amp.
+	\begin{equation}\label{eq:buffering op-amp}
+		v_\mathrm{out} = v_\mathrm{in}
+	\end{equation}
+	\newpage
+	\header{Lab Instructions}
+	
+	\header{Task 1:}
+	\FloatBarrier
+	
+	\begin{figure}[hbt]
+		\centering
+		\begin{circuitikz}
+			\draw (1.5, 0) node[adder](ADD){};
+			\draw (0,0) node[left]{Control Voltage} to[short, o-] (ADD.west) (ADD.east) to[twoport, l = RLC] (6,0) to[short, *-] (6,-2) coordinate(c) -- (c -| ADD.south) -- (ADD.south);
+			\draw (6,0) to[short, -o] (7,0) node[right]{Output};
+			\draw (ADD.west) node[above left]{$+$};
+			\draw (ADD.south) node[below right]{$-$};
+		\end{circuitikz}
+		\caption{System block diagram}
+	\end{figure}
+
+	Using a \href{https://www.ti.com/lit/ds/symlink/lf353-n.pdf}{LM353 dual op-amp} (Fig.~\ref{fig:lm353}) in a differencing configuration, add negative feedback to an RLC circuit made using a 100~\si{\micro\henry} inductor, a 1~\si{\micro\farad} capacitor, and a 510~\si{\ohm} resistor. You will need additional 10~\si{\kilo\ohm} resistors for the op-amp. Make sure to draw a circuit diagram of your overall system.
+	
+	Remember to power your op-amp using $\pm$5~V to the positive and negative power pins. Although we show the capacitor in Figure~\ref{fig:RLC circuit} to be the second component of the loop, the order does not affect the governing equation. This means you can order the components in whichever way makes implementing the system most convenient.
+	
+	\begin{figure}[hbt]
+		\centering
+		\includegraphics[width = 0.5\textwidth]{lm353.png}
+		\caption{\label{fig:lm353} LM353 op-amp pin-out}
+	\end{figure}
+	
+	\newpage
+	\header{Task 2:}
+	
+	Connect the arbitrary waveform generator to the input and read the input and the output with your oscilloscope. Run a 1~Vpp squarewave with a frequency of 75~\si{\hertz} into the system.
+	
+	\begin{itemize}[nosep]
+		\item Rerun your Matlab script from last week, but with the values of R, L, and C changed to match your current components. How do the simulation and the real results differ? You may need to play with the time and voltage scales to get a similar view to your simulation.
+		\item But wait! The differrencing op-amp has a input impedance of 10~\si{\kilo\ohm}. That might affect the circuit. Try buffering the output as it goes into the negative terminal of the differencing amplifier using the second channel of your op-amp chip. Does the system output better match the simulation? Was there any significant change in the waveform?
+	\end{itemize}
+	
+		\begin{figure}[hbt]
+		\centering
+		\begin{circuitikz}
+			\draw (1.5, 0) node[adder](ADD){};
+			\draw (0,0) node[left]{Control Voltage} to[short, o-] (ADD.west) (ADD.east) to[twoport, l = RLC] (6,0) to[short, *-] (6,-2) coordinate(c) to[amp, l = {$a=1$}] (c -| ADD.south) -- (ADD.south);
+			\draw (6,0) to[short, -o] (7,0) node[right]{Output};
+			
+			\draw (ADD.west) node[above left]{$+$};
+			\draw (ADD.south) node[below right]{$-$};
+		\end{circuitikz}
+		\caption{System block diagram with buffer}
+	\end{figure}
+	
+	\header{Task 3:}
+	
+	Try applying different signals to the input, such as sine, ramp, or something from the arbitrary waveform menu.
+	
+	\begin{itemize}[nosep]
+		\item How well does the output follow the input?
+		\item Try using a larger resistor for R in your circuit. What happens?
+		\item How does using a smaller resistor affect this?
+	\end{itemize}
+	
+	\header{Post Lab:}
+	\begin{enumerate}[nosep]
+		\item Why does changing the size of the resistor change how quickly the controller can react to changes?
+		\item Play around in Matlab, how much do you have to change the values of the RLC circuit to get significant overshoot and settling time?
+		\item How might you construct a sensor with op-amps to measure any voltage at any point of a system without affecting load?
+	\end{enumerate}
+	\batchmode
+\end{document}	

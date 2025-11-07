@@ -1,0 +1,365 @@
+\documentclass[12pt]{article}
+
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[margin = 2cm]{geometry}
+\usepackage{circuitikz}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{verbatim}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{\baselineskip}
+
+\newcommand{\header}[1]{\textcolor{CornflowerBlue}{\large #1}}
+\renewcommand{\title}[1]{\header{\Large #1}}
+\newcommand{\link}[1]{\textcolor{Cyan}{#1}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\begin{document}
+	\scrollmode
+	\begin{centering}
+		\textbf{Louisiana Tech University\\
+			ELEN 479 Automatic Control Systems Lab\\
+			Lab 3\\}
+	\end{centering}
+	\vspace{\baselineskip}
+	\title{INTRODUCTION TO STATE SPACE}
+	
+	\header{Objective:}
+	\begin{itemize}[nosep]
+		\item Model dynamics of electro-mechanical system using state space representation
+		\item Understand the difference between Transfer Functions and State Space Representations
+		\item Linearize a dynamic system about an equilibrium point and analyze system stability
+	\end{itemize}
+	
+	\header{\large Theory:}
+	
+	\header{Dynamic Systems}
+	
+	Dynamic systems are systems that change or evolve in time according to a fixed rule. For many physical systems, this rule can be stated as a set of first-order differential equations:
+	\begin{equation} \label{eq:differential}
+		\mathbf{\dot{x}} = \frac{d\vec{x}}{dt} = \vec{f}(\vec{x}(t), \vec{u}(t))
+	\end{equation}
+	In the above equation, $\vec{x}(t)$ is the state vector, a set of variables representing the configuration of the system at time $t$. For instance, in a simple mechanical mass-spring-damper system, the two state variables could be the position and velocity of the mass. $\vec{u}(t)$ is the vector of external inputs to the system at time $t$, and $\vec{f}$ is a (possibly nonlinear) function producing the time derivative (rate of change) of the state vector, $\vec{\dot{x}}$, for a particular instant of time.
+	
+	The state at any future time, $\vec{x}(t_1)$, may be determined exactly given knowledge of the initial state, $\vec{x}(t_0)$, and the time history of the inputs, $\vec{u}(t)$, between $t_0$ and $t_1$ by integrating Equation~\ref{eq:differential}. Though the state variables themselves are not unique, there is a minimum number of state variables, $n$, required in order to capture the "state" of a given system and to be able to predict the system's future behavior (solve the state equations). $n$ is referred to as the system order and determines the dimensionality of the state-space. The system order usually corresponds to the number of independent energy storage elements in the system.
+	
+	The relationship given in Equation~\ref{eq:differential} is very general and can be used to describe a wide variety of different systems; unfortunately, it may be very difficult to analyze. There are two common simplifications which make the problem more tractable. First, if the function $\vec{f}$ does not depend explicitly on time, i.e. $\vec{\dot{x}}=\vec{f}(\vec{x},\vec{u})$, then the system is said to be time invariant. This is often a very reasonable assumption because the underlying physical laws themselves do not typically depend on time. For time-invariant systems, the parameters or coefficients of the function $\vec{f}$ are constant. The state variables, $\vec{x}(t)$, and control inputs, $\vec{u}(t)$, however, may still be time dependent.
+	
+	The second common assumption concerns the linearity of the system. In reality, almost every physical system is nonlinear. In other words, $\vec{f}$ is typically some complicated function of the state and inputs. These nonlinearities arise in many different ways, one of the most common in control systems being ``saturation'' in which an element of the system reaches a hard-physical limit to its operation.
+	
+	Fortunately, over a sufficiently small operating range (think tangent line near a curve), the dynamics of most systems are approximately linear. In this case, the system of first-order differential equations can be represented as a matrix equation, that is, $\vec{\dot{x}}=\vec{Ax}+\vec{Bu}$.
+	
+	Until the advent of digital computers (and to a large extent thereafter), it was only practical to analyze linear time-invariant (LTI) systems. Consequently, most of the results of control theory are based on these assumptions. Fortunately, as we shall see, these results have proven to be remarkably effective and many significant engineering challenges have been solved using LTI techniques. In fact, the true power of feedback control systems is that they work (are robust) in the presence of the unavoidable modeling uncertainty.
+	
+	\header{State-Space Representation}
+	
+	For continuous linear time-invariant (LTI) systems, the standard state-space representation is given below:
+	\begin{align}
+		\vec{\dot{x}} &= \vec{Ax} + \vec{Bu}\label{eq:ssinput}\\
+		\vec{y}       &= \vec{Cx} + \vec{Du}\label{eq:ssoutput}
+	\end{align}
+	where $\vec{x}$ is the vector of state variables ($n$ by 1), $\vec{\dot{x}}$ is the time derivative of the state vector ($n$~by~1), $\vec{u}$ is the input or control vector ($p$ by 1), $\vec{y}$ is the output vector ($q$ by 1), $\vec{A}$ is the system matrix ($n$ by $n$), $\vec{B}$ is the input matrix ($n$ by $p$), $\vec{C}$ is the output matrix ($q$ by $n$), and $\vec{D}$ is the feedforward matrix ($q$ by $p$).
+	
+	The output equation, Equation~\ref{eq:ssoutput}, is necessary because often there are state variables which are not directly observed or are otherwise not of interest. The output matrix, $\vec{C}$, is used to specify which state variables (or combinations thereof) are available for use by the controller. Also, it is often the case that the outputs do not directly depend on the inputs (only through the state variables), in which case $\vec{D}$ is the zero matrix.
+	
+	The state-space representation, also referred to as the time-domain representation, can easily handle multi-input/multi-output (MIMO) systems, systems with non-zero initial conditions, and nonlinear systems via Equation~\ref{eq:differential}. Consequently, the state-space representation is used extensively in "modern" control theory.
+	
+	\header{Transfer Function Representation}
+	
+	LTI systems have the extremely important property that if the input to the system is sinusoidal, then the output will also be sinusoidal with the same frequency as the input, but with possibly different magnitude and phase. These magnitude and phase differences are a function of frequency and capture what is known as the frequency response of the system.
+	
+	Using the Laplace transform, it is possible to convert a system's time-domain representation into a frequency- domain input/output representation, known as the transfer function. In so doing, it also transforms the governing differential equation into an algebraic equation which is often easier to analyze. The Laplace transform of a time domain function, $f(t)$, is given below:
+	\begin{equation} \label{eq:laplace}
+		F(s) = L\{f(t)\} = \int^\infty_0 e^{-st} f(t) dt
+	\end{equation}
+	Where the parameter $s=\sigma+j\omega$ is a complex frequency variable. It is very rare in practice that you will have to directly evaluate a Laplace transform (though you should certainly know how to). It is much more common to look up the transform of a time function in Laplace Transform Table.
+	
+	The Laplace transform of the nth derivative of a function is particularly important:
+	\begin{equation} \label{eq:nth laplace}
+		L\left\{\frac{d^n f}{dt^n}\right\} = s^n F(s) - s^{n-1}f(0^-)-s^{n-2}f^{(1)}(0^-) - \dots -f^{(n-1)}(0^-)
+	\end{equation}
+	For zero initial condition:
+	\begin{equation} \label{eq:nth laplace zero initial}
+		L\left\{\frac{d^n f}{dt^n}\right\} = s^n F(s)
+	\end{equation}
+	Frequency-domain methods are most often used for analyzing LTI single-input/single-output (SISO) systems, e.g. those governed by a constant coefficient differential equation, as shown below:
+	\begin{equation} \label{eq:LTI SISO}
+		a_n\frac{d^ny}{dt^n} + \dots + a_1\frac{dy}{dt} + a_0y(t) = b_m\frac{d^mu}{dt^m} + \dots + b_1\frac{du}{dt} + b_0u(t)
+	\end{equation}
+	The Laplace transform of this equation is given below
+	\begin{equation} \label{eq:laplace LTI SISO}
+		a_ns^nY(s) + \dots + a_1sY(S) + a_0Y(s) = b_ms^mU(s) + \dots + b_1sU(s) + b_0U(s)
+	\end{equation}
+	Where $Y(s)$ and $U(s)$ are the Laplace Transform of $y(t)$ and $u(t)$, respectively. Note that when finding transfer functions, we assume that each of the initial conditions, $y(0)$, $\dot{y}(0)$, $u(0)$, etc is zero. The transfer function from input $U(s)$ to output $Y(s)$ is therefore:
+	\begin{equation} \label{eq:transfer function}
+		G(s) = \frac{Y(s)}{U(s)} = 
+		\frac{b_ms^m + b_{m-1}s^{m-1} + \dots + b_1s + b_0}
+		{a_ns^n + a_{n-1}s^{n-1} + \dots + a_1s + a_0}
+	\end{equation}
+	Note that we can also determine the transfer function directly from the state-space representation as follows:
+	\begin{equation} \label{eq:transfer function from state-space}
+		G(s) = \frac{Y(s)}{U(s)} = \vec{C}(s\vec{I} - \vec{A})^{-1}\vec{B} + \vec{D}
+	\end{equation}
+	
+	\header{Linearization of Non-Linear Systems}
+	
+	Most components found in physical systems have nonlinear characteristics. In practice, we may find that some devices have moderate nonlinear characteristics, or nonlinear properties that would occur if they were driven into certain operating regions. For these devices, the modeling by linear-system models may give quite accurate analytical results over a relatively wide range of operating conditions.
+	
+	However, there are numerous physical devices that possess strong nonlinear characteristics. For these devices, a linearized model is valid only for limited range of operation and often only at the operating point at which the linearization is carried out. More importantly, when a nonlinear system is linearized at an operating point, the linear model may contain time-varying elements.
+	
+	Although there are many ways to linearize a system but for this lab we will be concentrating on linearizing a non-linear system using the state space approach.
+	
+	A nonlinear system can be represented by the following vector-matrix state equations:
+	\begin{equation} \label{eq:non-linear system}
+		\frac{d\vec{x}(t)}{dt} = \vec{f}(\vec{x}(t), \vec{u}(t))
+	\end{equation}
+	Where $\vec{x}(t)$ represents the ($n$ by 1) state vector; $\vec{u}(t)$, the ($p$ by 1) input vector; and $\vec{f}[\vec{x}(t), \vec{u}(t)]$, an ($n$ by 1) function vector. In general, $\vec{f}$ is a function of the state vector and the input vector.
+	
+	Being able to represent a nonlinear and/or time-varying system by state equations is a distinct advantage of the state-variable approach over the transfer-function method, since the latter is strictly defined only for linear time-invariant systems. As a simple example, the following nonlinear state equations are given:
+	\begin{align}
+		\frac{dx_1(t)}{dt} &= x_1(t) + x_2^2(t)\\
+		\frac{dx_2(t)}{dt} &= x_1(t) + u(t)
+	\end{align}
+	Because nonlinear systems are usually difficult to analyze and design, it is desirable to perform a linearization whenever the situation justifies it. A linearization process that depends on expanding the nonlinear state equations into a Taylor series about a nominal operating point or trajectory is now described. All the terms of the Taylor series of order higher than the first are discarded. and the linear approximation of the nonlinear state equations at the nominal point results. Let the nominal operating trajectory be denoted by $x_0(t)$, which corresponds to the nominal input $u_0(t)$ and some fixed initial states. Expanding the nonlinear state equation of Equation~\ref{eq:non-linear system} into a Taylor series about $x(t) = x_0(t)$ and neglecting all the higher-order terms yield:
+	\begin{equation} \label{eq:first linearization}
+		\dot{x_i}(t) = f_i(x_0,u_0) +
+		\sum^n_{j=1}\left.(x_j - x_{0,j})\frac{\partial f_i(x,u)}{\partial x_j}\right|_{x_0,u_0} +
+		\sum^n_{j=1}\left.(u_j - u_{0,j})\frac{\partial f_i(x,u)}{\partial u_j}\right|_{x_0,u_0}
+	\end{equation}
+	Where $i = 1,2,\dots,n$. Let:
+	\begin{align*}
+		\delta x_i &= x_i - x_{0i}\\
+		\delta u_j &= u_j - u_{0j}\\
+		\delta \dot{x_i} &= x_i - x_{0i}\\
+		\delta \dot{x}_{0i} &= f(x_0,u_0)
+	\end{align*}
+	Equation~\ref{eq:first linearization} can then be written as:
+	\begin{equation} \label{eq:second linearization}
+			\dot{x_i}(t) =
+		\sum^n_{j=1}\left.\Delta x_j\frac{\partial f_i(x,u)}{\partial x_j}\right|_{x_0,u_0} +
+		\sum^n_{j=1}\left.\Delta u_j\frac{\partial f_i(x,u)}{\partial u_j}\right|_{x_0,u_0}
+	\end{equation}
+	
+	Equation~\ref{eq:second linearization} may be written as:
+	\begin{equation} \label{eq:third linearization}
+		\Delta\dot{x} = A^*\Delta x + B^*\Delta u
+	\end{equation}
+	Where
+	\begin{align*}
+		A^* &=
+			\begin{bmatrix}
+				\frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_n}\\
+				\vdots & \ddots & \vdots\\
+				\frac{\partial f_n}{\partial x_1} & \cdots & \frac{\partial f_n}{\partial x_n}
+			\end{bmatrix}\\
+		B^* &=
+			\begin{bmatrix}
+				\frac{\partial f_1}{\partial u_1} & \cdots & \frac{\partial f_1}{\partial u_n}\\
+				\vdots & \ddots & \vdots\\
+				\frac{\partial f_n}{\partial u_1} & \cdots & \frac{\partial f_n}{\partial u_n}
+			\end{bmatrix}
+	\end{align*}
+	An example will be demonstrated in class to serve to illustrate the linearization the procedure just described.
+	
+	\header{Stability}
+	
+	For our purposes, we will use the Bounded Input Bounded Output (BIBO) definition of stability which states that a system is stable if the output remains bounded for all bounded (finite) inputs. Practically, this means that the system will not "blow up" while in operation.
+
+	The transfer function representation is especially useful when analyzing system stability. If all poles of the transfer function (values of s for which the denominator equals zero) have negative real parts, then the system is stable. If any pole has a positive real part, then the system is unstable. If we view the poles on the complex s-plane, then all poles must be in the left-half plane (LHP) to ensure stability. If any pair of poles is on the imaginary axis, then the system is marginally stable, and the system will tend to oscillate. A system with purely imaginary poles is not considered BIBO stable. For such a system, there will exist finite inputs that lead to an unbounded response. The poles of an LTI system model can easily be found in MATLAB using the pole command, an example of which is shown below:
+
+	\begin{lstlisting}[basicstyle = \ttfamily, columns = fixed]
+> s = tf('s');
+G = 1/(s^2+2*s+5)
+pole(G)
+
+G =
+         1
+   -------------
+   s^2 + 2 s + 5
+Continuous-time transfer function
+ans =
+     -1.0000 + 2.0000i
+     -1.0000 - 2.0000i
+	\end{lstlisting}
+	
+	Thus, this system is stable since the real parts of the poles are both negative. The stability of a system may also be found from the state-space representation. In fact, the poles of the transfer function are the eigenvalues of the system matrix $A$. We can use the eig command to calculate the eigenvalues using either the LTI system model directly, \texttt{eig(G)}, or the system matrix as shown below.
+	
+\begin{lstlisting}[basicstyle = \ttfamily, columns = fixed]
+> [A,B,C,D] = ssdata(G);
+eig(A)
+ans =
+     -1.0000 + 2.0000i
+     -1.0000 - 2.0000i
+\end{lstlisting}
+	
+	\header{Controllability and Observability}
+	
+	A system is controllable if there always exists a control input, $u(t)$, that transfers any state of the system to any other state in finite time. It can be shown that an LTI system is controllable if and only if its controllability matrix, $\mathcal{C}$, has full rank (i.e. if $\mathrm{rank}(\mathcal{C}) = n$ where $n$ is the number of states variables). The rank of the controllability matrix of an LTI model can be determined in MATLAB using the commands \texttt{rank(ctrb(A,B))} or \texttt{rank(ctrb(sys))}.
+	
+	All of the state variables of a system may not be directly measurable, for instance, if the component is in an inaccessible location. In these cases, it is necessary to estimate the values of the unknown internal state variables using only the available system outputs. A system is observable if the initial state, $x(t_0)$, can be determined based on knowledge of the system input, $u(t)$, and the system output, $y(t)$, over some finite time interval $t_0 < t < t_f$. For LTI systems, the system is observable if and only if the observability matrix, $\mathcal{O}$, has full rank (i.e. if $\mathrm{rank}(\mathcal{O}) = n$ where $n$ is the number of state variables). The observability of an LTI model can be determined in MATLAB using the command \texttt{rank(obsv(A,C))} or \texttt{rank(obsv(sys))}.
+	
+	Controllability and observability are dual concepts. A system $A$, is controllable if and only if a system $A'$, $B'$ is observable. This fact will be useful when designing an observer, as we shall see below.
+	\newpage
+	
+	\title{Lab Instructions}
+	
+	\header{Modeling of a Magnetic Ball Suspension System in State Space}
+	
+	Figure~\ref{fig:system figure} shows the diagram of a magnetic-ball-suspension system. The objective of the system is to control the position of the steel ball by adjusting the current in the electromagnet through the input voltage $v(t)$.
+	
+	\begin{figure}[hbt]
+		\centering
+		\includegraphics[width=0.5\textwidth]{system.png}
+		\caption{\label{fig:system figure} Magnetic ball suspension system}
+	\end{figure}
+	
+	The differential equations of the system are:
+	\begin{equation} \label{eq:free body}
+		M \frac{d^2h(t)}{dt^2} = Mg - K \frac{i^2(t)}{h(t)}
+	\end{equation}
+	\begin{equation} \label{eq:circuit}
+		v(t) = Ri(t) + L\frac{di(t)}{dt}
+	\end{equation}
+	Where,
+	\begin{itemize}[nosep]
+		\item $v(t)=$ input voltage,
+		\item $h(t)=$ ball position from initial position,
+		\item $i(t)=$ current through the electromagnet,
+		\item $R=$ winding resistance,
+		\item $L=$ winding inductance,
+		\item $M=$ mass of the ball,
+		\item $g=$ gravitational acceleration,
+		\item $K=$ coefficient that determines the magnetic force on the ball,
+	\end{itemize}
+	
+	Let us define the state variables as $x_1(t) = h(t)$, $x_2(t) = \frac{dh(t)}{dt}$, and $x_3(t) = i(t)$. The state equations of the system are:
+	\begin{align}
+		f_1(x,u) &= \frac{dx_1(t)}{dt} = x_2(t)\\
+		f_2(x,u) &= \frac{dx_2(t)}{dt} = g - \frac{K}{M} \frac{x_3^2(t)}{x_1(t)}\\
+		f_3(x,u) &= \frac{dx_3(t)}{dt} = -\frac{R}{L}x_3(t) + \frac{1}{L}v(t)
+	\end{align}
+	Let us linearize the system about the equilibrium point $h_0(t) = x_{0,1}= \text{constant}$. Then,
+	\begin{align}
+		x_{0,2}(t) = \frac{x_{0,1}(t)}{dt} = 0\\
+		\frac{d^2h_0(t)}{dt^2} = 0 \label{eq:linearized acceleration}
+	\end{align}
+	The nominal value of $i(t)$ is determined by substituting Equation~\ref{eq:linearized acceleration} into Equation~\ref{eq:free body}. Thus
+	\begin{equation}
+		i_0(t) = x_{0,3}(t) = \sqrt{Mgx_{0,1}}
+	\end{equation}
+	The linearized state equation is expressed in the form of Equation~\ref{eq:third linearization}, with the coefficient matrices $\vec{A}^*$ and $\vec{B}^*$ evaluated as
+	\begin{align}
+		\vec{A}^* &=
+		\begin{bmatrix}
+			0 & 1 & 0\\
+			\frac{Kx^2_{0,3}}{Mx^2_{0,1}} & 0 & \frac{-2Kx_{0,3}}{Mx_{0,1}}\\
+			0 & 0 & -\frac{R}{L}
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			0 & 1 & 0\\
+			\frac{Kg}{x_{0,1}} & 0 & -2K\sqrt{\frac{g}{Mx_{0,1}}}\\
+			0 & 0 & -\frac{R}{L}
+		\end{bmatrix}\label{eq:matrix A*}\\ 
+		\vec{B}^* &=
+		\begin{bmatrix}
+			0\\
+			0\\
+			\frac{1}{L}\label{eq:matrix B*}
+		\end{bmatrix}
+	\end{align}
+	
+	\header{Function Reference}
+	
+	Relevant function descriptions pulled from MATLAB documentation. These can all be used in a solution to the lab tasks.
+	
+	\hrulefill\\ %ss(A,B,C,D)
+	\texttt{\href{https://www.mathworks.com/help/control/ref/ss.html?searchHighlight=ss&s_tid=doc_srchtitle\#mw_50a9e621-1f9d-4756-958a-1797e4070e6c}{\link{sys}}=\href{https://www.mathworks.com/help/control/ref/ss.html?searchHighlight=ss&s_tid=doc_srchtitle\#d126e173423}{\link{ss}}(A,B,C,D)}
+	creates a continuous-time state-space model object of the following form:
+	\begin{align*}
+		\dot{x} &=Ax+Bu\\
+		y &=Cx+Du
+	\end{align*}
+	For instance, consider a plant with Nx states, Ny outputs, and Nu inputs. The state-space matrices are:
+	\begin{itemize}[nosep]
+		\item A is an Nx-by-Nx real- or complex-valued matrix.
+		\item B is an Nx-by-Nu real- or complex-valued matrix.
+		\item C is an Ny-by-Nx real- or complex-valued matrix.
+		\item D is an Ny-by-Nu real- or complex-valued matrix.
+	\end{itemize}
+	\hrulefill\\ % pole(sys)
+	\texttt{\href{https://www.mathworks.com/help/control/ref/dynamicsystem.pole.html?searchHighlight=pole&s_tid=srchtitle_support_results_1_pole\#d126e145906}{\link{P}} = \href{https://www.mathworks.com/help/control/ref/dynamicsystem.pole.html?searchHighlight=pole&s_tid=srchtitle_support_results_1_pole}{\link{pole}}(sys)} returns the poles of the SISO or MIMO dynamic system model sys. The output is expressed as the reciprocal of the time units specified in \texttt{sys.TimeUnit}. The poles of a dynamic system determine the stability and response of the system.
+	
+	An open-loop linear time-invariant system is stable if:
+	\begin{itemize}[nosep]
+		\item In continuous-time, all the poles of the transfer function have negative real parts. When the poles are visualized on the complex s-plane, then they must all lie in the left-half plane (LHP) to ensure stability.
+		\item In discrete-time, all the poles must have a magnitude strictly smaller than one, that is they must all lie inside the unit circle.
+	\end{itemize}
+	
+	\hrulefill\\ %zeros(sz)
+	\texttt{X = \href{https://www.mathworks.com/help/matlab/ref/zeros.html}{\link{zeros}}(sz)} returns an array of zeros where size vector \texttt{sz} defines \texttt{size(X)}. For example, \texttt{zeros([2 3])} returns a 2-by-3 matrix.
+	
+	\hrulefill\\ %size(A)
+	\texttt{sz = 
+	\href{https://www.mathworks.com/help/matlab/ref/size.html}{\link{size}}(A)} returns a row vector whose elements are the lengths of the corresponding dimensions of \texttt{A}. For example, if \texttt{A} is a 3-by-4 matrix, then \texttt{size(A)} returns the vector \texttt{[3 4]}. If \texttt{A} is a table or timetable, then \texttt{size(A)} returns a two-element row vector consisting of the number of rows and the number of table variables.
+	
+	\hrulefill\\ %lsim(sys,u,t,x0)
+	\texttt{
+	y =
+	\href{https://www.mathworks.com/help/ident/ref/dynamicsystem.lsim.html?s_tid=doc_ta}{\link{lsim}}(sys,
+	\href{https://www.mathworks.com/help/ident/ref/dynamicsystem.lsim.html?s_tid=doc_ta\#mw_11e716f7-d1dd-4ed4-b66b-5dbfb174523a}{\link{u}},
+	\href{https://www.mathworks.com/help/ident/ref/dynamicsystem.lsim.html?s_tid=doc_ta\#mw_43f7b43d-3f2b-4112-9c31-a93ddb1dd586}{\link{t}},
+	\href{https://www.mathworks.com/help/ident/ref/dynamicsystem.lsim.html?s_tid=doc_ta\#mw_4d30da91-a663-4f66-bf93-9dc75c7286f1}{\link{x0}})} returns the system response \texttt{y}, sampled at the same times \texttt{t} as the input. For single-output systems, \texttt{y} is a vector of the same length as \texttt{t}. For multi-output systems, \texttt{y} is an array having as many rows as there are time samples (\texttt{length(t)}) and as many columns as there are outputs in \texttt{sys}. This syntax does not generate a plot. The optional vector \texttt{x0} specifies initial state values when \texttt{sys} is a state-space model.
+	
+	\hrulefill\\ %ss2tf(A,B,C,D)
+	\texttt{[num,den] = \href{https://www.mathworks.com/help/matlab/ref/ss2tf.html}{\link{ss2tf}}(A,B,C,D)} converts a state-space representation of a system into an equivalent transfer function. \texttt{ss2tf} returns the Laplace-transform transfer function for continuous-time systems and the Z-transform transfer function for discrete-time systems.
+	
+	\hrulefill\\ %eye(n)
+	\texttt{I = \href{https://www.mathworks.com/help/matlab/ref/eye.html}{\link{eye}}(n)} returns an n-by-n identity matrix with ones on the main diagonal and zeros elsewhere.
+	
+	\hrulefill\\ %s = tf('s')
+	\texttt{s = \href{https://www.mathworks.com/help/control/ref/tf.html}{\link{tf}}('s')} creates special variable \texttt{s} that you can use in a rational expression to create a continuous-time transfer function model. Using a rational expression can sometimes be easier and more intuitive than specifying polynomial coefficients.
+	
+	\hrulefill\\ %inv(X)
+	\texttt{Y = \href{https://www.mathworks.com/help/matlab/ref/inv.html}{\link{inv}}(X)} computes the inverse of square matrix \texttt{X}.
+	\begin{itemize}[nosep]
+		\item \texttt{X\^{}(-1)} is equivalent to \texttt{inv(X)}.
+		\item \texttt{x = A\textbackslash b} is computed differently than \texttt{x = inv(A)*b} and is recommended for solving systems of linear equations.
+	\end{itemize}
+	
+	\hrulefill\\
+	\header{Task 1}
+	You already have the state space matrices in equations~\ref{eq:matrix A*} and \ref{eq:matrix B*}. Show the steps needed to derive these matrices from equations~\ref{eq:free body} and \ref{eq:circuit}. Linearize the magnetic ball suspension system using the state space approach about the equilibrium point $h_e=0.01~\si{m}$ (where nominal current is about 7~\si{\ampere}) and derive $\vec{A}^*$ and $\vec{B}^*$. Use $M=0.05~\si{kg}$, $K=0.0001$, $L=0.01~\si{H}$, $R=1~\si{\ohm}$, $g=9.81~\si{\meter\per\second\squared}$. In the output we will only be measuring the height of the ball $h(t)$.
+	
+	\header{Task 2} Use MATLAB to write a script to model the system using your linearized matrices. Implement in your code to find the poles of the system.
+	
+	\header{Task 3} Add a constant input $v(t) = 0$ with initial condition $x_0=[0.01~0~0]^T$ into your code and run a linear simulation in MATLAB to view the open loop response to the system.
+	
+	\header{Task 4} Repeat Task 3 in Simulink.
+	
+	\header{Task 5}
+	\begin{itemize}[nosep]
+		\item Use MATLAB’s own built-in function to convert the state space representation to transfer function representation
+		\item Use Equation~\ref{eq:transfer function from state-space} to compute transfer function from state space model symbolically in MATLAB. You will need to initialize the variable \texttt{s} with the function \texttt{tf()}.
+	\end{itemize}
+	
+	\newpage
+	\header{Post Lab 3} Since this is a post-lab, finding the appropriate functions is up to you. They can all be found by searching for keywords in MATLAB's help website.
+	
+	\begin{enumerate}[nosep]
+		\item Find the poles and zeroes of the system and generate a pole-zero map. Draw or printout that map in your notebook.
+		\item Comment on the output of Task 2 and the positions of the poles of the system. What do they tell you about system stability?
+		\item Do you think the system is stable? If yes, why?
+		\item Is the system observable with the output provided?
+		\item Is the system controllable with the inputs provided?
+%		\item Research online about what the observable matrix, $\mathcal{O}$, is and write a MATLAB code to find the observability of the system without using MATLAB’s native \texttt{obsv} function.
+%		\item Research online about what the controllability matrix, $\mathcal{C}$, is and write a MATLAB code to find the observability of the system without using MATLAB’s native \texttt{ctrb} function.
+	\end{enumerate}
+	\batchmode
+\end{document}	

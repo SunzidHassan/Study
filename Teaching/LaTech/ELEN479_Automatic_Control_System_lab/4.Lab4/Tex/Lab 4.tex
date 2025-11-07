@@ -1,0 +1,221 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[margin = 2cm]{geometry}
+\usepackage{circuitikz}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{placeins}
+\usepackage{booktabs}
+\usepackage{listings}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{\baselineskip}
+
+\newcommand{\header}[1]{\textcolor{CornflowerBlue}{\large #1}}
+\renewcommand{\title}[1]{\header{\large #1}}
+\newcommand{\link}[1]{\textcolor{Cyan}{#1}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\begin{document}
+	\scrollmode
+	\begin{centering}
+		\textbf{Louisiana Tech University\\
+			ELEN 479 Automatic Control Systems Lab\\
+			Lab 4\\}
+	\end{centering}
+	\vspace{\baselineskip}
+	\title{System Identification}
+	
+	\header{Objective:}
+	
+	To obtain
+	\begin{itemize}[nosep]
+		\item Pole, zero, gain values from a given transfer function
+		\item Pole, zero plot of a transfer function
+		\item Step response from a 2nd order Transfer Function of a Mass Spring Damper System for Underdamped, overdamped, critically-damped and undamped conditions
+		\item Bode plot of a 2nd order system
+		\item Frequency Domain Specification Parameters.
+	\end{itemize}
+	
+	\header{Theory:}
+	
+	A transfer function is known as the network function is a mathematical representation, in terms of spatial or temporal frequency, of the relation between the input and output of a system. The transfer function is the ratio of the output Laplace Transform to the input Laplace Transform assuming zero initial conditions. Many important characteristics of dynamic or control systems can be determined from the transfer function. The transfer function is commonly used in the analysis of single-input single-output electronic systems, for instance. It is mainly used in signal processing, communication theory, and control theory. The term is often used exclusively to refer to linear time-invariant systems (LTI).
+	
+	In its simplest form for continuous time input signal $x(t)$ and output $y(t)$, the transfer function is the linear mapping of the Laplace transform of the input, $\vec{X}(s)$, to the output $\vec{Y}(s)$. Zeros are the value(s) of $s$ where the numerator of the transfer function equals zero---the complex frequencies that make the overall gain of the filter transfer function zero. Poles are the value(s) of $s$ where the denominator of the transfer function equals zero---the complex frequencies that make the overall gain of the filter transfer function infinite. The general procedure to find the transfer function of a linear differential equation from input to output is to take the Laplace Transforms of both sides assuming zero conditions and to solve for the ratio of the output Laplace over the input Laplace. The transfer function provides a basis for determining important system response characteristics without solving the complete differential equation. As defined, the transfer function is a rational function of the complex variable $s$. It is often convenient to factor the polynomials in the numerator and the denominator and to write the transfer function in terms of those factors:
+	\begin{equation}
+		G(s) = \frac{N(s)}{D(s)} = K\frac{(s-z_1)(s-z_2)\dots(s-z_n)}{(s-p_1)(s-p_2)\dots(s-p_m)}
+	\end{equation}
+	where the numerator and denominator polynomials, $N(s)$ and $D(s)$. The values of $s$ for which $N(S) = 0$, are known as zeros of the system. i.e; at $s = z_1, z_2,\dots, z_n$. The values of $s$ for which $D(S) = 0$, are known as poles of the system. i.e; at $s = p_1, p_2,....., p_n$.
+	
+	The time response has utmost importance for the design and analysis of control systems because these are inherently time domain systems where time is independent variable. During the analysis of response, the variation of output with respect to time can be studied and it is known as time response. To obtain satisfactory performance of the system with respect to time must be within the specified limits. From time response analysis and corresponding results, the stability of system, accuracy of system and complete evaluation can be studied easily. Due to the application of an excitation to a system, the response of the system is known as time response and it is a function of time. The two parts of response of any system: Transient response; Steady-state response.
+	
+	\textbf{Transient response:} The part of the time response which goes to zero after large interval of time is known as transient response.
+	
+	\textbf{Steady state response:} The part of response that means even after the transients have died out is said to be steady state response. The total response of a system is sum of transient response and steady state response:
+	\begin{equation}
+		C(t)=Ctr(t)+Css(t)
+	\end{equation}
+	\textbf{Time Response Specification Parameters:} The transfer function of a second order system is generally represented by the following canonical transfer function:
+	\begin{equation}
+		\frac{Y(S)}{R(s)} = \frac{k_{dc}\omega_n^2}{s^2 + 2\zeta\omega_n s+ \omega_n^2} = \frac{1}{ms^2 + bs + k}
+	\end{equation}
+	The dynamic behavior of the second-order system can then be described in terms of three parameters: DC gain $k_{dc}$, the damping ratio $\zeta$ and the natural frequency $\omega_n$.
+	
+	\textbf{DC Gain:} The DC gain is the ratio of the magnitude of the steady-state step response to the magnitude of the step input, and for stable systems it is the value of the transfer function when $s=0$, For the forms given,
+	\begin{equation}
+		k_{dc} = \frac{1}{k}
+	\end{equation}
+	\textbf{Damping Ratio:} The damping ratio $\zeta$ is a dimensionless quantity characterizing the rate at which an oscillation in the system's response decays due to effects such as viscous friction or electrical resistance. From the above definitions,
+	\begin{equation}
+		\zeta = \frac{b}{2\sqrt{km}}
+	\end{equation}
+	
+	If the damping ratio is between 0 and 1, the system poles are complex conjugates and lie in the left-half $s$ plane. The system is then called underdamped, and the transient response is oscillatory. If the damping ratio is equal to 1 the system is called critically damped, and when the damping ratio is larger than 1 we have overdamped system. The transient response of critically damped and overdamped systems does not oscillate. If the damping ratio is 0, the transient response does not die out.
+	
+	\paragraph{Natural frequency:} The natural frequency $\omega_n$ is the frequency (in \si{\radian\per\second}) that the system will oscillate at when there is no damping ($\zeta = 0$) and is given by:
+	\begin{equation}
+		\omega_n = \sqrt{k}{m}
+	\end{equation}
+	Specifically for underdamped systems, the natural response oscillates with the damped natural frequency, given by
+	\begin{equation}
+		\omega_d = \omega_n \sqrt{1 - \zeta^2}
+	\end{equation}
+	\begin{figure}[hbt]
+		\centering
+		\includegraphics[width = 0.6\textwidth]{timing diagram_waifu2x_art_noise3_scale.png}
+		\caption{System response timing diagram}
+	\end{figure}
+	
+	\textbf{Delay time ($t_d$):} The delay time is the time required for the response to reach half the final value the very first time.
+	
+	\textbf{Rise time ($t_r$):} The rise time is the time required for the response to rise from 10\% to 90\%, 5\% to 95\%, or 0\% to 100\% of its final value. For underdamped second-order systems, the 10\% to 90\% rise time is normally used.
+	
+	\textbf{Peak time ($t_p$):} The peak time is the time required for the response to reach the first peak of the overshoot.
+	
+	\textbf{Percent overshoot ($M_p$):} The percent overshoot is the percent by which a system's step response exceeds its final steady-state value. For a second-order underdamped system, the percent overshoot $M_p$ is directly related to the damping ratio by the following equation. Here, $M_p$, is a decimal number where 1 corresponds to 100\% overshoot.
+	\begin{equation}
+		M_p = e^{\frac{-\zeta\pi}{\sqrt{1-\zeta^2}}}
+	\end{equation}
+	For second-order underdamped systems, the 1\% settling time, $t_s$, 10-90\% rise time, $t_r$, and percent overshoot, $M_p$, are related to the damping ratio and natural frequency as shown below:
+	\begin{align}
+		t_s &\approx \frac{4.6}{\zeta \omega_n}\\
+		t_r &\approx \frac{1.8}{\omega_n}\\
+		\zeta &\approx \frac{-\ln{M_p}}{\sqrt{\pi^2 + \ln^2{M_p}}}
+	\end{align}
+	
+	\textbf{Settling time ($t_s$):} The settling time is the time required for the response curve to reach and stay within a range about the final value of size specified by absolute percentage of the final value (usually 2\% or 5\%). The settling time is related to the largest time constant of the control system. The settling times for the most common tolerances are presented in Table~\ref{tab:settling times}.
+	\begin{table}[hbt]
+		\centering
+		\begin{tabular}{l | c c c c}
+		\toprule
+		& 10\% & 5\% & 2\% & 1\%\\
+		\midrule
+		$\displaystyle T_s =$ &
+		$\displaystyle \frac{2.3}{\zeta\omega_n}$ &
+		$\displaystyle \frac{3}{\zeta\omega_n}$ &
+		$\displaystyle \frac{3.9}{\zeta\omega_n}$ &
+		$\displaystyle \frac{4.6}{\zeta\omega_n}$\\
+		\bottomrule
+		\end{tabular}
+		\caption{\label{tab:settling times} Settling times for common tolerances}
+	\end{table}
+	
+	The order and relative degree of a system can be estimated from either the step response or the bode plot. The relative degree of a system is the difference between the orders of the denominator over the order of the numerator of the transfer function and is the lowest order the system can be.
+	
+	\textbf{Step Response:} If the response of the system to a non-zero step input has a zero slope when $t = 0$, the system must be second order or higher because the system has a relative degree of two or higher. If the step response shows oscillations, the system must be a second order or higher underdamped system and have a relative degree of two or higher.
+	
+	\textbf{Bode Plot:} The phase plot can be a good indicator of order. If the phase drops below $-90\si{\degree}$, the system must be second order or higher. The relative degree of the system has to be at least as great as the number of multiples of $-90\si{\degree}$ achieved asymptotically at the lowest point on the phase plot of the system.
+	
+	The frequency response method may be less intuitive than other methods you have studied previously. However, it has certain advantages, especially in real-life situations such as modeling transfer functions from physical data. The frequency response of a system can be viewed two different ways: via the Bode plot or via the Nyquist diagram. Both methods display the same information; the difference lies in the way the information is presented. We will explore one of these methods during this lab exercise.
+	
+	The frequency response is a representation of the system's response to sinusoidal inputs at varying frequencies. The output of a linear system to a sinusoidal input is a sinusoid of the same frequency but with a different magnitude and phase. The frequency response is defined as the magnitude and phase differences between the input and output sinusoids. In this lab, we will see how we can use the open-loop frequency response of a system to predict its behavior in closed loop. To plot the frequency response, we create a vector of frequencies (varying between zero or ``DC'' and infinity i.e., a higher value) and compute the value of the plant transfer function at those frequencies. If $G(s)$ is the open loop transfer function of a system and $\omega$ is the frequency vector, we then plot $G(j\omega)$ vs. $\omega$. Since $G(j\omega)$ is a complex number, we can plot both its magnitude and phase (the Bode plot) or its position in the complex plane (the Nyquist plot).
+	
+	The gain margin is defined as the change in open loop gain required to make the system unstable. Systems with greater gain margins can withstand greater changes in system parameters before becoming unstable in closed loop.
+	
+	The phase margin is defined as the change in open loop phase shift required to make a closed loop system unstable.
+	
+	\begin{figure}[hbt]
+		\centering
+		\includegraphics[width = 0.8\textwidth]{phase-gain margin_waifu2x_art_noise3_scale.png}
+		\caption{Phase margin and gain margin}
+	\end{figure}
+	
+	\newpage
+	\header{Lab Tasks}
+	
+	Modelling Transfer Function of second-order Mass-Spring-Damper System
+	
+	\begin{figure}[hbt]
+		\centering
+		\includegraphics[width = 0.35\textwidth]{mass-spring-damper.png}
+		\caption{Mass-spring-damper system diagram}
+	\end{figure}
+	
+	The free-body diagram for this system is shown below. The spring force is proportional to the displacement of the mass, $x$, and the viscous damping force is proportional to the velocity of the mass, $v=\dot{x}$. Both forces oppose the motion of the mass and are, therefore, shown in the negative x-direction. Note also that $x=0$ corresponds to the position of the mass when the spring is unstretched.
+	
+	\begin{figure}[hbt]
+		\centering
+		\includegraphics[width = 0.3\textwidth]{mass-spring-damper fbd.png}
+		\caption{Mass-spring-damper free body diagram}
+	\end{figure}
+	Now we proceed by summing the forces and applying Newton’s second law in each direction. In this case, there are no forces acting in the y-direction; however, in the x-direction we have:
+	\begin{equation}
+		\sum F_s = F(t) - b\frac{dx}{dt} - kx = m\frac{d^2x}{dt^2}
+	\end{equation}
+	This equation, known as the governing equation, completely characterizes the dynamic state of the system. The Laplace transform for this system assuming zero initial conditions is:
+	\begin{equation}
+		ms^2X(s) + bsX(s) + kX(s) = F(s)
+	\end{equation}
+	and, therefore, the transfer function from force input to displacement output is:
+	\begin{equation}
+		\frac{X(s)}{F(s)} = \frac{1}{ms^2 + bs + k}
+	\end{equation}
+	Now we will demonstrate how to create the transfer function model derived above within MATLAB. Enter the following commands into the m-file in which you defined the system parameters.
+	\begin{lstlisting}[basicstyle=\ttfamily, columns = fixed]
+s = tf('s');
+sys = 1/(m*s^2+b*s+k)
+	\end{lstlisting}
+	
+	\header{Function Reference}
+	
+	Most functions you will need were used in previous labs. The only thing that you may not know is how to use conditionals to filter matrices.
+	
+	Lets say that we have a set of sampling times \texttt{t~=~0:0.1:1} with an associated array initialized as \texttt{f~=~-(t~-~0.5).\textasciicircum2} (remember, the \texttt{.} ensures that any operation is done element by element). \texttt{f~>=~-0.1} would return the a matrix that shows which values in \texttt{f} are greater than -0.1. If you want to know all the times at which these values are greater than -0.1, then you can use that matrix we got to index our sampling matrix by writing \texttt{t(f~>=~-0.1)}.
+	
+	\header{Task 1} Write a MATLAB script to simulate and plot a step response over 50~s for mass spring damper system for underdamped, overdamped, critically-damped and undamped conditions. Let $k$ and $m$ be constant 1 and change $b$ to get your difference conditions.
+	\begin{itemize}[nosep]
+		\item Use the appropriate functions to determine the poles, zeros, and gains of each damping conditions and plot the Pole-zero Map. (Write these values down and sketch the map)
+		\item For the underdamped condition determine the peak time ($t_p$), 1\% settling time ($t_s$), 10-90\% rise time ($t_r$) and percent overshoot ($M_p$). (Write these down)
+	\end{itemize}
+	\header{Task 2} Write a MATLAB script to obtain the bode plots with all the damping conditions using the \texttt{bode} function.
+	
+	\header{Task 3} For underdamped systems, we also see a resonant peak near some natural frequency, the size and sharpness of the peak depends on the damping in the system, and is characterized by the quality factor, or Q-Factor, defined below. The Q-factor is an important property in signal processing.
+	\begin{equation*}
+		Q = \frac{1}{2\zeta}
+	\end{equation*}
+	What is the $Q$ for the underdamped system you simulated and what natural frequency is it occurring at?
+	
+	\newpage
+	\header{Post Lab:}
+	\begin{enumerate}
+		\item How are the mass, damping coefficient, and spring coefficient changing as we go through Task 1? Create a table to show the values of $m$, $b$, and $k$ for different damping conditions. What does it tell you about system response?
+		\item Discussion:
+		\begin{itemize}[nosep]
+			\item What do you mean by poles? What can it tell us about system stability?
+			\item What do you mean by rise time?
+			\item Why is less overshoot desired for practical systems?
+			\item What do you mean by GM \& PM?
+			\item How GM \& PM affects system?
+			\item What is gain cross over frequency?
+		\end{itemize}
+		\item Write a MATLAB script to determine the GM, PM, and associated frequencies for an open-loop discrete-time transfer function with dt=0.1 for the transfer function given below:
+		\begin{equation*}
+			G(s) = \frac{0.04798s + 0.0464}{s^2 - 1.81s + 0.9048}
+		\end{equation*}
+		Also display the gain and phase margins graphically.
+	\batchmode
+\end{document}
