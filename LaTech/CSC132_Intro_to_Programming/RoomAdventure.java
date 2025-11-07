@@ -114,7 +114,7 @@ public class RoomAdventure{
         String[] room1Items = {"chair", "desk"};
         String[] room1ItemDescriptions = {
             "It is a chair", 
-            "Its a desk, there is a key on it."
+            "It's a desk, there is a key on it."
         };
 
         String[] room1Grabbables = {"key"};
