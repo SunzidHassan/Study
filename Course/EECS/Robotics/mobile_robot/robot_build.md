@@ -2,8 +2,10 @@
 
 - [Table of Contents](#table-of-contents)
 - [Log](#log)
-  - [2025](#2025)
-    - [September](#september)
+  - [2025-](#2025-)
+    - [November, 2025](#november-2025)
+      - [November 11, 2025](#november-11-2025)
+    - [September, 2025](#september-2025)
 - [Docker for Robotics](#docker-for-robotics)
   - [ROS2 Dev Container Setup](#ros2-dev-container-setup)
 - [Making a Mobile Robot](#making-a-mobile-robot)
@@ -96,8 +98,12 @@
 
 ---
 # Log
-## 2025
-### September
+## 2025-
+### November, 2025
+#### November 11, 2025
+- Diffdrive Arduino installation fails. `git clone -b humble https://github.com/Buzzology/diffdrive_arduino.git` worked. 
+
+### September, 2025
 - Managed to run LiDAR, but not rplidar.launch.pi
 - Managed to run 
 
@@ -170,7 +176,7 @@ Create a workspace folder/src folder. Clone your packages. Go back to the worksp
 
 ### Adding Files
 
-You can copy `blue_bot` and `blue_bot_controller` folders to your `/src` folder and run:
+You can copy `blue_bot` and `blue_bot_controller` folders to your `/src` folder, change directory to the ws folder, and run:
 
 ```bash
 colcon build --symlink-install
@@ -1573,6 +1579,7 @@ colcon build --symlink-install
 
 source install/setup.bash
 ```
+If `diffdrive_arduino` build fails, try `git clone -b humble https://github.com/Buzzology/diffdrive_arduino.git`
 
 #### Update the URDF
 Connect to the Pi using vscode remote host (ssh) to udpate the `ros2_control.xacro` and to create/update `launch_robot.launch.py`.
@@ -1696,7 +1703,7 @@ return LaunchDescription([
 
 #### Testing the real robot
 Prop up the robot.
-- Run the `launch_robot.launch.py` script on the Pi via SSH.
+- Run the `ros2 launch bluebot_one launch_robot.launch.py` script on the Pi via SSH.
 - Start RViz on the development machine, with the fixed frame set to `odom`. Run `teleop_twist_keyboard` with topics remapped:
 ```bash
 # for humble
