@@ -101,7 +101,12 @@
 ## 2025-
 ### November, 2025
 #### November 11, 2025
-- Diffdrive Arduino installation fails. `git clone -b humble https://github.com/Buzzology/diffdrive_arduino.git` worked. 
+- [x] Diffdrive Arduino installation fails. `git clone -b humble https://github.com/Buzzology/diffdrive_arduino.git` worked.
+- [ ] Teleop operation not working.
+  - [x] Check if motor control over serial works -> it works for `/dev/ttyACM0`.
+  - [x] Check if serial_motor_demo GUI control works -> it works. So the hardware connections are OK.
+  - [ ] Go through the lessons one at a time.
+    - [ ] ros2 control
 
 ### September, 2025
 - Managed to run LiDAR, but not rplidar.launch.pi
@@ -254,7 +259,7 @@ Now add a new file `robot_core.xacro` in the same directory.
 Install joint_state_publisher_gui:
 
 ```bash
-sudo apt install ros-jazzy-joint-state-publisher-gui
+sudo apt install ros-${ROS_DISTRO}-joint-state-publisher-gui
 ```
 
 ---
@@ -889,7 +894,7 @@ Arduino		Encoder pin
 - A5		Right B (Right Green)
 
 - Install pyserial
-- Check the USB in which the Arduino is connected (e.g., `/dev/ttyUSB0` or `/dev/ttyACM0`)
+- Check the USB in which the Arduino is connected (e.g., `/dev/ttyUSB0` or `/dev/ttyACM0`). You can unplug the Arduino, run `ls -l /dev/tty*`, plugin Arduino and run `ls -l /dev/tty*` again, and check the difference.
 - Check if the motor control works using pyserial (by sending serial command): `python3 -m serial.tools.miniterm /dev/ttyUSB0 57600 --echo` or `python3 -m serial.tools.miniterm /dev/ttyACM0 57600 --echo`
   - `e` for checking current speed
   - `r` to reset
@@ -1703,7 +1708,7 @@ return LaunchDescription([
 
 #### Testing the real robot
 Prop up the robot.
-- Run the `ros2 launch bluebot_one launch_robot.launch.py` script on the Pi via SSH.
+- Run the `ros2 launch bluebot_one launch_robot.launch.py` script on the Pi via SSH. You also may need to run `ros2 run joint_state_publisher_gui joint_state_publisher_gui` for the wheels.
 - Start RViz on the development machine, with the fixed frame set to `odom`. Run `teleop_twist_keyboard` with topics remapped:
 ```bash
 # for humble
