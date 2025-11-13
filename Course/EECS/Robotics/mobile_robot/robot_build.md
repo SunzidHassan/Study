@@ -4,6 +4,7 @@
 - [Log](#log)
   - [2025-](#2025-)
     - [November, 2025](#november-2025)
+      - [November 12, 2025](#november-12-2025)
       - [November 11, 2025](#november-11-2025)
     - [September, 2025](#september-2025)
 - [Docker for Robotics](#docker-for-robotics)
@@ -100,13 +101,19 @@
 # Log
 ## 2025-
 ### November, 2025
+#### November 12, 2025
+  - [x] launch_sim.launch.py works with humble teleop.
+  - [x] Matched the config, description and lanunch failes against articubot_one new_gazebo branch files - they match.
+  - [x] Check the launch_robot.launch.py error with gemini - changed <plugin>diffdrive_arduino/DiffDriveArduinoHardware</plugin> to <plugin>diffdrive_arduino/DiffDriveArduino</plugin>, added use_stamped: false to twist_mux.yaml, checked URDF files - still <ros2_control name = "RealRobot" ...> is failing.
+  - [ ] Go through the lessons one at a time.
+    - [ ] ros2 control
+
 #### November 11, 2025
 - [x] Diffdrive Arduino installation fails. `git clone -b humble https://github.com/Buzzology/diffdrive_arduino.git` worked.
 - [ ] Teleop operation not working.
   - [x] Check if motor control over serial works -> it works for `/dev/ttyACM0`.
   - [x] Check if serial_motor_demo GUI control works -> it works. So the hardware connections are OK.
-  - [ ] Go through the lessons one at a time.
-    - [ ] ros2 control
+
 
 ### September, 2025
 - Managed to run LiDAR, but not rplidar.launch.pi
