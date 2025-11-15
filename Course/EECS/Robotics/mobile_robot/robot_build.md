@@ -4,6 +4,7 @@
 - [Log](#log)
   - [2025-](#2025-)
     - [November, 2025](#november-2025)
+      - [November 14, 2025](#november-14-2025)
       - [November 12, 2025](#november-12-2025)
       - [November 11, 2025](#november-11-2025)
     - [September, 2025](#september-2025)
@@ -101,12 +102,18 @@
 # Log
 ## 2025-
 ### November, 2025
+#### November 14, 2025
+- [x] Realized that Pi uses ROS Jazzy - whereas the drivers and code assume ROS humble -> try the Jetson again.
+- [x] While Jazzy fails, Humble runs launch_robot.launch.py.
+- [x] LiDAR works.
+- [ ] But the wheels still don't rotate for unstamped Teleop.
+  - [x] Pyserial still works.
+- [ ] Why did I shifted from Jetson to Pi -> I think the camera wasn't working right, and I need a new battery/chassis to support it.
+
 #### November 12, 2025
-  - [x] launch_sim.launch.py works with humble teleop.
-  - [x] Matched the config, description and lanunch failes against articubot_one new_gazebo branch files - they match.
-  - [x] Check the launch_robot.launch.py error with gemini - changed <plugin>diffdrive_arduino/DiffDriveArduinoHardware</plugin> to <plugin>diffdrive_arduino/DiffDriveArduino</plugin>, added use_stamped: false to twist_mux.yaml, checked URDF files - still <ros2_control name = "RealRobot" ...> is failing.
-  - [ ] Go through the lessons one at a time.
-    - [ ] ros2 control
+- [x] launch_sim.launch.py works with humble teleop.
+- [x] Matched the config, description and lanunch failes against articubot_one new_gazebo branch files - they match.
+- [x] Check the launch_robot.launch.py error with gemini - changed <plugin>diffdrive_arduino/DiffDriveArduinoHardware</plugin> to <plugin>diffdrive_arduino/DiffDriveArduino</plugin>, added use_stamped: false to twist_mux.yaml, checked URDF files - still <ros2_control name = "RealRobot" ...> is failing.
 
 #### November 11, 2025
 - [x] Diffdrive Arduino installation fails. `git clone -b humble https://github.com/Buzzology/diffdrive_arduino.git` worked.
@@ -900,9 +907,9 @@ Arduino		Encoder pin
 - A4		Right A (Right Yellow)
 - A5		Right B (Right Green)
 
-- Install pyserial
+- Install pyserial (`pip install pyserial`)
 - Check the USB in which the Arduino is connected (e.g., `/dev/ttyUSB0` or `/dev/ttyACM0`). You can unplug the Arduino, run `ls -l /dev/tty*`, plugin Arduino and run `ls -l /dev/tty*` again, and check the difference.
-- Check if the motor control works using pyserial (by sending serial command): `python3 -m serial.tools.miniterm /dev/ttyUSB0 57600 --echo` or `python3 -m serial.tools.miniterm /dev/ttyACM0 57600 --echo`
+- Check if the motor control works using pyserial (by sending serial command): (in Pi) `python3 -m serial.tools.miniterm /dev/ttyUSB0 57600 --echo` or (in Jetson) `python3 -m serial.tools.miniterm /dev/ttyACM0 57600 --echo`
   - `e` for checking current speed
   - `r` to reset
   - `o (+/-)0-255 (+/-)0-255` for spinning at variable speed with open-loop control
@@ -1579,13 +1586,14 @@ sudo apt update && sudo apt upgrade -y && sudo apt install -y \
   ros-${ROS_DISTRO}-ros2-controllers \
   ros-${ROS_DISTRO}-gz-ros2-control \
   ros-${ROS_DISTRO}-ros-gz
-sudo apt install libserial-dev
 
 # sudo apt install ros-${ROS_DISTRO}-ros2-control ros-${ROS_DISTRO}-ros2-controllers ros-${ROS_DISTRO}-gazebo-ros2-control
 
+sudo apt install libserial-dev
+
 cd robot_ws/src
 git clone https://github.com/joshnewans/serial
-git clone https://github.com/joshnewans/diffdrive_arduino
+git clone -b humble https://github.com/joshnewans/diffdrive_arduino
 cd ..
 colcon build --symlink-install
 
