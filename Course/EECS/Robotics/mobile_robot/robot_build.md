@@ -4,6 +4,7 @@
 - [Log](#log)
   - [2025-](#2025-)
     - [November, 2025](#november-2025)
+      - [November 15, 2025](#november-15-2025)
       - [November 14, 2025](#november-14-2025)
       - [November 12, 2025](#november-12-2025)
       - [November 11, 2025](#november-11-2025)
@@ -102,13 +103,33 @@
 # Log
 ## 2025-
 ### November, 2025
+#### November 15, 2025
+- [x] cmd_vel was working for TwistStamped, not for Twist. After the below update
+```yaml
+# twist_mux.yaml
+ros__parameters:
+  # adding cmd_vel_out
+  cmd_vel_out: "/diff_cont/cmd_vel_unstamped"
+
+# my_controllers_blue.yaml
+diff_cont:
+  ros__parameters:
+    # adding use_stamped_vel: false
+    use_stamped_vel: false
+```
+Now `ros2 run teleop_twist_keyboard teleop_twist_keyboard` worked.
+- [ ] Now I want to shift focus to:
+  1. [ ] Agent design
+  2. [ ] Hardware design: new battery, convenient and robust chassis
+
+
 #### November 14, 2025
 - [x] Realized that Pi uses ROS Jazzy - whereas the drivers and code assume ROS humble -> try the Jetson again.
 - [x] While Jazzy fails, Humble runs launch_robot.launch.py.
 - [x] LiDAR works.
 - [ ] But the wheels still don't rotate for unstamped Teleop.
   - [x] Pyserial still works.
-- [ ] Why did I shifted from Jetson to Pi -> I think the camera wasn't working right, and I need a new battery/chassis to support it.
+Why did I shifted from Jetson to Pi -> I think the camera wasn't working right, and I need a new battery/chassis to support it.
 
 #### November 12, 2025
 - [x] launch_sim.launch.py works with humble teleop.
