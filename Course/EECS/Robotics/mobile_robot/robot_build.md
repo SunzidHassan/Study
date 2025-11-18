@@ -4,11 +4,15 @@
 - [Log](#log)
   - [2025-](#2025-)
     - [November, 2025](#november-2025)
+      - [November 18, 2025](#november-18-2025)
+      - [November 17, 2025](#november-17-2025)
       - [November 15, 2025](#november-15-2025)
       - [November 14, 2025](#november-14-2025)
       - [November 12, 2025](#november-12-2025)
       - [November 11, 2025](#november-11-2025)
     - [September, 2025](#september-2025)
+    - [August, 2025](#august-2025)
+      - [August 11, 2025](#august-11-2025)
 - [Docker for Robotics](#docker-for-robotics)
   - [ROS2 Dev Container Setup](#ros2-dev-container-setup)
 - [Making a Mobile Robot](#making-a-mobile-robot)
@@ -103,6 +107,28 @@
 # Log
 ## 2025-
 ### November, 2025
+#### November 18, 2025
+1. [ ] Agent design
+  - [x] Agent Studio WhisperASR wasn't working
+  ```bash
+  jetson-containers run --env HUGGINGFACE_TOKEN=$HUGGINGFACE_TOKEN \
+  $(autotag nano_llm) \
+  /bin/bash
+
+  #then run
+  root@jetson:/opt/NanoLLM: pip install openai-whisper==20240927 --index-url https://pypi.org/simple
+
+  # after finishing
+  python3 -m nano_llm.studio
+  ```
+  - [x] The LLM that worked once: Hermes-2-Pro-LI - q3f16_0 quantization.5
+  
+2. [ ] Hardware design: new battery, convenient and robust chassis
+
+
+#### November 17, 2025
+- [x] The robot dropped sideways, and now the left wheel is continuously rotating backwards -> the D5 got connected to D0 - swapping them solved the issue.
+
 #### November 15, 2025
 - [x] cmd_vel was working for TwistStamped, not for Twist. After the below update
 ```yaml
@@ -118,10 +144,6 @@ diff_cont:
     use_stamped_vel: false
 ```
 Now `ros2 run teleop_twist_keyboard teleop_twist_keyboard` worked.
-- [ ] Now I want to shift focus to:
-  1. [ ] Agent design
-  2. [ ] Hardware design: new battery, convenient and robust chassis
-
 
 #### November 14, 2025
 - [x] Realized that Pi uses ROS Jazzy - whereas the drivers and code assume ROS humble -> try the Jetson again.
@@ -146,6 +168,10 @@ Why did I shifted from Jetson to Pi -> I think the camera wasn't working right, 
 ### September, 2025
 - Managed to run LiDAR, but not rplidar.launch.pi
 - Managed to run 
+
+### August, 2025
+#### August 11, 2025
+- [x] Use original Arduino for Jetson
 
 # Docker for Robotics
 
