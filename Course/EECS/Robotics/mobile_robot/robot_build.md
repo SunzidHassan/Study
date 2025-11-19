@@ -4,6 +4,7 @@
 - [Log](#log)
   - [2025-](#2025-)
     - [November, 2025](#november-2025)
+      - [November 19, 2025](#november-19-2025)
       - [November 18, 2025](#november-18-2025)
       - [November 17, 2025](#november-17-2025)
       - [November 15, 2025](#november-15-2025)
@@ -107,6 +108,9 @@
 # Log
 ## 2025-
 ### November, 2025
+#### November 19, 2025
+- [ ] Do custom model instead of agent studio.
+
 #### November 18, 2025
 1. [ ] Agent design
   - [x] Agent Studio WhisperASR wasn't working
@@ -121,7 +125,7 @@
   # after finishing
   python3 -m nano_llm.studio
   ```
-  - [x] The LLM that worked once: Hermes-2-Pro-LI - q3f16_0 quantization.5
+  - [x] The LLM that worked once: Hermes-2-Pro-LI - q3f16_0 quantization. And then it failed!
   
 2. [ ] Hardware design: new battery, convenient and robust chassis
 
