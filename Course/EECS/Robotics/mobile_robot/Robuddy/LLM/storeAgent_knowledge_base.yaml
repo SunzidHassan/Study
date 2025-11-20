@@ -1,0 +1,25 @@
+products:
+  milk:
+    aisle: 5
+    default_coordinates: [12.3, 4.7]
+    brands:
+      - name: Brand A
+        coordinates: [12.1, 4.5]
+        description: Low-fat dairy milk, high calcium.
+        price: 2.99
+        stock: 50
+      - name: Brand B
+        coordinates: [12.5, 4.9]
+        description: Full-cream organic milk.
+        price: 3.49
+        stock: 30
+
+promotions:
+  - item: Brand B Milk
+    deal: Buy 2 get 1 free
+    valid_until: 2025-07-15
+
+policies:
+  - Returns accepted within 7 days with receipt
+  - Customer assistance available at every aisle call button
+  - Free Wi-Fi available in the store

@@ -42,24 +42,3 @@ etc.
 etc.
 
 ...
-
-Actual Information:
-1. Product
-- Milk
-  - Both organic, non-organic, low-fat, and whole milk is available in this store.
-  - Location: Aisle - 5
-  - Milk types
-    - Whole milk
-      - Price: 2.99
-      - Details: This milk has full fat.
-      - Location: Aisle - 5 - top shelf.
-      - Promotional offer: none.
-    - Low fat milk
-      - Price: 2.5
-      - Details: Low-fat dairy milk with smooth taste and high calcium.
-      - Location: Aisle - 5 - middle shelf.
-      - Promotional offer: Buy 2 get 1 free.
-
-2. Store Policies
-  - Returns accepted within 7 days with receipt
-  - Free Wi-Fi available in the store

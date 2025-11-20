@@ -1,0 +1,10 @@
+transformers
+piper-tts
+pyyaml
+sounddevice
+
+pvporcupine
+soundfile
+librosa
+matplotlib
+scipy
