@@ -81,6 +81,7 @@
         - [Getting feedback using RViz2](#getting-feedback-using-rviz2)
     - [SLAM](#slam)
       - [ROS and SLAM](#ros-and-slam)
+        - [Using map](#using-map)
       - [Running on real robot](#running-on-real-robot)
     - [Phone Control](#phone-control)
     - [Nav2](#nav2)
@@ -1849,6 +1850,8 @@ ros2 launch slam_toolbox online_async_launch.py params_file:=./src/bluebot_one/c
 In RViz, add map and set topic to `\map`, and change the Fixed Frame to `map` (this'll make the map steady, while the robot can jump around). Now driving the robot will udpate the map. You can change your view from Orbit (RViz default) to TopDownOrthographic. Now, returning to the map origin will land it very close to origin in Gazebo, while the odom has drifted.
 
 Running `ros2 service list` shows options to save map. But it also has a RViz plugin (Panels Tab > Add new Panel > SlamToolboxPlugin). You can use `Save Map` to save it in old format, and `Serialize Map` to save map that can be used with `slam_toolbox`. Go to the `mapper_params_online_async.yaml` file and change `mode: localization`. For `map_file_name: `, write the path to the saved map (e.g., `/home/dev/dev_ws/my_map_serial`). Set `map_start_at_dock` to `true`. Then rerun the `slam_toolbox`.  
+
+##### Using map
 
 Once we've built our map, we can use it with other systems like the AMCL (Adaptive Monte Carlo Localisation).  
 
