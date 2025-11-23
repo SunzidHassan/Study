@@ -1,19 +1,6 @@
 # Table of Contents
 
 - [Table of Contents](#table-of-contents)
-- [Log](#log)
-  - [2025-](#2025-)
-    - [November, 2025](#november-2025)
-      - [November 19, 2025](#november-19-2025)
-      - [November 18, 2025](#november-18-2025)
-      - [November 17, 2025](#november-17-2025)
-      - [November 15, 2025](#november-15-2025)
-      - [November 14, 2025](#november-14-2025)
-      - [November 12, 2025](#november-12-2025)
-      - [November 11, 2025](#november-11-2025)
-    - [September, 2025](#september-2025)
-    - [August, 2025](#august-2025)
-      - [August 11, 2025](#august-11-2025)
 - [Docker for Robotics](#docker-for-robotics)
   - [ROS2 Dev Container Setup](#ros2-dev-container-setup)
 - [Making a Mobile Robot](#making-a-mobile-robot)
@@ -105,77 +92,6 @@
   - [New Gazebo](#new-gazebo)
 
 ---
-# Log
-## 2025-
-### November, 2025
-#### November 19, 2025
-- [ ] Do custom model instead of agent studio.
-
-#### November 18, 2025
-1. [ ] Agent design
-  - [x] Agent Studio WhisperASR wasn't working
-  ```bash
-  jetson-containers run --env HUGGINGFACE_TOKEN=$HUGGINGFACE_TOKEN \
-  $(autotag nano_llm) \
-  /bin/bash
-
-  #then run
-  root@jetson:/opt/NanoLLM: pip install openai-whisper==20240927 --index-url https://pypi.org/simple
-
-  # after finishing
-  python3 -m nano_llm.studio
-  ```
-  - [x] The LLM that worked once: Hermes-2-Pro-LI - q3f16_0 quantization. And then it failed!
-  
-2. [ ] Hardware design: new battery, convenient and robust chassis
-
-
-#### November 17, 2025
-- [x] The robot dropped sideways, and now the left wheel is continuously rotating backwards -> the D5 got connected to D0 - swapping them solved the issue.
-
-#### November 15, 2025
-- [x] cmd_vel was working for TwistStamped, not for Twist. After the below update
-```yaml
-# twist_mux.yaml
-ros__parameters:
-  # adding cmd_vel_out
-  cmd_vel_out: "/diff_cont/cmd_vel_unstamped"
-
-# my_controllers_blue.yaml
-diff_cont:
-  ros__parameters:
-    # adding use_stamped_vel: false
-    use_stamped_vel: false
-```
-Now `ros2 run teleop_twist_keyboard teleop_twist_keyboard` worked.
-
-#### November 14, 2025
-- [x] Realized that Pi uses ROS Jazzy - whereas the drivers and code assume ROS humble -> try the Jetson again.
-- [x] While Jazzy fails, Humble runs launch_robot.launch.py.
-- [x] LiDAR works.
-- [ ] But the wheels still don't rotate for unstamped Teleop.
-  - [x] Pyserial still works.
-Why did I shifted from Jetson to Pi -> I think the camera wasn't working right, and I need a new battery/chassis to support it.
-
-#### November 12, 2025
-- [x] launch_sim.launch.py works with humble teleop.
-- [x] Matched the config, description and lanunch failes against articubot_one new_gazebo branch files - they match.
-- [x] Check the launch_robot.launch.py error with gemini - changed <plugin>diffdrive_arduino/DiffDriveArduinoHardware</plugin> to <plugin>diffdrive_arduino/DiffDriveArduino</plugin>, added use_stamped: false to twist_mux.yaml, checked URDF files - still <ros2_control name = "RealRobot" ...> is failing.
-
-#### November 11, 2025
-- [x] Diffdrive Arduino installation fails. `git clone -b humble https://github.com/Buzzology/diffdrive_arduino.git` worked.
-- [ ] Teleop operation not working.
-  - [x] Check if motor control over serial works -> it works for `/dev/ttyACM0`.
-  - [x] Check if serial_motor_demo GUI control works -> it works. So the hardware connections are OK.
-
-
-### September, 2025
-- Managed to run LiDAR, but not rplidar.launch.pi
-- Managed to run 
-
-### August, 2025
-#### August 11, 2025
-- [x] Use original Arduino for Jetson
 
 # Docker for Robotics
 
@@ -1825,9 +1741,16 @@ cd dev_ws/
 sudo apt install joystick jstest-gtk evtest
 evtest # typing event number will enable testing the gamepad in Linux
 ```
+
+```bash
+sudo apt-get install ros-${ROS_DISTRO}-joy ros-${ROS_DISTRO}-teleop-twist-joy
+```
+
+
 Linux Joystick Driver > Joy Node (talks to Linux driver) > /joy (topic sensor messages /joy - list of buttons and axis values we're pressing) > teleop_twist_joy (message) > /cmd_vel
 
 ```bash
+ls /dev/input/js* # shows possible usb controllers
 ros2 run joy joy_enumerate_devices # shows plugged in controllers
 ros2 run joy joy_node # run joy node
 ```
@@ -1905,13 +1828,14 @@ Now we'll add `base_footprint` link in our `robot_core.xacro` file under the `ba
 
 We'll also install:
 ```bash
-sudo apt update && sudo apt upgrade -y && sudo apt install -y ros-${ROS_DISTRO}-slam-toolbox
+sudo apt update && sudo apt upgrade
+sudo apt install -y ros-${ROS_DISTRO}-slam-toolbox
 ```
 SLAM toolbox has many modes. We'll use -
 - `Online`: working on a live data stream rather than recorded logs.
 - `Asynchronous`: always process the latest scan to avoid lagging, even if it skips scans.
 
-SLAM toolbox comes with launcher and param files - we'll copy a params file in our directory.
+SLAM toolbox comes with launcher and param files - we'll copy a params file in our directory (probably already done).
 
 ```bash
 cp /opt/ros/${ROS_DISTRO}/share/slam_toolbox/config/mapper_params_online_async.yaml dev_ws/src/bluebot_one/config/
