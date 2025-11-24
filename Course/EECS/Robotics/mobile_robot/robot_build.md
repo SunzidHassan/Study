@@ -1857,9 +1857,16 @@ Once we've built our map, we can use it with other systems like the AMCL (Adapti
 
 Now install Nav2 from the [Getting Started with Nav2](https://docs.nav2.org/getting_started/index.html).
 
+```bash
+sudo apt install ros-${ROS_DISTRO}-navigation2
+sudo apt install ros-${ROS_DISTRO}-nav2-bringup
+```
+
 We'll now start a `map_server` node that take the saved map and makes it avaiable as `/map` topic. We'll run
 ```bash
-ros2 run nav2_map_server map_serve --ros-args -p yaml_file_name:=my_map_save.yaml -p use_sim_time:=true
+ros2 run nav2_map_server map_server --ros-args \
+-p yaml_filename:=map_save.yaml \
+-p use_sim_time:=true
 ```
 In a new tab
 ```bash
