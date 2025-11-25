@@ -1909,14 +1909,14 @@ Wait for the map to appear, and change the fixed frame to map. You can also run 
 
 ### Nav2
 
-Plan and execute a safe trajectory from an initial pose to a target pose. The robot needs position estimate, which is provided by SLAM. We also need obstacle awareness, which can come from a existing static map or live Lidar data. Existing map and Lidar data is fused in a `Costmap` - where a high cost region may have obstacle, and low cost region is safe to go to.
+Plan and execute a safe trajectory from an initial pose to a target pose. The robot needs position estimate, which is provided by SLAM. We also need obstacle awareness, which can come from a existing static map or live Lidar data. Existing map and Lidar data is fused in a `Costmap` - where a high cost region may have obstacle, and low cost region is safe to go to. `Costmap` is different than a static `SLAM` map.
 
 ```bash
 sudo apt update && sudo apt upgrade -y && sudo apt install -y \
   ros-${ROS_DISTRO}-twist-mux
 ```
 
-nav2 stack publishes to `/cmd_vel`, but we need `/diff_cont/cmd_vel_unstamped`. We'll use `twist_mux` that'll take `/cmd_vel_joy` and `/cmd_vel` out to `/diff_cont/cmd_vel_unstamped`
+nav2 stack publishes to `/cmd_vel`, but we need `/diff_cont/cmd_vel_unstamped`. We'll use `twist_mux` that'll takes and prioritizes different topics (e.g., take `/cmd_vel_joy` from controller and `/cmd_vel` from nav2) and generates output (e.g., `/cmd_vel_out` remapped to `/diff_cont/cmd_vel_unstamped`).
 
 in config folder, create a new file `twist_mux.yaml`.
 
@@ -1935,8 +1935,7 @@ teleop_node = Node(
         remappings=[('/cmd_vel','/cmd_vel_joy')]
       )
 ```
-
-Now launch the launch_sim.launch.py. In a new tab run the `slam_toolbox` to generate map. In a new tab run nav2
+Now launch the simulation (launch_sim.launch.py) and rviz. In a new tab run the `slam_toolbox` to generate map. In a new tab run nav2
 ```bash
 ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true
 ```
@@ -1951,7 +1950,7 @@ On RViz, we can add a new panel navigation 2, and a new tool navigation2 goal. U
 Once we have a map, we can keep using it for localization, and use it with nav2. Run simulation, joystick control, RViz and twist_mux. Now instead of running the slam_toolbox, run
 
 ```bash
-ros2 launch nav2_bringup localization_launcy.py map:=./my_map_save.yaml use_sim_time:=true
+ros2 launch nav2_bringup localization_launch.py map:=./my_map_save.yaml use_sim_time:=true
 ```
 
 Set map Topic>Durability to Transient Local. In another tab, run nav2 in another terminal with an extra parameter specifying it needs to subscribe to transient_local.
