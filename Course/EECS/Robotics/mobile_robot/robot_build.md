@@ -4,8 +4,7 @@
 - [Docker for Robotics](#docker-for-robotics)
   - [ROS2 Dev Container Setup](#ros2-dev-container-setup)
 - [Making a Mobile Robot](#making-a-mobile-robot)
-  - [bluebot\_one](#bluebot_one)
-  - [bluebotone\_controller](#bluebotone_controller)
+  - [Setup Summary](#setup-summary)
   - [Project Overview](#project-overview)
     - [Making a Package](#making-a-package)
     - [Workspace Folder](#workspace-folder)
@@ -137,12 +136,75 @@ In terminal, and rebuild container.
 ---
 
 # Making a Mobile Robot
-## bluebot_one
+## Setup Summary
 - build the physical robot
 - clone and build package
 - test the launcher files
 
-## bluebotone_controller
+Devcontainer setup - in runArgs, add:
+```json
+  "--gpus","all",
+	"--env", "NVIDIA_DRIVER_CAPABILITIES=all",
+	"-v", "/dev/input:/dev/input"
+```
+
+Install ROS2
+
+```bash
+nano ~/.bashrc  
+# add: source /opt/ros/${ROS_DISTRO}/setup.bash  
+source ~/.bashrc  
+```
+
+Inside the workspace folder:
+```bash
+mkdir src && cd src
+git clone https://ACCESS_TOKEN@github.com/SunzidHassan/bluebot_one.git
+git clone https://ACCESS_TOKEN@github.com/SunzidHassan/bluebotOne_controller.git
+git clone https://github.com/joshnewans/serial
+git clone -b humble https://github.com/joshnewans/diffdrive_arduino
+cd ..
+colcon build --symlink-install
+source install/setup.bash
+
+sudo apt update && sudo apt upgrade
+
+sudo apt install -y ros-${ROS_DISTRO}-ros-gz
+
+sudo apt install -y ros-${ROS_DISTRO}-rplidar-ros
+
+sudo apt install -y ros-${ROS_DISTRO}-image-transport-plugins
+sudo apt install -y ros-${ROS_DISTRO}-rqt-image-view
+
+sudo apt install libraspberrypi-bin v4l-utils ros-${ROS_DISTRO}-v4l2-camera ros-${ROS_DISTRO}-image-transport-plugins
+sudo apt-get install -y ros-$ROS_DISTRO-camera-ros # for jazzy
+
+groups # check if video is in groups, if not:
+sudo usermod -aG video $USER # add video to group > reboot
+sudo apt install -y ros-${ROS_DISTRO}-rqt-image-view
+
+sudo apt install -y ros-${ROS_DISTRO}-joint-state-publisher-gui
+
+sudo apt install -y ros-${ROS_DISTRO}-ros2-control ros-${ROS_DISTRO}-ros2-controllers ros-${ROS_DISTRO}-gz-ros2-control
+
+sudo apt install \
+  ros-${ROS_DISTRO}-twist-mux \
+  ros-${ROS_DISTRO}-twist-stamper \
+  ros-${ROS_DISTRO}-ros2-control \
+  ros-${ROS_DISTRO}-ros2-controllers \
+  ros-${ROS_DISTRO}-gz-ros2-control \
+
+sudo apt install -y libserial-dev
+
+sudo apt install joystick jstest-gtk evtest
+
+sudo apt install -y ros-${ROS_DISTRO}-slam-toolbox
+
+sudo apt install -y ros-${ROS_DISTRO}-navigation2
+sudo apt install -y ros-${ROS_DISTRO}-nav2-bringup
+```
+
+
 
 ## Project Overview
 
