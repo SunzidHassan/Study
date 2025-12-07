@@ -158,15 +158,6 @@ source ~/.bashrc
 
 Inside the workspace folder:
 ```bash
-mkdir src && cd src
-git clone https://ACCESS_TOKEN@github.com/SunzidHassan/bluebot_one.git
-git clone https://ACCESS_TOKEN@github.com/SunzidHassan/bluebotOne_controller.git
-git clone https://github.com/joshnewans/serial
-git clone -b humble https://github.com/joshnewans/diffdrive_arduino
-cd ..
-colcon build --symlink-install
-source install/setup.bash
-
 sudo apt update && sudo apt upgrade
 
 sudo apt install -y ros-${ROS_DISTRO}-ros-gz
@@ -202,6 +193,15 @@ sudo apt install -y ros-${ROS_DISTRO}-slam-toolbox
 
 sudo apt install -y ros-${ROS_DISTRO}-navigation2
 sudo apt install -y ros-${ROS_DISTRO}-nav2-bringup
+
+mkdir src && cd src
+git clone https://ACCESS_TOKEN@github.com/SunzidHassan/bluebot_one.git
+git clone https://ACCESS_TOKEN@github.com/SunzidHassan/bluebotOne_controller.git
+git clone https://github.com/joshnewans/serial
+git clone -b humble https://github.com/joshnewans/diffdrive_arduino
+cd ..
+colcon build --symlink-install
+source install/setup.bash
 ```
 
 
