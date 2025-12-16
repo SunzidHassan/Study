@@ -89,7 +89,56 @@ $\left[\begin{array}{ccc}
 \end{array}\right]$
 
 ### 6.4 The Determinant of a Matrix
+#### 6.14
+Suppose A is a square matrix.
+1. If $A=[a]$ is a $1\times 1$ matrix, then $\det A=a$
+2. If $A$ is an $n\times n$ matrix, with $n\gt 1$, the minor $M_{ij}$ is the determinant of the $(n-1)\times(n-1)$ submatrix of $A$ obtained by deleting the i-th row and j-th column of the matrix $A$.
+3. The cofactor $A_{ij}$ associated with $M_{ij}$ is defined by $A_{ij}=(-1)^{i+j}M_{ij}$
+4. The determinant of the $n\times n$ matrix $A$, when $n\gt 1$, is given either by
+$$
+\det A = \sum_{j=1}^{n} a_{ij}A_{ij} = \sum_{j=1}^{n} (-1)^{i+j} a_{ij}M_{ij}, \quad \text{for any } i = 1, 2, \ldots, n,
+$$
 
+or by
+
+$$
+\det A = \sum_{i=1}^{n} a_{ij}A_{ij} = \sum_{i=1}^{n} (-1)^{i+j} a_{ij}M_{ij}, \quad \text{for any } j = 1, 2, \ldots, n.
+$$
+
+#### 6.4 Exercise
+##### 6.4 Exercise - 1c
+$\left[\begin{array}{cccc}
+1 & 1 & -1 & 1\\
+1 & 2 & -4 & -2\\
+2 & 1 & 1 & 5\\
+-1 & 0 & -2 & -4\\
+\end{array}\right]=A$
+
+$\det A=(-1)^{4+1}(-1)
+\left[\begin{array}{ccc}
+1 & -1 & 1\\
+2 & -4 & -2\\
+1 & 1 & 5\\
+\end{array}\right]
++0
++(-1)^{4+3}(-2)
+\left[\begin{array}{ccc}
+1 & 1 & 1\\
+1 & 2 & -2\\
+2 & 1 & 5\\
+\end{array}\right]
++(-1)^{4+4}(-4)
+\left[\begin{array}{ccc}
+1 & 1 & -1\\
+1 & 2 & -4\\
+2 & 1 & 1\\
+-1 & 0 & -2\\
+\end{array}\right]
+=(-1\times -1){(1\times -4\times 5+(-1)\times -2\times 1+1\times 2\times 1)-(1\times -4\times 1+(-1)\times 2\times 5+1\times -2\times 1)}
++0
++(-1\times -2){(1\times 2\times 5+1\times -2\times 2+1\times 1\times 1)-(1\times 2\times 2+1\times 1\times 5+1\times -2\times 1)}
++(1\times -4){(1\times 2\times 1+1\times -4\times 2+(-1)\times 1\times 1)-(-1\times 2\times 2+1\times 1\times 1+1\times -4\times 1)}
+=0$
 
 ### 6.5 Matrix Factorization
 
