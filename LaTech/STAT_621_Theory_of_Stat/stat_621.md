@@ -264,3 +264,39 @@ Interval: $(1.55, 3.45)$
 
 ### Exam 1-10
 
+(a) Data: Number of scored goals by the top 47 goal scorers in Spanish LaLiga season 2024-2025. Link of the data: https://www.espn.com/soccer/stats/_/league/ESP.1/season/2024.
+
+5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 12, 13, 15, 17, 18, 19, 20, 21, 27, 31.
+
+(b) Sample mean and sd
+```R
+> goals <- c(5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 12, 13, 15, 17, 18, 19, 20, 21, 27, 31)
+> mean(goals)
+[1] 10.3617
+> sd(goals)
+[1] 5.696778
+```
+
+(c) Box plot  
+![BoxPlot](figs/Exam1/10.1.png)
+
+(d) Potential outliers:
+$Y_1=5$  
+$Q_1=Y_{.25\times 48}=Y_{12}=6$  
+$Q_2=Y_{24}=9$  
+$Q_3=Y_{.75\times 48}=Y_{36}=11$  
+$Y_47=31$  
+
+$h=1.5(Q_3-Q_1)=1.5(11-6)=7.5$  
+$LF=Q_1-h=6-7.5=-1.5$  
+$UF=Q_3+h=11+7.5=18.5$  
+
+Outlier values are: 19, 20, 21, 27, 31.
+
+(e) Histogram  
+![Histogram](figs/Exam1/10.2.png)
+
+(f) Proportion of values within one sample standard deviation.
+Range of values: $(\bar{x}-s,\bar{x}+s)=(10.4-5.7,10.4+5.7)=(4.7,16.1)$
+
+There are 7 values outside this range: 17, 18, 19, 20, 21, 27, 31. Proportion of values within the range = $40/47=0.85$.
