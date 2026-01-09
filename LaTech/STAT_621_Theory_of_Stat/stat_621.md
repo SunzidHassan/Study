@@ -118,7 +118,8 @@ $$c = \frac{11 \cdot 10 \cdot 9}{2}$$
 $$c = 11 \cdot 5 \cdot 9$$
 $$c = 55 \cdot 9$$
 $$c = 495$$
-Answer:$$c = 495$$
+Answer:
+$$c = 495$$
 
 ### Exam 1-4
 Problem: Show that the Maximum Likelihood Estimator (MLE) of $p$ for a Bernoulli population is $\hat{p} = \bar{X}$.
@@ -249,10 +250,15 @@ $$2.61 < \sigma < 5.90$$
 Answer: (2.61, 5.90)
 
 ### Exam 1-9
-95% CI for Difference in Means (Equal Variance).
-Pop 1: $n_1=15, \bar{x}_1=8.2, s_1=1.25$
-Pop 2: $n_2=12, \bar{x}_2=5.7, s_2=1.10$
+Pop 1: $n_1=15, \bar{x}_1=8.2, s_1=1.25$  
+Pop 2: $n_2=12, \bar{x}_2=5.7, s_2=1.10$  
+
+$8.2-5.7\pm 1.96\sqrt{\frac{1.25^2}{15}+\frac{1.10^2}{12}}=2.5\pm 0.887=(1.61, 3.39)$
+
++
+
 Pooled Variance ($s_p^2$):
+
 $$s_p^2 = \frac{(14)(1.25)^2 + (11)(1.10)^2}{15+12-2} = \frac{21.875 + 13.31}{25} = 1.4074$$
 $$s_p = \sqrt{1.4074} \approx 1.186$$
 
