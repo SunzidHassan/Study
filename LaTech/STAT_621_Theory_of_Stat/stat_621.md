@@ -32,7 +32,7 @@ STAT 621: Theory of Statistics - Winter 2026
       - [Exam 1-2(b): Suppose each engine is termed successful if its lifetime exceeds 12 months. In a sample of 10 engines, determine the probability of at least three successful engines.](#exam-1-2b-suppose-each-engine-is-termed-successful-if-its-lifetime-exceeds-12-months-in-a-sample-of-10-engines-determine-the-probability-of-at-least-three-successful-engines)
     - [Exam 1-3](#exam-1-3)
     - [Exam 1-4](#exam-1-4)
-    - [Exam 1-5](#exam-1-5)
+    - [Exam 1-5: The sample variance $S^2$ that a random sample $X1, ..., Xn$, of a population gives is defined by $S^2 = \\frac{1}{n-1} \\sum\_{i=1}^n (X\_i - \\bar{X})^2$, where $\\bar{X}$ is the sample mean. Assuming that the population has mean $\\mu$ and standard deviation $\\sigma$, show that $S^2$ is an unbiased estimator of $\\sigma^2$.](#exam-1-5-the-sample-variance-s2-that-a-random-sample-x1--xn-of-a-population-gives-is-defined-by-s2--frac1n-1-sum_i1n-x_i---barx2-where-barx-is-the-sample-mean-assuming-that-the-population-has-mean-mu-and-standard-deviation-sigma-show-that-s2-is-an-unbiased-estimator-of-sigma2)
     - [Exam 1-6](#exam-1-6)
     - [Exam 1-7](#exam-1-7)
     - [Exam 1-8](#exam-1-8)
@@ -126,72 +126,46 @@ $$\frac{\sigma^2}{\mu} = \frac{\alpha\beta^2}{\alpha\beta} = \beta \implies \bet
 $$\alpha = \frac{\mu}{\beta} = \frac{8}{2} = 4$$
 
 ### Exam 1-3
-Compute the value of the constant $c$ for the Beta distribution
-PDF:$$f(x) = c x^2 (1-x)^8, \quad 0 < x < 1$$
+Suppose a beta distribution has a pdf of the form  
+$
+f(x) = \begin{cases}
+    c x^2 (1-x)^8 & \text{if } 0\lt x\lt 1\\
+    0 & \text{otherwise.}
+\end{cases}
+$  
+where $c$ is a constant. Compute $c$.
 
-Reasoning:For $f(x)$ to be a valid probability density function, the integral over its entire range must equal 1.
-$$\int_{0}^{1} c x^2 (1-x)^8 \, dx = 1$$
-$$c \int_{0}^{1} x^2 (1-x)^8 \, dx = 1$$
+$X\sim \text{Beta}(\alpha,\beta)$, where $\alpha=3, \beta=9$.
 
-The integral part matches the definition of the Beta Function, $B(\alpha, \beta)$, which is defined as:
-$$B(\alpha, \beta) = \int_{0}^{1} x^{\alpha-1} (1-x)^{\beta-1} \, dx$$
-
-By comparing exponents:$x^2 \implies \alpha - 1 = 2 \implies \alpha = 3$
-$(1-x)^8 \implies \beta - 1 = 8 \implies \beta = 9$
-
-So, the integral is equal to $B(3, 9)$.
-$$c \cdot B(3, 9) = 1 \implies c = \frac{1}{B(3, 9)}$$
-
-The Beta function is related to the Gamma function (and factorials for integers) by:
-$$B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$$
-
-Since $\alpha$ and $\beta$ are integers, $\Gamma(n) = (n-1)!$.
-
-Substituting the values:
-$$c = \frac{\Gamma(3+9)}{\Gamma(3)\Gamma(9)} = \frac{\Gamma(12)}{\Gamma(3)\Gamma(9)}$$
-
-$$c = \frac{11!}{2! \cdot 8!}$$
-
-Calculation:
-$$c = \frac{11 \cdot 10 \cdot 9 \cdot 8!}{ (2 \cdot 1) \cdot 8!}$$
-$$c = \frac{11 \cdot 10 \cdot 9}{2}$$
-$$c = 11 \cdot 5 \cdot 9$$
-$$c = 55 \cdot 9$$
-$$c = 495$$
-Answer:
-$$c = 495$$
+$1=\int_0^1 c x^2 (1-x)^8dx$  
+$\Rightarrow 1=c\frac{\Gamma(3)\Gamma(9)}{\Gamma(3+9)}\int_0^1\frac{\Gamma(3+9)}{\Gamma(3)\Gamma(9)}X^{3-1}(1-X)^{9-1}dX$  
+$\Rightarrow 1=c\frac{\Gamma(3)\Gamma(9)}{\Gamma(3+9)}.1$  
+$\Rightarrow 1=c\frac{2!8!}{11!}$  
+$\Rightarrow 1=c/495$  
+$\Rightarrow c=495$
 
 ### Exam 1-4
-Problem: Show that the Maximum Likelihood Estimator (MLE) of $p$ for a Bernoulli population is $\hat{p} = \bar{X}$.
+Likelihood function:
+$L(p)=\prod_{i-1}^n f(x_i,p)= \prod_{i-1}^n p^{x_i}(1-p)^{1-x_i}$  
+$=p^{\sum_{i-1}^nx_i}(1-p)^{\sum_{i-1}^n(1-x_i)}$  
+$=p^{\sum_{i-1}^nx_i}(1-p)^{n-\sum_{i-1}^n x_i}$  
+Let $S=\sum_{i-1}^nx_i\Rightarrow L(P)=P^S(1-P)^{n-s},0\le P\le 1$  
+$l(P)=\ln{L(P)}=s\ln{P}+(n-S)\ln{(1-P)}$  
+$\frac{\delta}{\delta P}l(P)=\frac{S}{P}-\frac{n-S}{1-P}=0$  
+$\Rightarrow S(1-P)=(n-S)P$  
+$\Rightarrow S-SP=nP-SP$  
+$\Rightarrow S=nP$  
+$\Rightarrow \hat{P}=\frac{S}{n}=\frac{1}{n}\sum_{i=1}^n x_i=\bar{X}$  
 
-Likelihood FunctionFor a sample $X_1, \dots, X_n$ from a Bernoulli($p$) distribution, the probability mass function is $P(X_i = x_i) = p^{x_i}(1-p)^{1-x_i}$.
+### Exam 1-5: The sample variance $S^2$ that a random sample $X1, ..., Xn$, of a population gives is defined by $S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2$, where $\bar{X}$ is the sample mean. Assuming that the population has mean $\mu$ and standard deviation $\sigma$, show that $S^2$ is an unbiased estimator of $\sigma^2$.
 
-The likelihood function $L(p)$ is the product of these probabilities:
-$$L(p) = \prod_{i=1}^{n} p^{x_i} (1-p)^{1-x_i}$$
-$$L(p) = p^{\sum x_i} (1-p)^{\sum (1-x_i)}$$
-$$L(p) = p^{\sum x_i} (1-p)^{n - \sum x_i}$$
+Given,  
+$E(x)=\mu$, and $Var(X)=\sigma^2$,  
+Sample mean, $\bar{X}=\frac{1}{n-1}\sum_{i=1}^nX_i$, and  
+$S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2$
 
-2. Log-Likelihood FunctionIt is easier to maximize the natural logarithm of the likelihood function, $\ell(p) = \ln(L(p))$:$$\ell(p) = \left(\sum_{i=1}^n x_i\right) \ln(p) + \left(n - \sum_{i=1}^n x_i\right) \ln(1-p)$$
+++
 
-3. Differentiate and SolveTake the derivative with respect to $p$ and set it to 0 to find the maximum:
-$$\frac{d\ell}{dp} = \frac{\sum x_i}{p} - \frac{n - \sum x_i}{1-p} = 0$$
-Rearrange the terms:$$\frac{\sum x_i}{p} = \frac{n - \sum x_i}{1-p}$$
-Cross-multiply:$$(1-p) \sum x_i = p \left(n - \sum x_i\right)$$
-$$\sum x_i - p \sum x_i = np - p \sum x_i$$
-Add $p \sum x_i$ to both sides:
-$$\sum x_i = np$$
-Solve for $p$:
-$$\hat{p} = \frac{1}{n} \sum_{i=1}^n x_i$$
-Since $\frac{1}{n} \sum X_i$ is the definition of the sample mean $\bar{X}$:$$\hat{p} = \bar{X}$$
-Answer: The maximum likelihood estimator is $\hat{p} = \bar{X}$.
-
-### Exam 1-5
-Problem 5 SolutionGoal: Show that the sample variance $S^2$ is an unbiased estimator of the population variance $\sigma^2$.
-
-This means we need to prove that the expected value $E[S^2] = \sigma^2$.
-
-Definition:
-$$S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2$$
 Step 1: Expand the summation term.We use the algebraic trick of adding and subtracting the population mean $\mu$:$$\sum_{i=1}^n (X_i - \bar{X})^2 = \sum_{i=1}^n [(X_i - \mu) - (\bar{X} - \mu)]^2$$
 
 Expanding the square $(a-b)^2 = a^2 - 2ab + b^2$:
@@ -231,11 +205,11 @@ Sample size ($n$): 10
 Sample Mean ($\bar{x}$):
 $$\bar{x} = \frac{12+15+8+20+15+16+17+11+14+10}{10} = \frac{138}{10} = 13.8$$
 
-Sample Standard Deviation ($s$):
-First, calculate the Sum of Squared Differences (SS):
-$SS = (12-13.8)^2 + (15-13.8)^2 + ... + (10-13.8)^2$
-$SS = (-1.8)^2 + (1.2)^2 + (-5.8)^2 + (6.2)^2 + (1.2)^2 + (2.2)^2 + (3.2)^2 + (-2.8)^2 + (0.2)^2 + (-3.8)^2$
-$SS = 3.24 + 1.44 + 33.64 + 38.44 + 1.44 + 4.84 + 10.24 + 7.84 + 0.04 + 14.44 = 115.6$
+Sample Standard Deviation ($s$):  
+First, calculate the Sum of Squared Differences (SS):  
+$SS = (12-13.8)^2 + (15-13.8)^2 + ... + (10-13.8)^2$  
+$SS = (-1.8)^2 + (1.2)^2 + (-5.8)^2 + (6.2)^2 + (1.2)^2 + (2.2)^2 + (3.2)^2 + (-2.8)^2 + (0.2)^2 + (-3.8)^2$  
+$SS = 3.24 + 1.44 + 33.64 + 38.44 + 1.44 + 4.84 + 10.24 + 7.84 + 0.04 + 14.44 = 115.6$  
 
 Sample Variance ($s^2$) = $\frac{SS}{n-1} = \frac{115.6}{9} \approx 12.844$
 
@@ -244,9 +218,11 @@ Confidence Level: 99% $\rightarrow \alpha = 0.01 \rightarrow \alpha/2 = 0.005$
 Critical Value ($t_{0.005, 9}$): From t-table, $t \approx 3.250$3. Calculate Interval
 $$\bar{x} \pm t \left( \frac{s}{\sqrt{n}} \right)$$
 $$13.8 \pm 3.250 \left( \frac{3.584}{\sqrt{10}} \right)$$
-$$13.8 \pm 3.250 (1.133)$$$$13.8 \pm 3.68$$
-Lower Bound: $13.8 - 3.68 = 10.12$
-Upper Bound: $13.8 + 3.68 = 17.48$Answer: (10.12, 17.48)
+$$13.8 \pm 3.250 (1.133)$$
+$$13.8 \pm 3.68$$  
+Lower Bound: $13.8 - 3.68 = 10.12$  
+Upper Bound: $13.8 + 3.68 = 17.48$  
+Answer: (10.12, 17.48)
 
 ### Exam 1-7
 1. Statistics$n = 500$
@@ -324,6 +300,9 @@ Interval: $(1.55, 3.45)$
 ```
 
 (c) Box plot  
+```R
+> boxplot(goals)
+```
 ![BoxPlot](figs/Exam1/10.1.png)
 
 (d) Potential outliers:
@@ -339,7 +318,10 @@ $UF=Q_3+h=11+7.5=18.5$
 
 Outlier values are: 19, 20, 21, 27, 31.
 
-(e) Histogram  
+(e) Histogram 
+```R
+> hist(goals)
+``` 
 ![Histogram](figs/Exam1/10.2.png)
 
 (f) Proportion of values within one sample standard deviation.
