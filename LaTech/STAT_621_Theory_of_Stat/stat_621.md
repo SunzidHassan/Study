@@ -22,8 +22,14 @@ STAT 621: Theory of Statistics - Winter 2026
   - [10.3 Signed-Rank Wilcoxon](#103-signed-rank-wilcoxon)
 - [Exams](#exams)
   - [Exam 1](#exam-1)
-    - [Exam 1-1](#exam-1-1)
-    - [Exam 1-2](#exam-1-2)
+    - [Exam 1-1: Suppose $M(t) = (1 - 2t)^{-10}, t\\lt \\frac{1}{2}$ is the moment generating function of a random variable $X$.](#exam-1-1-suppose-mt--1---2t-10-tlt-frac12-is-the-moment-generating-function-of-a-random-variable-x)
+      - [Exam 1-1(a) Compute the mean $\\mu$ of $X$](#exam-1-1a-compute-the-mean-mu-of-x)
+      - [Exam 1-1(b) Compute the standard deviation $\\sigma$ of $X$](#exam-1-1b-compute-the-standard-deviation-sigma-of-x)
+      - [Exam 1-1(c) Use R to compute $\\Pr(X \> 9)$](#exam-1-1c-use-r-to-compute-prx--9)
+      - [Exam 1-1(d) Use R to compute $\\Pr(|X-\\mu|\\lt \\sigma)$](#exam-1-1d-use-r-to-compute-prx-mult-sigma)
+    - [Exam 1-2:  Suppose the lifetime in months of an engine, working under hazardous conditions, has a gamma distribution with a mean of eight months and a variance of $16$ months$^2$.](#exam-1-2--suppose-the-lifetime-in-months-of-an-engine-working-under-hazardous-conditions-has-a-gamma-distribution-with-a-mean-of-eight-months-and-a-variance-of-16-months2)
+      - [Exam 1-2(a): Compute the median lifetime of the engine.](#exam-1-2a-compute-the-median-lifetime-of-the-engine)
+      - [Exam 1-2(b): Suppose each engine is termed successful if its lifetime exceeds 12 months. In a sample of 10 engines, determine the probability of at least three successful engines.](#exam-1-2b-suppose-each-engine-is-termed-successful-if-its-lifetime-exceeds-12-months-in-a-sample-of-10-engines-determine-the-probability-of-at-least-three-successful-engines)
     - [Exam 1-3](#exam-1-3)
     - [Exam 1-4](#exam-1-4)
     - [Exam 1-5](#exam-1-5)
@@ -62,25 +68,59 @@ STAT 621: Theory of Statistics - Winter 2026
 
 # Exams
 ## Exam 1
-### Exam 1-1
-(a) Compute the mean $\mu$ of $X$
-$$M'(t) = \frac{d}{dt}(1 - 2t)^{-10} = -10(1 - 2t)^{-11}(-2) = 20(1 - 2t)^{-11}$$
-$$\mu = M'(0) = 20(1 - 0)^{-11} = 20$$
+### Exam 1-1: Suppose $M(t) = (1 - 2t)^{-10}, t\lt \frac{1}{2}$ is the moment generating function of a random variable $X$.
+#### Exam 1-1(a) Compute the mean $\mu$ of $X$  
+$M'(t) = -10(1 - 2t)^{-11}(-2) = 20(1 - 2t)^{-11}$  
+$\mu = M'(0) = 20(1 - 0)^{-11} = 20$
 
-(b) Compute the standard deviation $\sigma$ of $X$
-$$M''(t) = \frac{d}{dt}[20(1 - 2t)^{-11}] = 20(-11)(1 - 2t)^{-12}(-2) = 440(1 - 2t)^{-12}$$$$E[X^2] = M''(0) = 440$$$$\text{Variance} (\sigma^2) = E[X^2] - (E[X])^2 = 440 - (20)^2 = 440 - 400 = 40$$$$\sigma = \sqrt{40}$$
+#### Exam 1-1(b) Compute the standard deviation $\sigma$ of $X$  
+$M''(t) = 20(-11)(1 - 2t)^{-12}(-2) = 440(1 - 2t)^{-12}$  
+$M''(0) = E(X^2) = 440(1 - 0)^{-12} = 440$  
+$\text{Var} (X) = E[X^2] - (E(X))^2 = 440 - (20)^2 = 40$  
+$\sigma = \sqrt{40}=6.32$  
 
-(c) Use R to compute $P(X > 9)$
+#### Exam 1-1(c) Use R to compute $\Pr(X > 9)$  
+$M(t) = \frac{1}{(1 - 2t)^{10}}, t\lt \frac{1}{2}\Rightarrow \beta=2,\alpha=10$  
+$\Pr(X\gt 9)=1-\Pr(X\le 9)$
 
-(d)
-$$|X - \mu| < \sigma$$
-$$-\sigma < X - \mu < \sigma$$
-$$\mu - \sigma < X < \mu + \sigma$$
+```R
+> pgamma(9,shape=10,scale=2)
+[1] 0.01709273
+```
+
+$\Pr(X\gt 9)=1-\Pr(X\le 9)\Rightarrow 1-0.0171=0.9829$
+
+#### Exam 1-1(d) Use R to compute $\Pr(|X-\mu|\lt \sigma)$    
+$\Pr(|X - \mu| < \sigma)$  
+$=\Pr(\sigma < X - \mu < \sigma)$  
+$=\Pr(\mu - \sigma < X < \mu + \sigma)$  
+$=\Pr(20 - \sqrt{40} < X < 20 + \sqrt{40})$  
+$=\Pr(X \lt 20 + \sqrt{40}) - \Pr( X < 20 - \sqrt{40})$  
+
+```R
+> pgamma(20+sqrt(40),shape=10,scale=2)-pgamma(20-sqrt(40),shape=10,scale=2)
+[1] 0.6912046
+```
+
+### Exam 1-2:  Suppose the lifetime in months of an engine, working under hazardous conditions, has a gamma distribution with a mean of eight months and a variance of $16$ months$^2$.
+Mean, $\mu = \alpha\beta = 8$  
+$Var(X)= \sigma^2 = \alpha\beta^2 = 16$  
+$\beta=\frac{\sigma^2}{\mu}=2$  
+$\alpha=\frac{\mu}{\beta}=4$  
+$X\sim \Gamma(4,2)$
+
+#### Exam 1-2(a): Compute the median lifetime of the engine.
+$\Pr(X\lt m)=0.5$  
+```R
+> qgamma(0.5,shape=4,scale=2)
+[1] 7.344121
+```
+
+#### Exam 1-2(b): Suppose each engine is termed successful if its lifetime exceeds 12 months. In a sample of 10 engines, determine the probability of at least three successful engines.
+
+.
 
 
-### Exam 1-2
-Mean $\mu = \alpha\beta = 8$
-Variance $\sigma^2 = \alpha\beta^2 = 16$
 
 $$\frac{\sigma^2}{\mu} = \frac{\alpha\beta^2}{\alpha\beta} = \beta \implies \beta = \frac{16}{8} = 2$$
 $$\alpha = \frac{\mu}{\beta} = \frac{8}{2} = 4$$
