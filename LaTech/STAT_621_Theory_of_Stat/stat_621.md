@@ -126,64 +126,36 @@ $$\frac{\sigma^2}{\mu} = \frac{\alpha\beta^2}{\alpha\beta} = \beta \implies \bet
 $$\alpha = \frac{\mu}{\beta} = \frac{8}{2} = 4$$
 
 ### Exam 1-3
-Compute the value of the constant $c$ for the Beta distribution
-PDF:$$f(x) = c x^2 (1-x)^8, \quad 0 < x < 1$$
+Suppose a beta distribution has a pdf of the form  
+$
+f(x) = \begin{cases}
+    c x^2 (1-x)^8 & \text{if } 0\lt x\lt 1\\
+    0 & \text{otherwise.}
+\end{cases}
+$  
+where $c$ is a constant. Compute $c$.
 
-Reasoning:For $f(x)$ to be a valid probability density function, the integral over its entire range must equal 1.
-$$\int_{0}^{1} c x^2 (1-x)^8 \, dx = 1$$
-$$c \int_{0}^{1} x^2 (1-x)^8 \, dx = 1$$
+$X\sim \text{Beta}(\alpha,\beta)$, where $\alpha=3, \beta=9$.
 
-The integral part matches the definition of the Beta Function, $B(\alpha, \beta)$, which is defined as:
-$$B(\alpha, \beta) = \int_{0}^{1} x^{\alpha-1} (1-x)^{\beta-1} \, dx$$
-
-By comparing exponents:$x^2 \implies \alpha - 1 = 2 \implies \alpha = 3$
-$(1-x)^8 \implies \beta - 1 = 8 \implies \beta = 9$
-
-So, the integral is equal to $B(3, 9)$.
-$$c \cdot B(3, 9) = 1 \implies c = \frac{1}{B(3, 9)}$$
-
-The Beta function is related to the Gamma function (and factorials for integers) by:
-$$B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$$
-
-Since $\alpha$ and $\beta$ are integers, $\Gamma(n) = (n-1)!$.
-
-Substituting the values:
-$$c = \frac{\Gamma(3+9)}{\Gamma(3)\Gamma(9)} = \frac{\Gamma(12)}{\Gamma(3)\Gamma(9)}$$
-
-$$c = \frac{11!}{2! \cdot 8!}$$
-
-Calculation:
-$$c = \frac{11 \cdot 10 \cdot 9 \cdot 8!}{ (2 \cdot 1) \cdot 8!}$$
-$$c = \frac{11 \cdot 10 \cdot 9}{2}$$
-$$c = 11 \cdot 5 \cdot 9$$
-$$c = 55 \cdot 9$$
-$$c = 495$$
-Answer:
-$$c = 495$$
+$1=\int_0^1 c x^2 (1-x)^8dx$  
+$\Rightarrow 1=c\frac{\Gamma(3)\Gamma(9)}{\Gamma(3+9)}\int_0^1\frac{\Gamma(3+9)}{\Gamma(3)\Gamma(9)}X^{3-1}(1-X)^{9-1}dX$  
+$\Rightarrow 1=c\frac{\Gamma(3)\Gamma(9)}{\Gamma(3+9)}.1$  
+$\Rightarrow 1=c\frac{2!8!}{11!}$  
+$\Rightarrow 1=c/495$  
+$\Rightarrow c=495$
 
 ### Exam 1-4
-Problem: Show that the Maximum Likelihood Estimator (MLE) of $p$ for a Bernoulli population is $\hat{p} = \bar{X}$.
-
-Likelihood FunctionFor a sample $X_1, \dots, X_n$ from a Bernoulli($p$) distribution, the probability mass function is $P(X_i = x_i) = p^{x_i}(1-p)^{1-x_i}$.
-
-The likelihood function $L(p)$ is the product of these probabilities:
-$$L(p) = \prod_{i=1}^{n} p^{x_i} (1-p)^{1-x_i}$$
-$$L(p) = p^{\sum x_i} (1-p)^{\sum (1-x_i)}$$
-$$L(p) = p^{\sum x_i} (1-p)^{n - \sum x_i}$$
-
-2. Log-Likelihood FunctionIt is easier to maximize the natural logarithm of the likelihood function, $\ell(p) = \ln(L(p))$:$$\ell(p) = \left(\sum_{i=1}^n x_i\right) \ln(p) + \left(n - \sum_{i=1}^n x_i\right) \ln(1-p)$$
-
-3. Differentiate and SolveTake the derivative with respect to $p$ and set it to 0 to find the maximum:
-$$\frac{d\ell}{dp} = \frac{\sum x_i}{p} - \frac{n - \sum x_i}{1-p} = 0$$
-Rearrange the terms:$$\frac{\sum x_i}{p} = \frac{n - \sum x_i}{1-p}$$
-Cross-multiply:$$(1-p) \sum x_i = p \left(n - \sum x_i\right)$$
-$$\sum x_i - p \sum x_i = np - p \sum x_i$$
-Add $p \sum x_i$ to both sides:
-$$\sum x_i = np$$
-Solve for $p$:
-$$\hat{p} = \frac{1}{n} \sum_{i=1}^n x_i$$
-Since $\frac{1}{n} \sum X_i$ is the definition of the sample mean $\bar{X}$:$$\hat{p} = \bar{X}$$
-Answer: The maximum likelihood estimator is $\hat{p} = \bar{X}$.
+Likelihood function:
+$L(p)=\prod_{i-1}^n f(x_i,p)= \prod_{i-1}^n p^{x_i}(1-p)^{1-x_i}$  
+$=p^{\sum_{i-1}^nx_i}(1-p)^{\sum_{i-1}^n(1-x_i)}$  
+$=p^{\sum_{i-1}^nx_i}(1-p)^{n-\sum_{i-1}^n x_i}$  
+Let $S=\sum_{i-1}^nx_i\Rightarrow L(P)=P^S(1-P)^{n-s},0\le P\le 1$  
+$l(P)=\ln{L(P)}=s\ln{P}+(n-S)\ln{(1-P)}$  
+$\frac{\delta}{\delta P}l(P)=\frac{S}{P}-\frac{n-S}{1-P}=0$  
+$\Rightarrow S(1-P)=(n-S)P$  
+$\Rightarrow S-SP=nP-SP$  
+$\Rightarrow S=nP$  
+$\Rightarrow \hat{P}=\frac{S}{n}=\frac{1}{n}\sum_{i=1}^n x_i=\bar{X}$  
 
 ### Exam 1-5: The sample variance $S^2$ that a random sample $X1, ..., Xn$, of a population gives is defined by $S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2$, where $\bar{X}$ is the sample mean. Assuming that the population has mean $\mu$ and standard deviation $\sigma$, show that $S^2$ is an unbiased estimator of $\sigma^2$.
 
@@ -328,6 +300,9 @@ Interval: $(1.55, 3.45)$
 ```
 
 (c) Box plot  
+```R
+> boxplot(goals)
+```
 ![BoxPlot](figs/Exam1/10.1.png)
 
 (d) Potential outliers:
@@ -343,7 +318,10 @@ $UF=Q_3+h=11+7.5=18.5$
 
 Outlier values are: 19, 20, 21, 27, 31.
 
-(e) Histogram  
+(e) Histogram 
+```R
+> hist(goals)
+``` 
 ![Histogram](figs/Exam1/10.2.png)
 
 (f) Proportion of values within one sample standard deviation.
