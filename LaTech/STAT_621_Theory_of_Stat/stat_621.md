@@ -32,7 +32,7 @@ STAT 621: Theory of Statistics - Winter 2026
       - [Exam 1-2(b): Suppose each engine is termed successful if its lifetime exceeds 12 months. In a sample of 10 engines, determine the probability of at least three successful engines.](#exam-1-2b-suppose-each-engine-is-termed-successful-if-its-lifetime-exceeds-12-months-in-a-sample-of-10-engines-determine-the-probability-of-at-least-three-successful-engines)
     - [Exam 1-3](#exam-1-3)
     - [Exam 1-4](#exam-1-4)
-    - [Exam 1-5](#exam-1-5)
+    - [Exam 1-5: The sample variance $S^2$ that a random sample $X1, ..., Xn$, of a population gives is defined by $S^2 = \\frac{1}{n-1} \\sum\_{i=1}^n (X\_i - \\bar{X})^2$, where $\\bar{X}$ is the sample mean. Assuming that the population has mean $\\mu$ and standard deviation $\\sigma$, show that $S^2$ is an unbiased estimator of $\\sigma^2$.](#exam-1-5-the-sample-variance-s2-that-a-random-sample-x1--xn-of-a-population-gives-is-defined-by-s2--frac1n-1-sum_i1n-x_i---barx2-where-barx-is-the-sample-mean-assuming-that-the-population-has-mean-mu-and-standard-deviation-sigma-show-that-s2-is-an-unbiased-estimator-of-sigma2)
     - [Exam 1-6](#exam-1-6)
     - [Exam 1-7](#exam-1-7)
     - [Exam 1-8](#exam-1-8)
@@ -185,13 +185,15 @@ $$\hat{p} = \frac{1}{n} \sum_{i=1}^n x_i$$
 Since $\frac{1}{n} \sum X_i$ is the definition of the sample mean $\bar{X}$:$$\hat{p} = \bar{X}$$
 Answer: The maximum likelihood estimator is $\hat{p} = \bar{X}$.
 
-### Exam 1-5
-Problem 5 SolutionGoal: Show that the sample variance $S^2$ is an unbiased estimator of the population variance $\sigma^2$.
+### Exam 1-5: The sample variance $S^2$ that a random sample $X1, ..., Xn$, of a population gives is defined by $S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2$, where $\bar{X}$ is the sample mean. Assuming that the population has mean $\mu$ and standard deviation $\sigma$, show that $S^2$ is an unbiased estimator of $\sigma^2$.
 
-This means we need to prove that the expected value $E[S^2] = \sigma^2$.
+Given,  
+$E(x)=\mu$, and $Var(X)=\sigma^2$,  
+Sample mean, $\bar{X}=\frac{1}{n-1}\sum_{i=1}^nX_i$, and  
+$S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2$
 
-Definition:
-$$S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2$$
+++
+
 Step 1: Expand the summation term.We use the algebraic trick of adding and subtracting the population mean $\mu$:$$\sum_{i=1}^n (X_i - \bar{X})^2 = \sum_{i=1}^n [(X_i - \mu) - (\bar{X} - \mu)]^2$$
 
 Expanding the square $(a-b)^2 = a^2 - 2ab + b^2$:
@@ -231,11 +233,11 @@ Sample size ($n$): 10
 Sample Mean ($\bar{x}$):
 $$\bar{x} = \frac{12+15+8+20+15+16+17+11+14+10}{10} = \frac{138}{10} = 13.8$$
 
-Sample Standard Deviation ($s$):
-First, calculate the Sum of Squared Differences (SS):
-$SS = (12-13.8)^2 + (15-13.8)^2 + ... + (10-13.8)^2$
-$SS = (-1.8)^2 + (1.2)^2 + (-5.8)^2 + (6.2)^2 + (1.2)^2 + (2.2)^2 + (3.2)^2 + (-2.8)^2 + (0.2)^2 + (-3.8)^2$
-$SS = 3.24 + 1.44 + 33.64 + 38.44 + 1.44 + 4.84 + 10.24 + 7.84 + 0.04 + 14.44 = 115.6$
+Sample Standard Deviation ($s$):  
+First, calculate the Sum of Squared Differences (SS):  
+$SS = (12-13.8)^2 + (15-13.8)^2 + ... + (10-13.8)^2$  
+$SS = (-1.8)^2 + (1.2)^2 + (-5.8)^2 + (6.2)^2 + (1.2)^2 + (2.2)^2 + (3.2)^2 + (-2.8)^2 + (0.2)^2 + (-3.8)^2$  
+$SS = 3.24 + 1.44 + 33.64 + 38.44 + 1.44 + 4.84 + 10.24 + 7.84 + 0.04 + 14.44 = 115.6$  
 
 Sample Variance ($s^2$) = $\frac{SS}{n-1} = \frac{115.6}{9} \approx 12.844$
 
@@ -244,9 +246,11 @@ Confidence Level: 99% $\rightarrow \alpha = 0.01 \rightarrow \alpha/2 = 0.005$
 Critical Value ($t_{0.005, 9}$): From t-table, $t \approx 3.250$3. Calculate Interval
 $$\bar{x} \pm t \left( \frac{s}{\sqrt{n}} \right)$$
 $$13.8 \pm 3.250 \left( \frac{3.584}{\sqrt{10}} \right)$$
-$$13.8 \pm 3.250 (1.133)$$$$13.8 \pm 3.68$$
-Lower Bound: $13.8 - 3.68 = 10.12$
-Upper Bound: $13.8 + 3.68 = 17.48$Answer: (10.12, 17.48)
+$$13.8 \pm 3.250 (1.133)$$
+$$13.8 \pm 3.68$$  
+Lower Bound: $13.8 - 3.68 = 10.12$  
+Upper Bound: $13.8 + 3.68 = 17.48$  
+Answer: (10.12, 17.48)
 
 ### Exam 1-7
 1. Statistics$n = 500$
