@@ -22,17 +22,17 @@ STAT 621: Theory of Statistics - Winter 2026
   - [10.3 Signed-Rank Wilcoxon](#103-signed-rank-wilcoxon)
 - [Exams](#exams)
   - [Exam 1](#exam-1)
-    - [Exam 1-1: Suppose $M(t) = (1 - 2t)^{-10}, t\\lt \\frac{1}{2}$ is the moment generating function of a random variable $X$.](#exam-1-1-suppose-mt--1---2t-10-tlt-frac12-is-the-moment-generating-function-of-a-random-variable-x)
-      - [Exam 1-1(a) Compute the mean $\\mu$ of $X$](#exam-1-1a-compute-the-mean-mu-of-x)
-      - [Exam 1-1(b) Compute the standard deviation $\\sigma$ of $X$](#exam-1-1b-compute-the-standard-deviation-sigma-of-x)
-      - [Exam 1-1(c) Use R to compute $\\Pr(X \> 9)$](#exam-1-1c-use-r-to-compute-prx--9)
-      - [Exam 1-1(d) Use R to compute $\\Pr(|X-\\mu|\\lt \\sigma)$](#exam-1-1d-use-r-to-compute-prx-mult-sigma)
-    - [Exam 1-2:  Suppose the lifetime in months of an engine, working under hazardous conditions, has a gamma distribution with a mean of eight months and a variance of $16$ months$^2$.](#exam-1-2--suppose-the-lifetime-in-months-of-an-engine-working-under-hazardous-conditions-has-a-gamma-distribution-with-a-mean-of-eight-months-and-a-variance-of-16-months2)
-      - [Exam 1-2(a): Compute the median lifetime of the engine.](#exam-1-2a-compute-the-median-lifetime-of-the-engine)
-      - [Exam 1-2(b): Suppose each engine is termed successful if its lifetime exceeds 12 months. In a sample of 10 engines, determine the probability of at least three successful engines.](#exam-1-2b-suppose-each-engine-is-termed-successful-if-its-lifetime-exceeds-12-months-in-a-sample-of-10-engines-determine-the-probability-of-at-least-three-successful-engines)
+    - [Exam 1-1](#exam-1-1)
+      - [Exam 1-1(a)](#exam-1-1a)
+      - [Exam 1-1(b)](#exam-1-1b)
+      - [Exam 1-1(c)](#exam-1-1c)
+      - [Exam 1-1(d)](#exam-1-1d)
+    - [Exam 1-2](#exam-1-2)
+      - [Exam 1-2(a)](#exam-1-2a)
+      - [Exam 1-2(b)](#exam-1-2b)
     - [Exam 1-3](#exam-1-3)
     - [Exam 1-4](#exam-1-4)
-    - [Exam 1-5: The sample variance $S^2$ that a random sample $X1, ..., Xn$, of a population gives is defined by $S^2 = \\frac{1}{n-1} \\sum\_{i=1}^n (X\_i - \\bar{X})^2$, where $\\bar{X}$ is the sample mean. Assuming that the population has mean $\\mu$ and standard deviation $\\sigma$, show that $S^2$ is an unbiased estimator of $\\sigma^2$.](#exam-1-5-the-sample-variance-s2-that-a-random-sample-x1--xn-of-a-population-gives-is-defined-by-s2--frac1n-1-sum_i1n-x_i---barx2-where-barx-is-the-sample-mean-assuming-that-the-population-has-mean-mu-and-standard-deviation-sigma-show-that-s2-is-an-unbiased-estimator-of-sigma2)
+    - [Exam 1-5](#exam-1-5)
     - [Exam 1-6](#exam-1-6)
     - [Exam 1-7](#exam-1-7)
     - [Exam 1-8](#exam-1-8)
@@ -68,18 +68,24 @@ STAT 621: Theory of Statistics - Winter 2026
 
 # Exams
 ## Exam 1
-### Exam 1-1: Suppose $M(t) = (1 - 2t)^{-10}, t\lt \frac{1}{2}$ is the moment generating function of a random variable $X$.
-#### Exam 1-1(a) Compute the mean $\mu$ of $X$  
+### Exam 1-1
+Suppose $M(t) = (1 - 2t)^{-10}, t\lt \frac{1}{2}$ is the moment generating function of a random variable $X$.
+
+#### Exam 1-1(a)
+Compute the mean $\mu$ of $X$  
 $M'(t) = -10(1 - 2t)^{-11}(-2) = 20(1 - 2t)^{-11}$  
 $\mu = M'(0) = 20(1 - 0)^{-11} = 20$
 
-#### Exam 1-1(b) Compute the standard deviation $\sigma$ of $X$  
+#### Exam 1-1(b)
+Compute the standard deviation $\sigma$ of $X$  
 $M''(t) = 20(-11)(1 - 2t)^{-12}(-2) = 440(1 - 2t)^{-12}$  
 $M''(0) = E(X^2) = 440(1 - 0)^{-12} = 440$  
 $\text{Var} (X) = E[X^2] - (E(X))^2 = 440 - (20)^2 = 40$  
 $\sigma = \sqrt{40}=6.32$  
 
-#### Exam 1-1(c) Use R to compute $\Pr(X > 9)$  
+#### Exam 1-1(c)
+Use R to compute $\Pr(X > 9)$  
+
 $M(t) = \frac{1}{(1 - 2t)^{10}}, t\lt \frac{1}{2}\Rightarrow \beta=2,\alpha=10$  
 $\Pr(X\gt 9)=1-\Pr(X\le 9)$
 
@@ -90,7 +96,8 @@ $\Pr(X\gt 9)=1-\Pr(X\le 9)$
 
 $\Pr(X\gt 9)=1-\Pr(X\le 9)\Rightarrow 1-0.0171=0.9829$
 
-#### Exam 1-1(d) Use R to compute $\Pr(|X-\mu|\lt \sigma)$    
+#### Exam 1-1(d)
+Use R to compute $\Pr(|X-\mu|\lt \sigma)$    
 $\Pr(|X - \mu| < \sigma)$  
 $=\Pr(\sigma < X - \mu < \sigma)$  
 $=\Pr(\mu - \sigma < X < \mu + \sigma)$  
@@ -102,28 +109,41 @@ $=\Pr(X \lt 20 + \sqrt{40}) - \Pr( X < 20 - \sqrt{40})$
 [1] 0.6912046
 ```
 
-### Exam 1-2:  Suppose the lifetime in months of an engine, working under hazardous conditions, has a gamma distribution with a mean of eight months and a variance of $16$ months$^2$.
+### Exam 1-2
+Suppose the lifetime in months of an engine, working under hazardous conditions, has a gamma distribution with a mean of eight months and a variance of $16$ months$^2$.
 Mean, $\mu = \alpha\beta = 8$  
 $Var(X)= \sigma^2 = \alpha\beta^2 = 16$  
 $\beta=\frac{\sigma^2}{\mu}=2$  
 $\alpha=\frac{\mu}{\beta}=4$  
 $X\sim \Gamma(4,2)$
 
-#### Exam 1-2(a): Compute the median lifetime of the engine.
+#### Exam 1-2(a)
+Compute the median lifetime of the engine.
+
+Solution:
 $\Pr(X\lt m)=0.5$  
 ```R
 > qgamma(0.5,shape=4,scale=2)
 [1] 7.344121
 ```
 
-#### Exam 1-2(b): Suppose each engine is termed successful if its lifetime exceeds 12 months. In a sample of 10 engines, determine the probability of at least three successful engines.
+#### Exam 1-2(b)
+Suppose each engine is termed successful if its lifetime exceeds 12 months. In a sample of 10 engines, determine the probability of at least three successful engines.
 
-.
+$\Pr(X\gt 12)=1-\Pr(X\le 12)=p$
+```R
+> pgamma(12,shape=4,scale=2)
+[1] 0.8487961
+```
 
+$$\Pr(y\ge 3)=1-\Pr(y\le 2)$$
+$$Y\sim \binom{n}{p}$$
 
+```R
+> 1-pbinom(2,size=10,prob=(1-pgamma(12,shape=4,scale=2)))
+[1] 0.1829391
+```
 
-$$\frac{\sigma^2}{\mu} = \frac{\alpha\beta^2}{\alpha\beta} = \beta \implies \beta = \frac{16}{8} = 2$$
-$$\alpha = \frac{\mu}{\beta} = \frac{8}{2} = 4$$
 
 ### Exam 1-3
 Suppose a beta distribution has a pdf of the form  
@@ -157,135 +177,130 @@ $\Rightarrow S-SP=nP-SP$
 $\Rightarrow S=nP$  
 $\Rightarrow \hat{P}=\frac{S}{n}=\frac{1}{n}\sum_{i=1}^n x_i=\bar{X}$  
 
-### Exam 1-5: The sample variance $S^2$ that a random sample $X1, ..., Xn$, of a population gives is defined by $S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2$, where $\bar{X}$ is the sample mean. Assuming that the population has mean $\mu$ and standard deviation $\sigma$, show that $S^2$ is an unbiased estimator of $\sigma^2$.
+### Exam 1-5
+The sample variance $S^2$ that a random sample $X1, ..., Xn$, of a population gives is defined by $S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2$, where $\bar{X}$ is the sample mean. Assuming that the population has mean $\mu$ and standard deviation $\sigma$, show that $S^2$ is an unbiased estimator of $\sigma^2$.
 
 Given,  
 $E(x)=\mu$, and $Var(X)=\sigma^2$,  
 Sample mean, $\bar{X}=\frac{1}{n-1}\sum_{i=1}^nX_i$, and  
 $S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2$
 
-++
 
-Step 1: Expand the summation term.We use the algebraic trick of adding and subtracting the population mean $\mu$:$$\sum_{i=1}^n (X_i - \bar{X})^2 = \sum_{i=1}^n [(X_i - \mu) - (\bar{X} - \mu)]^2$$
+$$Var(X) = E(X^2) - (E(X))^2 = \sigma^2$$
+$$\Rightarrow E(X^2) - \mu^2 = \sigma^2 \implies E(X^2) = \sigma^2 + \mu^2$$
 
-Expanding the square $(a-b)^2 = a^2 - 2ab + b^2$:
-$$= \sum_{i=1}^n [(X_i - \mu)^2 - 2(X_i - \mu)(\bar{X} - \mu) + (\bar{X} - \mu)^2]$$
-Distribute the summation:
-$$= \sum_{i=1}^n (X_i - \mu)^2 - 2(\bar{X} - \mu)\sum_{i=1}^n (X_i - \mu) + \sum_{i=1}^n (\bar{X} - \mu)^2$$
-Note that $\sum (X_i - \mu) = \sum X_i - n\mu = n\bar{X} - n\mu = n(\bar{X} - \mu)$.
-Substituting this into the middle term:
-$$= \sum (X_i - \mu)^2 - 2(\bar{X} - \mu)[n(\bar{X} - \mu)] + n(\bar{X} - \mu)^2$$
-$$= \sum (X_i - \mu)^2 - 2n(\bar{X} - \mu)^2 + n(\bar{X} - \mu)^2$$
-$$= \sum_{i=1}^n (X_i - \mu)^2 - n(\bar{X} - \mu)^2$$
+$$E(\bar{X}) = E\left( \frac{1}{n} \sum_{i=1}^{n} X_i \right) = \frac{1}{n} \sum_{i=1}^{n} E(X_i) = \frac{1}{n} \cdot n\mu = \mu$$
+$$Var(\bar{X}) = Var\left( \frac{1}{n} \sum_{i=1}^{n} X_i \right) = \frac{1}{n^2} \sum_{i=1}^{n} Var(X_i) = \frac{1}{n^2} \cdot n\sigma^2 = \frac{\sigma^2}{n}$$
 
-Step 2: Apply the Expected Value operator.
-$$E\left[ \sum (X_i - \bar{X})^2 \right] = E\left[ \sum (X_i - \mu)^2 \right] - E\left[ n(\bar{X} - \mu)^2 \right]$$
-$$= \sum E[(X_i - \mu)^2] - n E[(\bar{X} - \mu)^2]$$
+$$Var(\bar{X}) = E(\bar{X}^2) - (E(\bar{X}))^2 \implies E(\bar{X}^2) = Var(\bar{X}) + (E(\bar{X}))^2=\frac{\sigma^2}{n} + \mu^2$$
 
-By definition of variance:$E[(X_i - \mu)^2] = \text{Var}(X) = \sigma^2$$E[(\bar{X} - \mu)^2] = \text{Var}(\bar{X}) = \frac{\sigma^2}{n}$
+Now,
 
-Substitute these back:
-$$= \sum_{i=1}^n (\sigma^2) - n \left( \frac{\sigma^2}{n} \right)$$
-$$= n\sigma^2 - \sigma^2$$
-$$= (n-1)\sigma^2$$
+$$E(s^2) = E\left( \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2 \right)$$
+$$=\frac{1}{n-1} E\left( \sum_{i=1}^{n} X_i^2 - n\bar{X}^2 \right)$$
+$$=\frac{1}{n-1} \left( \sum_{i=1}^{n} E(X_i^2) - n E(\bar{X}^2) \right)$$
+$$= \frac{1}{n-1} \left( \sum_{i=1}^{n} (\sigma^2 + \mu^2) - n \left( \frac{\sigma^2}{n} + \mu^2 \right) \right)$$
+$$=\frac{1}{n-1} \left( n(\sigma^2 + \mu^2) - \sigma^2 - n\mu^2 \right)$$
+$$= \frac{1}{n-1} (n\sigma^2 + n\mu^2 - \sigma^2 - n\mu^2)$$
+$$= \frac{1}{n-1} (n\sigma^2 - \sigma^2)$$
+$$= \frac{1}{n-1} (n-1)\sigma^2$$
+$$\Rightarrow E(s^2) = \sigma^2$$
 
-Step 3: Final Calculation.
-$$E[S^2] = E\left[ \frac{1}{n-1} \sum (X_i - \bar{X})^2 \right]$$
-$$= \frac{1}{n-1} E\left[ \sum (X_i - \bar{X})^2 \right]$$
-$$= \frac{1}{n-1} [(n-1)\sigma^2]$$
-$$E[S^2] = \sigma^2$$
-Conclusion: Since the expected value of $S^2$ equals the parameter $\sigma^2$, $S^2$ is an unbiased estimator.
 
 ### Exam 1-6
 Calculate a 99% confidence interval for the mean.
 
-1. Analyze the DataDataset: $\{12, 15, 8, 20, 15, 16, 17, 11, 14, 10\}$
+```R
+> data6 <- c(12, 15, 8, 20, 15, 16, 17, 11, 14, 10)
+> mean6 <- mean(data6)
+> print(mean6)
+[1] 13.8
+> sd6 <- sd(data6)
+> print(sd6)
+[1] 3.583915
+```
+For 99% CI, $\alpha=0.01$  
+Since $n\lt 30$ and population variance is unknown, using t-distribution with $n-1=9$ d.f.
 
-Sample size ($n$): 10
-Sample Mean ($\bar{x}$):
-$$\bar{x} = \frac{12+15+8+20+15+16+17+11+14+10}{10} = \frac{138}{10} = 13.8$$
+$$\bar{X} \pm t_{\frac{\alpha}{2},n-1}\left( \frac{s}{\sqrt{n}} \right)$$
 
-Sample Standard Deviation ($s$):  
-First, calculate the Sum of Squared Differences (SS):  
-$SS = (12-13.8)^2 + (15-13.8)^2 + ... + (10-13.8)^2$  
-$SS = (-1.8)^2 + (1.2)^2 + (-5.8)^2 + (6.2)^2 + (1.2)^2 + (2.2)^2 + (3.2)^2 + (-2.8)^2 + (0.2)^2 + (-3.8)^2$  
-$SS = 3.24 + 1.44 + 33.64 + 38.44 + 1.44 + 4.84 + 10.24 + 7.84 + 0.04 + 14.44 = 115.6$  
+```R
+> td6 <- qt(p=0.995,df=9)
+> print(td6)
+[1] 3.249836
 
-Sample Variance ($s^2$) = $\frac{SS}{n-1} = \frac{115.6}{9} \approx 12.844$
+> rn6 <- sd6*td6/sqrt(10)
+> print(rn6)
+[1] 3.683147
 
-Sample Std Dev ($s$) = $\sqrt{12.844} \approx 3.584$2. Determine Critical ValueSince $n < 30$ and population variance is unknown, use the t-distribution.Degrees of freedom ($df$): $10 - 1 = 9$
-Confidence Level: 99% $\rightarrow \alpha = 0.01 \rightarrow \alpha/2 = 0.005$
-Critical Value ($t_{0.005, 9}$): From t-table, $t \approx 3.250$3. Calculate Interval
-$$\bar{x} \pm t \left( \frac{s}{\sqrt{n}} \right)$$
-$$13.8 \pm 3.250 \left( \frac{3.584}{\sqrt{10}} \right)$$
-$$13.8 \pm 3.250 (1.133)$$
-$$13.8 \pm 3.68$$  
-Lower Bound: $13.8 - 3.68 = 10.12$  
-Upper Bound: $13.8 + 3.68 = 17.48$  
-Answer: (10.12, 17.48)
+> mean6 - rn6
+[1] 10.11685
+> mean6 + rn6
+[1] 17.48315
+```
+CI: (10.12, 17.48)
 
 ### Exam 1-7
-1. Statistics$n = 500$
-$x = 212$
-$\hat{p} = \frac{212}{500} = 0.424$
-$\hat{q} = 1 - 0.424 = 0.576$
+In a random sample of 500 registered voters a pollster discovers that 212 support a certain candidate. Calculate a 95% confidence interval for the proportion of registered voters who support the candidate. How many voters would the pollster need to survey to make the margin of error of the 95% confidence interval at most four percent (making the width of the confidence interval at most 0.08).
 
-2. Critical ValueFor 95% confidence, $z_{\alpha/2} = 1.96$.
+$n=500$  
+$\hat{p}=212/500=0.424$  
+For 95% CI, $\alpha=0.05$ and $z_{0.05/2}=z_{0.025}=1.96$  
+$$\hat{p}\pm z_{\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+$$0.424\pm 1.96\sqrt{\frac{(0.424)(0.576)}{500}}=0.424\pm 0.043=(0.381,0.467)$$
 
-3. Margin of Error ($E$)
-$$E = z \sqrt{\frac{\hat{p}\hat{q}}{n}} = 1.96 \sqrt{\frac{0.424 \times 0.576}{500}}$$
-$$E = 1.96 \sqrt{0.000488} \approx 1.96(0.0221) \approx 0.043$$
+For $r=0.04$,
+$$z_{\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\le r$$
+$$z_{\alpha/2}^2\frac{\hat{p}(1-\hat{p})}{n}\le r^2$$
+$$z_{\alpha/2}^2\frac{\hat{p}(1-\hat{p})}{r^2}\le n$$
+$$n \ge 1.96^2\frac{0.424(0.576)}{0.04^2}$$
+$$n \ge 586.38$$
+$$n \ge 587$$
 
-4. Interval
-$$\hat{p} \pm E \implies 0.424 \pm 0.043$$
-Lower: $0.381$Upper: $0.467$
-Answer
-Part A: (0.381, 0.467) or (38.1%, 46.7%)
-Part B: Sample Size Calculation
-Goal: Margin of Error $E \le 0.04$ (at most 4%).
-Formula: $n = \hat{p}(1-\hat{p}) \left( \frac{z}{E} \right)^2$
-Using the estimate $\hat{p} = 0.424$ from the pilot study:
-$$n = 0.424(0.576) \left( \frac{1.96}{0.04} \right)^2$$
-$$n = 0.244224 \times (49)^2$$
-$$n = 0.244224 \times 2401 \approx 586.38$$
-Since we cannot survey a fraction of a person, we round up.Answer Part B: 587 voters
 
 ### Exam 1-8
 Calculate a 90% confidence interval for the standard deviation.
-1. Statistics
-Using the same sample from Problem 6:$n = 10$, $df = 9$Sum of Squares ($SS$) = $(n-1)s^2 = 115.6$
 
-2. Critical Values (Chi-Square)We need $\chi^2_{lower}$ and $\chi^2_{upper}$ for a 90% confidence interval.
-$\alpha = 0.10$. Split into tails: $0.05$ and $0.95$.$\chi^2_{0.05, 9}$ (Right tail area 0.05): 16.919$\chi^2_{0.95, 9}$ (Right tail area 0.95): 3.3253. Interval for Variance ($\sigma^2$)
-$$\frac{(n-1)s^2}{\chi^2_{upper}} < \sigma^2 < \frac{(n-1)s^2}{\chi^2_{lower}}$$
-$$\frac{115.6}{16.919} < \sigma^2 < \frac{115.6}{3.325}$$
-$$6.83 < \sigma^2 < 34.77$$
-4. Interval for Standard Deviation ($\sigma$)Take the square root of the variance bounds:
-$$\sqrt{6.83} < \sigma < \sqrt{34.77}$$
-$$2.61 < \sigma < 5.90$$
-Answer: (2.61, 5.90)
+CI for 90%, $\alpha=0.1$  
+$\chi^2_{\alpha/2,n-1}=\chi^2_{0.05,9}$  
+$\chi^2_{1-\alpha/2,n-1}=\chi^2_{0.95,9}$  
+
+```R
+> qchisq(0.95,9)
+[1] 16.91898
+> qchisq(0.05,9)
+[1] 3.325113
+
+> data8 <- c(12, 15, 8, 20, 15, 16, 17, 11, 14, 10)
+> print(data8)
+ [1] 12 15  8 20 15 16 17 11 14 10
+> sd8 <- sd(data8)
+> print(sd8)
+[1] 3.583915
+```
+
+CI for 
+$$\sqrt{\frac{(n-1)s^2}{\chi^2_{\frac{\alpha}{2},n-1}}},\sqrt{\frac{(n-1)s^2}{\chi^2_{1-\frac{\alpha}{2},n-1}}}$$
+$$=\sqrt{\frac{9(3.58^2)}{16.919}},\sqrt{\frac{9(3.58^2)}{3.325}}$$
+$$=2.61,5.90$$
+
 
 ### Exam 1-9
 Pop 1: $n_1=15, \bar{x}_1=8.2, s_1=1.25$  
 Pop 2: $n_2=12, \bar{x}_2=5.7, s_2=1.10$  
+$n=15+12=27$  
 
-$8.2-5.7\pm 1.96\sqrt{\frac{1.25^2}{15}+\frac{1.10^2}{12}}=2.5\pm 0.887=(1.61, 3.39)$
+$$\bar{x}_1-\bar{x}_2\pm t_{\frac{\alpha}{2},n-2}S_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}$$
 
-+
-
-Pooled Variance ($s_p^2$):
-
-$$s_p^2 = \frac{(14)(1.25)^2 + (11)(1.10)^2}{15+12-2} = \frac{21.875 + 13.31}{25} = 1.4074$$
-$$s_p = \sqrt{1.4074} \approx 1.186$$
-
-Standard Error:
-$$SE = 1.186 \sqrt{\frac{1}{15} + \frac{1}{12}} \approx 1.186(0.387) \approx 0.459$$
-Critical Value: $t_{0.025, 25} \approx 2.060$Calculation:
-$$(\bar{x}_1 - \bar{x}_2) \pm t \cdot SE \Rightarrow (8.2 - 5.7) \pm 2.060(0.459) \Rightarrow 2.5 \pm 0.946$$
-Interval: $(1.55, 3.45)$
+At 95% CI:
+```R
+> qt(1-0.025,25)
+[1] 2.059539
+```
+$$8.2-5.7\pm 2.059539\sqrt{\frac{14(1.25^2)+11(1.1^2)}{27-2}}\sqrt{\frac{1}{15}+\frac{1}{12}}$$
+$$2.5\pm 0.946=(1.55, 3.45)$$
 
 ### Exam 1-10
-
 (a) Data: Number of scored goals by the top 47 goal scorers in Spanish LaLiga season 2024-2025. Link of the data: https://www.espn.com/soccer/stats/_/league/ESP.1/season/2024.
 
 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 12, 13, 15, 17, 18, 19, 20, 21, 27, 31.
