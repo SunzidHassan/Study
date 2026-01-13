@@ -1,5 +1,21 @@
 
 
+## Chapter 5: Initial-Value Problems for Ordinary Differential Equations
+### 5.2: Euler’s Method
+#### 5.2 Excise
+##### 5.2 Excise - 5: Use Euler’s method to approximate the solutions for each of the following initial-value problems.
+###### 5.2 Exercise - 5a: $y'=\frac{y}{t}-(\frac{y}{t})^2, 1\le t \le 2, y(1)=1, h=0.1$
+$w_0=y(1)=1$  
+$w_{i+1}=w_i+hf(t_i,w_i)$  
+$w_1=w_0+hf(t_0,w_0)=w_0+h(\frac{w_0}{t_0}-(\frac{w_0}{t_0})^2)=1+0.1(\frac{1}{1}-(\frac{1}{1})^2)=1$  
+$w_2=w_1+hf(t_1,w_1)=w_1+h(\frac{w_1}{t_1}-(\frac{w_0}{t_1})^2)=1+0.1(\frac{1}{1.1}-(\frac{1}{1.1})^2)=1.0082644628$  
+
+
+
+
+
+### 5.3: Higher-Order Taylor Methods
+
 ## Chapter 6: Direct Methods for Solving Linear Systems
 ### 6.3 Linear Algebra and Matrix Inversion
 A singular matrix has a determinant of zero - it is not invertible (has linearly dependent rows/columns). A non-singular matrix has a non-zero determinant, is invertible.
