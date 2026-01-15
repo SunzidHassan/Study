@@ -2,6 +2,9 @@ STAT 621: Theory of Statistics - Winter 2026
 - [Chapter 0 Ponder Descriptive Statistics and R 1-8](#chapter-0-ponder-descriptive-statistics-and-r-1-8)
 - [Chapter 3](#chapter-3)
   - [3.3 Gamma, Chi-square, and Beta Distributions 1-4, 18-19](#33-gamma-chi-square-and-beta-distributions-1-4-18-19)
+    - [Example](#example)
+    - [3.3.1 $\\chi^2$-distribution](#331-chi2-distribution)
+    - [3.3.2 $\\beta$-distribution](#332-beta-distribution)
     - [3.5.1 Bivariate Normal Distribution 1-2,7](#351-bivariate-normal-distribution-1-27)
   - [3.6 t and F Distributions 1-2, 4-5](#36-t-and-f-distributions-1-2-4-5)
 - [Chapter 4](#chapter-4)
@@ -40,9 +43,113 @@ STAT 621: Theory of Statistics - Winter 2026
     - [Exam 1-10](#exam-1-10)
 
 
+
+
 # Chapter 0 Ponder Descriptive Statistics and R 1-8 
+Mean: $\bar{x}=\frac{1}{n}\sum_{i=1}^nx_i$  
+Median: ascending order -> middle value.  
+Mode: most frequent value.
+
+Sample standard deviation: $s\sqrt{\frac{1}{n-1}\sum_{i=1}^n(x_i-\bar{x})^2}$  
+
+$Q_1=25$-th percentile  
+$Q_2=50$-th percentile  
+$Q_3=75$-th percentile  
+
+```R
+> datab <- c(2, 4, 100, 4, 5)
+> datab
+[1]   2   4 100   4   5
+> mean(datab)
+[1] 23
+> sd(datab)
+[1] 43.0581
+
+hist(datab)
+boxplot(datab)
+```
+
 # Chapter 3
 ## 3.3 Gamma, Chi-square, and Beta Distributions 1-4, 18-19 
+Gamma, $Fn=\Gamma(\alpha)=\int_0^\infin{t^{\alpha-1}e^{-t}dt}$  
+$\Gamma(1)=1$  
+$\Gamma(n)=(n-1)!$  
+$\Gamma(1/2)=\sqrt{\pi}$  
+
+Gamma distribution, $X\sim\Gamma(\alpha,\beta)$  
+Probability density function,
+$f(x) = \begin{cases}
+    \frac{1}{\Gamma(\alpha)\beta^\alpha}x^{\alpha-1}e^{-x/\beta} & \text{if } x\gt 0\\
+    0 & \text{if } x\le 0
+\end{cases}$
+
+Moment generating function,
+$\phi(t)=M(t)=E(e^{tx})$  
+
+For $\Gamma(\alpha,\beta)$, $M(t)=\int_0^\infin \frac{1}{\Gamma(\alpha)\beta^\alpha}x^{\alpha-1}e^{-x/\beta}dx$  
+$M'(t)=\frac{\alpha\beta}{(1-\beta t)^{\alpha+1}}$  
+$M'(0)=\alpha\beta=E(x)$  
+
+$M''(t)=-(\alpha+1)\alpha\beta(1-\beta t)^{-\alpha-2}(-\beta)$  
+$M''(0)=(\alpha+1)\alpha\beta^2=E(x^2)$  
+$E(x)=M'(0)=\alpha\beta$  
+
+$V(x)=E(x)-E(x^2)=\alpha\beta^2$  
+
+### Example
+The lifetime $x$ in hours of an electrical device is $\Gamma(\alpha=6,\beta=3)$. Compute
+1. The mean lifetime.
+2. The probability a random device of this sort lasts at least 20 hours.
+3. The median of this type of device.
+
+Solution:
+Observe graph:
+```R
+> curve(dgamma(x,shape=6,scale=3),from=0,to=50) # for this problem
+> curve(dgamma(x,shape=1,scale=3),from=0,to=50) # exponential graph if \alpha=1
+```
+
+1. $E(x)=6\times3=18$  
+2. $\Pr(X\ge20)=1-\Pr(X\lt20)=1-\Pr(X\le20)$
+
+```R
+> 1-pgamma(20, shape=6, scale=3)
+[1] 0.3452853
+```
+
+3. 
+```R
+> qgamma(0.5,shape=6,scale=3)
+[1] 17.01048 #median
+```
+
+### 3.3.1 $\chi^2$-distribution
+Is a gamma distribution with $\alpha=r/2$, where $r$ is a positive integer and $\beta=2$. It's said to have $r$ degrees of freedom.
+Probability density function,
+$f(x) = \begin{cases}
+    \frac{1}{\Gamma(r/2)2^{r/2}}x^{(r/2)-1}e^{-x/2} & \text{if } x\gt 0\\
+    0 & \text{if } x\le 0
+\end{cases}$
+
+$M(t)=(1-2t)^{-r/2},t\lt 1/2$  
+$E(x)=r$  
+$V(x)=2r$  
+
+### 3.3.2 $\beta$-distribution
+All of the probability is on $(0,1)$. 2 position parameters $\alpha$, $\beta$.
+Probability density function,
+$f(x) = \begin{cases}
+    cx^{\alpha-1} & \text{if } 0\lt x\lt 1\\
+    0 & \text{if } x\le 0
+\end{cases}$  
+where,  
+$c=\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}$  
+$E(x)=\frac{\alpha}{\alpha+\beta}$
+
+
+
+
+
 ### 3.5.1 Bivariate Normal Distribution 1-2,7 
 ## 3.6 t and F Distributions 1-2, 4-5 
 
